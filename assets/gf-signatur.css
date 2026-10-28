@@ -1,0 +1,280 @@
+/* Greenfabric: Gestaltungsschicht ueber Dawn, Bewegungssprache nach dem Vorbild der
+   Dr.-Sleep-Seite (ruhig, weich, nachtgruen statt nachtblau). Verhalten in gf-bewegung.js.
+   Geladen in layout/theme.liquid nach base.css, damit die Werte hier gewinnen.
+
+     Farben             --gf-nacht, --gf-wald, --gf-moos, --gf-nebel, --gf-sand, --gf-weiss, --gf-tinte
+     Schriften          EB Garamond (Titel) und Inter (Text), siehe snippets/gf-schriften.liquid
+     Bausteine          data-einblenden           blendet beim Hereinscrollen ein (von unten);
+                                                  mehrere gemeinsam erscheinen nacheinander
+                        data-einblenden="links|rechts|zoom|weich"   Varianten
+                        style="--verzoegerung: 120ms"               eigener Versatz
+                        data-parallax="0.5"       halbe Scrollgeschwindigkeit
+                        data-zeichnen             Linie mit Punkten, zeichnet sich beim Scrollen
+                        data-zaehlen="12"         Zahl zaehlt beim Einblenden hoch
+                        data-hero, data-hero-bild, data-hero-inhalt   Hero mit Vorhang und Parallax
+                        .gf-karte                 Abschnitt als Karte mit runden oberen Ecken,
+                                                  liegt ueber dem vorigen und hebt sich beim Hereinscrollen
+                        .gf-doppelbelichtung      Abschnitt schiebt sich weich ins Bild davor
+                        .gf-atmen                 sehr langsamer Zoom auf Bildern
+
+   Grundsatz: der Ruhezustand ist immer der sichtbare Endzustand. Ohne JavaScript bleibt
+   alles sichtbar, "Bewegung reduzieren" schaltet Bewegung ab. */
+
+:root {
+  --gf-nacht: oklch(25% .035 155);
+  --gf-wald: oklch(34% .055 150);
+  --gf-moos: oklch(45% .05 150);
+  --gf-nebel: oklch(93% .018 150);
+  --gf-sand: oklch(77.4% .055 68.8);
+  --gf-weiss: oklch(98.3% .008 85);
+  --gf-tinte: oklch(24% .012 60);
+  --gf-linie-hell: oklch(98.3% .008 85 / .2);
+  --gf-linie-dunkel: oklch(34% .055 150 / .2);
+
+  --gf-weich: cubic-bezier(.2, .7, .2, 1);
+  --gf-ruhig: cubic-bezier(.7, 0, .2, 1);
+  --gf-atem: 4.5s;
+  --gf-rand: clamp(1.25rem, 4.5vw, 4rem);
+  --gf-breite: 82rem;
+  --gf-karte-rundung: clamp(1.75rem, 3.6vw, 3.25rem);
+  --gf-ueberlapp: clamp(9rem, 28vh, 17rem);
+
+  --font-heading-family: 'EB Garamond', 'Times New Roman', serif;
+  --font-heading-style: normal;
+  --font-heading-weight: 400;
+  --font-body-family: 'Inter', system-ui, sans-serif;
+  --font-body-style: normal;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 600;
+}
+@media (width <= 639px) { :root { --gf-ueberlapp: 7rem; } }
+
+/* Gemeinsame Typografie der gf-Sektionen ------------------------------------------------ */
+.gf-breite { width: min(100% - var(--gf-rand) * 2, var(--gf-breite)); margin-inline: auto; }
+.gf-titel {
+  margin: 0; font-family: var(--font-heading-family); font-weight: 400;
+  line-height: 1.02; letter-spacing: -.01em; text-wrap: balance;
+}
+.gf-titel-xl { font-size: clamp(2.9rem, 6.4vw, 6.6rem); }
+.gf-titel-l { font-size: clamp(2.4rem, 4.6vw, 4.8rem); }
+.gf-zeile-block { display: block; }
+.gf-index {
+  display: flex; align-items: center; gap: .8rem; margin: 0 0 1.6rem;
+  font-size: .6875rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--gf-sand);
+}
+.gf-index::before {
+  content: ""; flex: none; width: .4rem; height: .4rem; border-radius: 50%; background: currentColor;
+}
+.gf-index-dunkel { color: var(--gf-moos); }
+.gf-text { max-width: 36rem; font-size: 1.02rem; line-height: 1.7; }
+
+/* Knoepfe: Pille, heben sich langsam, Pfeil zieht nach (nur mit Maus) */
+.gf-knoepfe { display: flex; flex-wrap: wrap; gap: .85rem; }
+.gf-knopf {
+  position: relative; display: inline-flex; align-items: center; gap: .65rem;
+  min-height: 3.25rem; padding: 0 1.6rem; border-radius: 999px; overflow: hidden;
+  font-size: .9rem; font-weight: 500; letter-spacing: .01em; text-decoration: none;
+  transition: translate .6s var(--gf-weich), box-shadow .6s var(--gf-weich), background-color .4s ease;
+}
+.gf-knopf svg { width: 1rem; height: 1rem; transition: translate .5s var(--gf-weich); }
+.gf-knopf-sand { background: var(--gf-sand); color: var(--gf-nacht); }
+.gf-knopf-still { background: oklch(98.3% .008 85 / .08); color: var(--gf-weiss); box-shadow: inset 0 0 0 1px var(--gf-linie-hell); backdrop-filter: blur(6px); }
+.gf-knopf-dunkel { background: var(--gf-wald); color: var(--gf-weiss); }
+.gf-knopf::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%);
+  background: linear-gradient(100deg, transparent 30%, oklch(100% 0 0 / .28) 50%, transparent 70%);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .gf-knopf:hover { translate: 0 -2px; box-shadow: 0 14px 30px -14px oklch(20% .03 155 / .55); }
+  .gf-knopf:hover svg { translate: 3px 0; }
+  .gf-knopf:hover::after { transform: translateX(120%); transition: transform 1.1s var(--gf-weich); }
+}
+
+/* Uebergaenge ------------------------------------------------------------------------- */
+.gf-karte {
+  position: relative; z-index: 1;
+  margin-top: calc(var(--gf-karte-rundung) * -1);
+  border-radius: var(--gf-karte-rundung) var(--gf-karte-rundung) 0 0;
+}
+.gf-doppelbelichtung { position: relative; z-index: 1; margin-top: calc(var(--gf-ueberlapp) * -1); }
+.gf-doppelbelichtung .gf-doppel-bild, .gf-doppelbelichtung .gf-doppel-schatten {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--gf-ueberlapp) * 1.9));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 calc(var(--gf-ueberlapp) * 1.9));
+}
+/* Im Theme-Editor steht eine Sektion oft allein: dort keine Ueberlappung nach oben */
+.shopify-section:first-child > .gf-karte,
+.shopify-section:first-child > .gf-doppelbelichtung { margin-top: 0; }
+
+/* Einblenden und Bewegung -------------------------------------------------------------- */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-einblenden] {
+    transition: opacity 1.4s cubic-bezier(.33, 0, .2, 1), transform 1.7s cubic-bezier(.19, .8, .22, 1), filter 1.3s ease;
+    transition-delay: calc(var(--verzoegerung, 0ms) + var(--staffel, 0ms));
+  }
+  [data-einblenden]:not(.ist-sichtbar) { opacity: 0; transform: translate3d(0, 2.4rem, 0); }
+  [data-einblenden="links"]:not(.ist-sichtbar) { transform: translate3d(-2.5rem, 0, 0); }
+  [data-einblenden="rechts"]:not(.ist-sichtbar) { transform: translate3d(2.5rem, 0, 0); }
+  [data-einblenden="zoom"]:not(.ist-sichtbar) { transform: scale(.94); }
+  [data-einblenden="weich"]:not(.ist-sichtbar) { transform: none; filter: blur(6px); }
+  [data-parallax] { will-change: transform; }
+  .gf-atmen { animation: gf-atmen 24s ease-in-out infinite alternate; }
+
+  @supports (animation-timeline: view()) {
+    .gf-karte {
+      transform-origin: 50% 0;
+      animation: gf-karte-anheben linear both; animation-timeline: view(); animation-range: entry 0% entry 45%;
+    }
+  }
+}
+/* Im Theme-Editor sofort alles zeigen, solange gf-bewegung.js eine Sektion neu anmeldet */
+.gf-editor [data-einblenden] { transition-duration: .01ms !important; }
+@keyframes gf-atmen { from { transform: scale(1); } to { transform: scale(1.08); } }
+@keyframes gf-karte-anheben { from { transform: scale(.955); } to { transform: none; } }
+
+/* Fortschrittslinie oben (nur CSS, scroll-gesteuert) ------------------------------------- */
+.gf-fortschritt { position: fixed; z-index: 1000; inset: 0 0 auto; height: 2px; pointer-events: none; }
+.gf-fortschritt b {
+  position: absolute; inset: 0; transform-origin: left center; transform: scaleX(0);
+  background: linear-gradient(90deg, oklch(77.4% .055 68.8 / .12), oklch(77.4% .055 68.8 / .6) 70%, var(--gf-sand));
+}
+@supports (animation-timeline: scroll()) {
+  .gf-fortschritt b { animation: gf-linie linear both; animation-timeline: scroll(root block); }
+}
+@supports not (animation-timeline: scroll()) { .gf-fortschritt { display: none; } }
+@media (prefers-reduced-motion: reduce) { .gf-fortschritt { display: none; } }
+@keyframes gf-linie { to { transform: scaleX(1); } }
+
+/* Seitenwechsel: weiche Ueberblendung zwischen Seiten des Shops (nicht im Checkout) */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: gf-vt-aus .35s ease both; }
+  ::view-transition-new(root) { animation: gf-vt-ein .55s var(--gf-weich) both; }
+}
+@keyframes gf-vt-aus { to { opacity: 0; } }
+@keyframes gf-vt-ein { from { opacity: 0; transform: translateY(10px); } }
+
+/* Hero (sections/gf-hero.liquid) ------------------------------------------------------ */
+.gf-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: max(40rem, 100svh); display: flex; align-items: flex-end;
+  background: var(--gf-nacht); color: var(--gf-weiss);
+}
+.gf-hero-bild { position: absolute; inset: 0; z-index: -2; }
+.gf-hero-bild img, .gf-hero-bild picture { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-hero-bild {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 35%), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 35%), transparent);
+}
+.gf-hero-schatten {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--gf-nacht) 0, oklch(25% .035 155 / .55) 35%, transparent 70%),
+    linear-gradient(to right, oklch(25% .035 155 / .65), transparent 60%);
+}
+.gf-hero-platzhalter { width: 100%; height: 100%; background: radial-gradient(120% 90% at 70% 30%, var(--gf-moos), var(--gf-nacht)); }
+.gf-hero-inhalt { width: 100%; padding: clamp(6rem, 14vh, 9rem) var(--gf-rand) clamp(2rem, 5vh, 3.5rem); }
+[data-hero-inhalt] {
+  opacity: calc(1 - var(--hero-p, 0) * 1.25);
+  transform: translate3d(0, calc(var(--hero-p, 0) * -5rem), 0);
+}
+.gf-hero-text { max-width: 52rem; }
+.gf-hero-titel { font-size: clamp(3rem, 7vw, 7.2rem); }
+.gf-zeile { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
+.gf-zeile > span { display: inline-block; }
+.gf-hero-copy { max-width: 34rem; margin: 1.75rem 0 2.25rem; color: var(--gf-nebel); }
+.gf-hero-fuss {
+  position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem; margin-top: clamp(2.5rem, 6vh, 4.5rem); padding-top: 1.1rem; list-style: none; padding-left: 0;
+  font-size: .6875rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gf-nebel);
+}
+.gf-hero-fuss::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--gf-linie-hell); transform-origin: left center;
+}
+/* Vorhang: das Bild oeffnet sich vom Horizont aus */
+[data-hero-bild]::before, [data-hero-bild]::after {
+  content: ""; position: absolute; z-index: 3; left: -2px; right: -2px; height: 58%; pointer-events: none;
+}
+[data-hero-bild]::before { top: -2px; transform: translateY(-101%); background: linear-gradient(to bottom, var(--gf-nacht) 64%, transparent); }
+[data-hero-bild]::after { bottom: -2px; transform: translateY(101%); background: linear-gradient(to top, var(--gf-nacht) 64%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-bild]::before, [data-hero-bild]::after { animation: gf-vorhang 1.9s var(--gf-ruhig) .1s backwards; }
+  [data-hero-bild] { animation: gf-atem-hero var(--gf-atem) ease-in-out 2.1s infinite alternate; }
+  .gf-hero-bild img { animation: gf-ankunft 2.8s var(--gf-weich) both; }
+  .gf-auftritt { animation: gf-auftritt 1s var(--gf-weich) both; animation-delay: calc(var(--n, 0) * 110ms + 250ms); }
+  .gf-zeile > span { animation: gf-zeile 1.15s cubic-bezier(.16, .84, .24, 1) both; animation-delay: calc(var(--n, 0) * 120ms + 200ms); }
+  .gf-hero-fuss::before { animation: gf-linie-ein 1.6s var(--gf-weich) .9s both; }
+}
+@media (prefers-reduced-motion: reduce) { [data-hero-inhalt] { opacity: 1; transform: none; } }
+@keyframes gf-vorhang { from { transform: none; } }
+@keyframes gf-atem-hero { from { scale: 1; } to { scale: 1.012; } }
+@keyframes gf-ankunft { from { opacity: .35; transform: scale(1.1); } }
+@keyframes gf-auftritt { from { opacity: 0; transform: translateY(18px); } }
+@keyframes gf-zeile { from { transform: translateY(108%); } }
+@keyframes gf-linie-ein { from { transform: scaleX(0); } }
+
+@media (width <= 639px) {
+  .gf-hero-titel { font-size: clamp(2.7rem, 12.5vw, 4.1rem); line-height: .98; }
+  .gf-knoepfe { flex-direction: column; }
+  .gf-knoepfe > a { justify-content: center; }
+  .gf-hero-fuss { grid-template-columns: 1fr; gap: .5rem; }
+  [data-hero-inhalt] { transform: none; }
+}
+
+/* Doppelbelichtung (sections/gf-doppelbelichtung.liquid) ------------------------------- */
+.gf-doppel { position: relative; isolation: isolate; overflow: hidden; background: var(--gf-nacht); color: var(--gf-weiss); }
+.gf-doppel-bild { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.gf-doppel-bild-innen { position: absolute; inset: -18% 0; }
+.gf-doppel-bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-doppel.gf-doppelbelichtung { background: linear-gradient(to bottom, transparent, var(--gf-nacht) var(--gf-ueberlapp)); }
+/* Folgt eine Doppelbelichtung, bleibt der Hero-Inhalt ueber der Ueberlappung */
+.shopify-section:has(> .gf-hero):has(+ .shopify-section > .gf-doppelbelichtung) .gf-hero-inhalt { padding-bottom: calc(var(--gf-ueberlapp) + clamp(1.5rem, 4vh, 3rem)); }
+.gf-doppel-schatten { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to right, oklch(25% .035 155 / .82), oklch(25% .035 155 / .2) 70%); }
+.gf-doppel-inhalt { padding: calc(var(--gf-ueberlapp) + clamp(5rem, 10vw, 9rem)) 0 clamp(6rem, 12vw, 11rem); }
+.gf-doppel .gf-text { margin-top: 2rem; color: var(--gf-nebel); }
+.gf-zitat { max-width: 40rem; margin: 2.5rem 0 0; padding-left: 1.5rem; border-left: 1px solid var(--gf-sand); font-family: var(--font-heading-family); font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.3; }
+
+/* Schritte mit Linie (sections/gf-schritte.liquid) ------------------------------------- */
+.gf-schritte-abschnitt { background: var(--gf-weiss); color: var(--gf-tinte); padding: clamp(5.5rem, 10vw, 9rem) 0 calc(var(--gf-karte-rundung) + clamp(5rem, 9vw, 8rem)); --gf-grund: var(--gf-weiss); }
+.gf-schritte-abschnitt.gf-nebel-grund { background: var(--gf-nebel); --gf-grund: var(--gf-nebel); }
+.gf-schritte-kopf { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 2rem 5rem; align-items: end; }
+.gf-schritte-kopf .gf-text { color: oklch(24% .012 60 / .78); }
+.gf-schritte {
+  --fortschritt: 1;
+  position: relative; list-style: none; margin: clamp(4rem, 7vw, 6rem) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(var(--anzahl, 4), minmax(0, 1fr)); gap: 2.5rem 1.75rem;
+}
+.gf-schritte::before, .gf-schritte::after { content: ""; position: absolute; left: .35rem; right: 0; top: .35rem; height: 1px; margin-top: -.5px; }
+.gf-schritte::before { background: var(--gf-linie-dunkel); }
+.gf-schritte::after { background: var(--gf-wald); transform-origin: left center; transform: scaleX(var(--fortschritt)); }
+.gf-schritt { position: relative; padding-top: 2.25rem; }
+.gf-schritt::before {
+  content: ""; position: absolute; z-index: 1; top: 0; left: 0; width: .7rem; height: .7rem; border-radius: 50%;
+  background: var(--gf-wald); box-shadow: 0 0 0 4px var(--gf-grund);
+  transition: transform .6s var(--gf-weich), background-color .6s ease;
+}
+.gf-schritte.zeichnen-an .gf-schritt:not(.ist-erreicht)::before { background: var(--gf-grund); transform: scale(.75); box-shadow: inset 0 0 0 1px var(--gf-wald), 0 0 0 4px var(--gf-grund); }
+.gf-schritt i { display: block; margin-bottom: .9rem; font-style: normal; font-size: .6875rem; font-weight: 600; letter-spacing: .12em; color: var(--gf-moos); }
+.gf-schritt strong { display: block; margin-bottom: .6rem; font-family: var(--font-heading-family); font-weight: 400; font-size: clamp(1.45rem, 2.1vw, 1.95rem); line-height: 1.1; }
+.gf-schritt small { display: block; font-size: .92rem; line-height: 1.6; color: oklch(24% .012 60 / .72); }
+.gf-schritte-knopf { display: flex; justify-content: center; margin-top: clamp(3.5rem, 6vw, 5rem); }
+@media (width <= 989px) {
+  .gf-schritte-kopf { grid-template-columns: 1fr; }
+  .gf-schritte { grid-template-columns: 1fr; }
+  .gf-schritte::before, .gf-schritte::after { right: auto; bottom: 0; width: 1px; height: auto; margin: 0 0 0 -.5px; }
+  .gf-schritte::after { transform-origin: center top; transform: scaleY(var(--fortschritt)); }
+  .gf-schritt { padding: 0 0 0 2.4rem; }
+}
+
+/* Beratung am Ende (sections/gf-beratung.liquid) -------------------------------------- */
+.gf-beratung { position: relative; isolation: isolate; overflow: hidden; background: var(--gf-nacht); color: var(--gf-weiss); text-align: center; }
+.gf-beratung-bild { position: absolute; inset: -14% 0; z-index: -2; }
+.gf-beratung-bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-beratung-schatten { position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 70% at 50% 50%, oklch(25% .035 155 / .55), oklch(25% .035 155 / .92)); }
+.gf-beratung-inhalt { padding: clamp(7rem, 14vw, 12rem) 0; }
+.gf-beratung .gf-index { justify-content: center; }
+.gf-beratung .gf-text { margin: 1.75rem auto 0; color: var(--gf-nebel); }
+.gf-beratung .gf-knoepfe { justify-content: center; margin-top: 2.5rem; }
+.gf-kontakt { margin-top: 2rem; font-size: .85rem; color: var(--gf-nebel); }
+.gf-kontakt a { color: inherit; }

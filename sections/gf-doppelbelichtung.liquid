@@ -1,0 +1,48 @@
+{%- comment -%}
+  Greenfabric Doppelbelichtung: dunkler Abschnitt mit Bild, das sich weich in den Abschnitt
+  davor schiebt (z. B. unter den Hero). Bild mit Parallax, Titel und Text blenden gestaffelt ein.
+  Aussehen: gf-signatur.css, Abschnitt "Doppelbelichtung".
+{%- endcomment -%}
+<section class="gf-doppel{% if section.settings.ueberlappen %} gf-doppelbelichtung{% endif %}">
+  <div class="gf-doppel-bild">
+    <div class="gf-doppel-bild-innen" data-parallax="0.8">
+      {%- if section.settings.bild != blank -%}
+        {{ section.settings.bild | image_url: width: 2000 | image_tag: widths: '800, 1200, 1600, 2000', sizes: '100vw', loading: 'lazy', alt: section.settings.bild.alt }}
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="gf-doppel-schatten" aria-hidden="true"></div>
+  <div class="gf-breite gf-doppel-inhalt">
+    {%- if section.settings.index != blank -%}
+      <p class="gf-index" data-einblenden>{{ section.settings.index }}</p>
+    {%- endif -%}
+    <h2 class="gf-titel gf-titel-l">
+      <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel1 }}</span>
+      {%- if section.settings.titel2 != blank %} <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 200ms">{{ section.settings.titel2 }}</span>{%- endif -%}
+    </h2>
+    {%- if section.settings.text != blank -%}
+      <p class="gf-text" data-einblenden="weich" style="--verzoegerung: 340ms">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.zitat != blank -%}
+      <blockquote class="gf-zitat" data-einblenden="rechts" style="--verzoegerung: 480ms">{{ section.settings.zitat }}</blockquote>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Doppelbelichtung",
+  "tag": "div",
+  "class": "gf-sektion",
+  "settings": [
+    { "type": "image_picker", "id": "bild", "label": "Bild" },
+    { "type": "checkbox", "id": "ueberlappen", "label": "Weich in den Abschnitt davor schieben", "default": true },
+    { "type": "text", "id": "index", "label": "Kleine Zeile über dem Titel", "default": "Логиката е позната" },
+    { "type": "text", "id": "titel1", "label": "Titel, Zeile 1", "default": "Не носим еднакви очила." },
+    { "type": "text", "id": "titel2", "label": "Titel, Zeile 2", "default": "Защо да спим на еднакви матраци?" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Ръст, тегло, позиция на сън и усещане за комфорт са различни при всеки човек. Затова един матрак не може да бъде правилният избор за всеки." },
+    { "type": "textarea", "id": "zitat", "label": "Zitat (optional)", "default": "„Както очилата се избират според твоите очи, така и матракът трябва да бъде съобразен с твоето тяло.“" }
+  ],
+  "presets": [{ "name": "GF Doppelbelichtung" }]
+}
+{% endschema %}
