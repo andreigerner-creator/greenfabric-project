@@ -1,0 +1,58 @@
+{%- comment -%}
+  Greenfabric Zahlen: drei bis vier Kennzahlen, die beim Hereinscrollen hochzaehlen
+  (data-zaehlen, gf-bewegung.js). Die fertige Zahl steht im HTML, ohne JavaScript bleibt sie
+  sichtbar. Aussehen: gf-signatur.css, Abschnitt "Zahlen".
+{%- endcomment -%}
+<section class="gf-zahlen-abschnitt{% if section.settings.karte %} gf-karte{% endif %}">
+  <div class="gf-breite">
+    {%- if section.settings.index != blank -%}
+      <p class="gf-index" data-einblenden>{{ section.settings.index }}</p>
+    {%- endif -%}
+    {%- if section.settings.titel != blank -%}
+      <h2 class="gf-titel gf-titel-l" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel }}</h2>
+    {%- endif -%}
+    <ul class="gf-zahlen" style="--anzahl: {{ section.blocks.size | at_least: 1 }}">
+      {%- for block in section.blocks -%}
+        <li class="gf-zahl" data-einblenden style="--verzoegerung: {{ forloop.index0 | times: 140 }}ms" {{ block.shopify_attributes }}>
+          <strong><span data-zaehlen="{{ block.settings.zahl }}">{{ block.settings.zahl }}</span>{{ block.settings.zusatz }}</strong>
+          <small>{{ block.settings.text }}</small>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Zahlen",
+  "tag": "div",
+  "class": "gf-sektion",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "checkbox", "id": "karte", "label": "Als Karte über den Abschnitt davor legen", "default": true },
+    { "type": "text", "id": "index", "label": "Kleine Zeile über dem Titel", "default": "Green Fabric" },
+    { "type": "text", "id": "titel", "label": "Titel", "default": "Производител, не търговец." }
+  ],
+  "blocks": [
+    {
+      "type": "zahl",
+      "name": "Zahl",
+      "settings": [
+        { "type": "number", "id": "zahl", "label": "Zahl", "default": 10 },
+        { "type": "text", "id": "zusatz", "label": "Zusatz nach der Zahl (z. B. +)" },
+        { "type": "text", "id": "text", "label": "Text", "default": "години на пазара" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Zahlen",
+      "blocks": [
+        { "type": "zahl", "settings": { "zahl": 10, "text": "години на пазара" } },
+        { "type": "zahl", "settings": { "zahl": 50000, "text": "изработени матрака" } },
+        { "type": "zahl", "settings": { "zahl": 20000, "text": "доволни клиенти" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

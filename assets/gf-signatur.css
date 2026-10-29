@@ -278,3 +278,11 @@
 .gf-beratung .gf-knoepfe { justify-content: center; margin-top: 2.5rem; }
 .gf-kontakt { margin-top: 2rem; font-size: .85rem; color: var(--gf-nebel); }
 .gf-kontakt a { color: inherit; }
+
+/* Zahlen (sections/gf-zahlen.liquid) --------------------------------------------------- */
+.gf-zahlen-abschnitt { background: var(--gf-wald); color: var(--gf-weiss); padding: clamp(5rem, 9vw, 8rem) 0 calc(var(--gf-karte-rundung) + clamp(4.5rem, 8vw, 7rem)); }
+.gf-zahlen { list-style: none; margin: clamp(3rem, 6vw, 5rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(var(--anzahl, 3), minmax(0, 1fr)); gap: 2.5rem 2rem; }
+.gf-zahl { padding-top: 1.4rem; border-top: 1px solid var(--gf-linie-hell); }
+.gf-zahl strong { display: block; font-family: var(--font-heading-family); font-weight: 400; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1; font-variant-numeric: tabular-nums; color: var(--gf-sand); }
+.gf-zahl small { display: block; margin-top: .8rem; font-size: .8rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gf-nebel); }
+@media (width <= 749px) { .gf-zahlen { grid-template-columns: 1fr; } }

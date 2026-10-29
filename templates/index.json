@@ -3,11 +3,30 @@
     "hero": {
       "type": "gf-hero",
       "blocks": {
-        "punkt-1": { "type": "punkt", "settings": { "text": "Лична консултация преди всяко решение" } },
-        "punkt-2": { "type": "punkt", "settings": { "text": "Собствено производство в София" } },
-        "punkt-3": { "type": "punkt", "settings": { "text": "Индивидуален размер, твърдост и материали" } }
+        "punkt-1": {
+          "type": "punkt",
+          "settings": {
+            "text": "8 години гаранция"
+          }
+        },
+        "punkt-2": {
+          "type": "punkt",
+          "settings": {
+            "text": "100 дни тестов период"
+          }
+        },
+        "punkt-3": {
+          "type": "punkt",
+          "settings": {
+            "text": "Собствено производство в София"
+          }
+        }
       },
-      "block_order": ["punkt-1", "punkt-2", "punkt-3"],
+      "block_order": [
+        "punkt-1",
+        "punkt-2",
+        "punkt-3"
+      ],
       "settings": {
         "kicker": "Матрак, създаден за теб",
         "titel1": "Няма най-добрия матрак.",
@@ -21,7 +40,9 @@
     },
     "logik": {
       "type": "gf-doppelbelichtung",
-      "settings": { "ueberlappen": true }
+      "settings": {
+        "ueberlappen": true
+      }
     },
     "modelle": {
       "type": "featured-collection",
@@ -54,18 +75,97 @@
     "ablauf": {
       "type": "gf-schritte",
       "blocks": {
-        "schritt-1": { "type": "schritt", "settings": { "titel": "Разговор", "text": "Започваме с въпроси: как спиш, колко добре си почиваш, какво ти пречи в момента и какво очакваш от новия матрак." } },
-        "schritt-2": { "type": "schritt", "settings": { "titel": "Индивидуални нужди", "text": "Отчитаме тялото, позицията на сън, разпределението на теглото и желаното усещане за комфорт." } },
-        "schritt-3": { "type": "schritt", "settings": { "titel": "Конфигурация", "text": "Определяме подходяща комбинация от конструкция, материали, твърдост, размер и допълнителни функции." } },
-        "schritt-4": { "type": "schritt", "settings": { "titel": "Твоят матрак", "text": "Изработваме решението според договорените изисквания в собственото ни производство." } }
+        "schritt-1": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Разговор",
+            "text": "Започваме с въпроси: как спиш, колко добре си почиваш, какво ти пречи в момента и какво очакваш от новия матрак."
+          }
+        },
+        "schritt-2": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Индивидуални нужди",
+            "text": "Отчитаме тялото, позицията на сън, разпределението на теглото и желаното усещане за комфорт."
+          }
+        },
+        "schritt-3": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Конфигурация",
+            "text": "Определяме подходяща комбинация от конструкция, материали, твърдост, размер и допълнителни функции."
+          }
+        },
+        "schritt-4": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Твоят матрак",
+            "text": "Изработваме решението според договорените изисквания в собственото ни производство."
+          }
+        }
       },
-      "block_order": ["schritt-1", "schritt-2", "schritt-3", "schritt-4"],
-      "settings": { "karte": true, "grund": "nebel", "knopf_link": "shopify://pages/contact" }
+      "block_order": [
+        "schritt-1",
+        "schritt-2",
+        "schritt-3",
+        "schritt-4"
+      ],
+      "settings": {
+        "karte": true,
+        "grund": "nebel",
+        "knopf_link": "shopify://pages/contact"
+      }
     },
     "beratung": {
       "type": "gf-beratung",
-      "settings": { "karte": true, "knopf1_link": "shopify://pages/contact", "knopf2_link": "shopify://collections/all" }
+      "settings": {
+        "karte": true,
+        "knopf1_link": "shopify://pages/contact",
+        "knopf2_link": "shopify://collections/all"
+      }
+    },
+    "zahlen": {
+      "type": "gf-zahlen",
+      "blocks": {
+        "z1": {
+          "type": "zahl",
+          "settings": {
+            "zahl": 10,
+            "zusatz": "",
+            "text": "години на пазара"
+          }
+        },
+        "z2": {
+          "type": "zahl",
+          "settings": {
+            "zahl": 50000,
+            "zusatz": "",
+            "text": "изработени матрака"
+          }
+        },
+        "z3": {
+          "type": "zahl",
+          "settings": {
+            "zahl": 20000,
+            "zusatz": "",
+            "text": "доволни клиенти"
+          }
+        }
+      },
+      "block_order": [
+        "z1",
+        "z2",
+        "z3"
+      ],
+      "settings": {}
     }
   },
-  "order": ["hero", "logik", "modelle", "ablauf", "beratung"]
+  "order": [
+    "hero",
+    "logik",
+    "zahlen",
+    "modelle",
+    "ablauf",
+    "beratung"
+  ]
 }

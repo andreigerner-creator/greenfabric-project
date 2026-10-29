@@ -36,15 +36,18 @@
     }, { rootMargin: '0px 0px -8% 0px', threshold: [0, 0.03, 0.06, 0.09, 0.12] });
   }
 
-  // Hochzaehlende Zahlen (die fertige Zahl steht im HTML)
+  // Hochzaehlende Zahlen (die fertige Zahl steht im HTML), mit Tausendertrennung der Seitensprache
+  var format = function (n) {
+    try { return new Intl.NumberFormat(document.documentElement.lang || 'bg').format(n); } catch (e) { return String(n); }
+  };
   var zaehlen = function (el) {
     var ziel = parseFloat(el.getAttribute('data-zaehlen')) || 0;
-    if (ruhig) { el.textContent = ziel; return; }
+    if (ruhig) { el.textContent = format(ziel); return; }
     var start = null, dauer = 1400;
     var schritt = function (zeit) {
       if (start === null) start = zeit;
       var p = Math.min(1, (zeit - start) / dauer);
-      el.textContent = Math.round(ziel * (1 - Math.pow(1 - p, 3)));
+      el.textContent = format(Math.round(ziel * (1 - Math.pow(1 - p, 3))));
       if (p < 1) requestAnimationFrame(schritt);
     };
     requestAnimationFrame(schritt);
@@ -125,7 +128,8 @@
       else el.classList.add('ist-sichtbar');
     });
     alle('[data-zaehlen]').forEach(function (el) {
-      if (zaehlBeobachter && !imEditor) zaehlBeobachter.observe(el);
+      el.textContent = format(parseFloat(el.getAttribute('data-zaehlen')) || 0);
+      if (zaehlBeobachter && !imEditor && !ruhig) zaehlBeobachter.observe(el);
     });
     if (ruhig) return;
     parallax = parallax.filter(function (el) { return el.isConnected; }).concat(alle('[data-parallax]'));
