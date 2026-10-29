@@ -6,9 +6,7 @@
 <section class="gf-doppel gf-dunkel{% if section.settings.ueberlappen %} gf-doppelbelichtung{% endif %}">
   <div class="gf-doppel-bild">
     <div class="gf-doppel-bild-innen" data-parallax="0.8">
-      {%- if section.settings.bild != blank -%}
-        {{ section.settings.bild | image_url: width: 2000 | image_tag: widths: '800, 1200, 1600, 2000', sizes: '100vw', loading: 'lazy', alt: section.settings.bild.alt }}
-      {%- endif -%}
+      {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '800, 1200, 1600, 2000', sizes: '100vw', verhaeltnis: 0.5 -%}
     </div>
   </div>
   <div class="gf-doppel-schatten" aria-hidden="true"></div>
@@ -39,6 +37,13 @@
       "type": "image_picker",
       "id": "bild",
       "label": "Bild"
+    },
+    {
+      "type": "text",
+      "id": "datei",
+      "label": "Standardbild aus dem Theme",
+      "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist.",
+      "default": "gf-werkstatt.jpg"
     },
     {
       "type": "checkbox",

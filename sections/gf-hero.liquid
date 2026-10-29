@@ -5,12 +5,15 @@
 {%- endcomment -%}
 <section class="gf-hero gf-dunkel" data-hero>
   <div class="gf-hero-bild" data-hero-bild>
-    {%- if section.settings.bild != blank -%}
+    {%- if section.settings.bild != blank or section.settings.datei != blank -%}
       <picture>
         {%- if section.settings.bild_handy != blank -%}
           <source media="(max-width: 639px)" srcset="{{ section.settings.bild_handy | image_url: width: 900 }} 900w, {{ section.settings.bild_handy | image_url: width: 1300 }} 1300w" sizes="100vw">
+        {%- elsif section.settings.bild == blank and section.settings.datei_handy != blank -%}
+          {%- assign hoch = section.settings.datei_handy | asset_url -%}
+          <source media="(max-width: 639px)" srcset="{{ hoch }}&width=700 700w, {{ hoch }}&width=1080 1080w" sizes="100vw">
         {%- endif -%}
-        {{ section.settings.bild | image_url: width: 2400 | image_tag: widths: '900, 1400, 1900, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.bild.alt }}
+        {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '900, 1400, 1900, 2400', sizes: '100vw', laden: 'eager', verhaeltnis: 0.5625 -%}
       </picture>
     {%- else -%}
       <div class="gf-hero-platzhalter"></div>
@@ -64,6 +67,19 @@
       "type": "image_picker",
       "id": "bild_handy",
       "label": "Bild fürs Handy (hochkant, optional)"
+    },
+    {
+      "type": "text",
+      "id": "datei",
+      "label": "Standardbild aus dem Theme",
+      "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist. Leer lassen für reines Waldgrün.",
+      "default": "gf-hero-breit.jpg"
+    },
+    {
+      "type": "text",
+      "id": "datei_handy",
+      "label": "Standardbild fürs Handy aus dem Theme",
+      "default": "gf-hero-hoch.jpg"
     },
     {
       "type": "text",

@@ -4,9 +4,7 @@
 {%- endcomment -%}
 <section class="gf-beratung gf-dunkel{% if section.settings.karte %} gf-karte{% endif %}">
   <div class="gf-beratung-bild" data-parallax="0.8">
-    {%- if section.settings.bild != blank -%}
-      {{ section.settings.bild | image_url: width: 2000 | image_tag: widths: '800, 1200, 1600, 2000', sizes: '100vw', loading: 'lazy', alt: section.settings.bild.alt }}
-    {%- endif -%}
+    {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '800, 1200, 1600, 2000', sizes: '100vw' -%}
   </div>
   <div class="gf-beratung-schatten" aria-hidden="true"></div>
   <div class="gf-breite gf-beratung-inhalt">
@@ -48,6 +46,13 @@
       "type": "image_picker",
       "id": "bild",
       "label": "Bild"
+    },
+    {
+      "type": "text",
+      "id": "datei",
+      "label": "Standardbild aus dem Theme",
+      "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist.",
+      "default": "gf-beratung.jpg"
     },
     {
       "type": "checkbox",

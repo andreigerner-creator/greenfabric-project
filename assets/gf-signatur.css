@@ -333,7 +333,16 @@
   .gf-einstieg-karte:hover svg { translate: 4px 0; }
 }
 .gf-einstieg-karte:focus-visible { outline: 2px solid var(--gf-wald); outline-offset: 3px; }
-@media (width <= 749px) { .gf-einstieg { grid-template-columns: 1fr; } .gf-einstieg-karte { min-height: 0; } }
+/* Karten mit Bild: Foto oben, Text darunter, Bild zoomt beim Darueberfahren langsam */
+.gf-einstieg-karte-bild { padding: 0 0 2.4rem; overflow: hidden; background: var(--gf-salbei); }
+.gf-einstieg-karte-bild > :not(.gf-einstieg-foto) { margin-inline: 2.4rem; }
+.gf-einstieg-foto { display: block; aspect-ratio: 1; overflow: hidden; margin-bottom: 1.6rem; background: var(--gf-salbei); }
+.gf-einstieg-foto img { width: 100%; height: 100%; object-fit: cover; display: block; transition: scale 1.4s var(--gf-weich); }
+.gf-einstieg-karte-bild svg { margin-top: 0.8rem; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .gf-einstieg-karte-bild:hover .gf-einstieg-foto img { scale: 1.05; } }
+@media (width <= 989px) { .gf-einstieg:has(.gf-einstieg-karte-bild) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (width <= 749px) { .gf-einstieg:not(:has(.gf-einstieg-karte-bild)) { grid-template-columns: 1fr; } .gf-einstieg-karte { min-height: 0; } .gf-einstieg-karte-bild > :not(.gf-einstieg-foto) { margin-inline: 1.6rem; } }
+@media (width <= 479px) { .gf-einstieg { gap: 1.2rem; } .gf-einstieg-karte-bild strong { font-size: 1.6rem; line-height: 2.2rem; } .gf-einstieg-karte-bild span:not(.gf-einstieg-foto) { font-size: 1.4rem; line-height: 2rem; } }
 
 /* Produktseite: Merkmalstabelle aus der Produktbeschreibung (Ja/Nein-Tabelle der alten Seite) */
 .product__description table { width: 100%; border-collapse: collapse; border: 0; table-layout: auto; margin: 1.6rem 0 2.4rem; font-size: 1.5rem; line-height: 2.2rem; }
@@ -342,3 +351,37 @@
 .product__description tr > :last-child { color: var(--gf-wald); font-weight: 600; }
 .product__description :is(td, th) :is(strong, b) { font-weight: inherit; }
 .product__description tr:first-child > * { border-top: 1px solid var(--gf-linie-dunkel); }
+
+/* Material (sections/gf-material.liquid): Titel links, drei versetzte Nahaufnahmen rechts ---- */
+.gf-material-abschnitt { background: var(--gf-weiss); color: var(--gf-graphit); padding: clamp(8.8rem, 10vw, 14.4rem) 0; overflow: hidden; }
+.gf-material-abschnitt.gf-salbei-grund { background: var(--gf-salbei); }
+.gf-material { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); gap: 4.8rem 6.4rem; align-items: center; }
+.gf-material-kopf .gf-text { margin: 2.4rem 0 3.2rem; }
+.gf-material-karten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--anzahl, 3), minmax(0, 1fr)); gap: 2.4rem; }
+.gf-material-karte:nth-child(2) { margin-top: 6.4rem; }
+.gf-material-karte:nth-child(3) { margin-top: 2.4rem; }
+.gf-material-foto { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--gf-radius-karte); margin-bottom: 1.6rem; background: var(--gf-salbei); box-shadow: 0 24px 48px -32px rgb(23 51 42 / .45); }
+.gf-material-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-material-karte strong { display: block; font-family: var(--font-heading-family); font-weight: 500; font-size: 2rem; line-height: 2.8rem; color: var(--gf-wald); }
+.gf-material-karte small { display: block; margin-top: 0.4rem; font-size: 1.5rem; line-height: 2.2rem; }
+@media (width <= 989px) {
+  .gf-material { grid-template-columns: 1fr; }
+  .gf-material-karten { grid-template-columns: repeat(3, minmax(22rem, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1.6rem; margin-inline: calc(var(--gf-rand) * -1); padding-inline: var(--gf-rand); }
+  .gf-material-karte { scroll-snap-align: start; margin-top: 0 !important; }
+  .gf-material-lauf[data-parallax] { transform: none !important; }
+}
+
+/* Bild und Text (sections/gf-bild-text.liquid) ---------------------------------------- */
+.gf-bildtext-abschnitt { background: var(--gf-weiss); color: var(--gf-graphit); padding: clamp(6.4rem, 8vw, 12rem) 0; }
+.gf-bildtext-abschnitt.gf-salbei-grund { background: var(--gf-salbei); }
+.gf-bildtext { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 4.8rem 8rem; align-items: center; }
+.gf-bildtext-rechts .gf-bildtext-foto { order: 2; }
+.gf-bildtext-foto { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--gf-radius-karte); background: var(--gf-salbei); }
+.gf-bildtext-foto-innen { position: absolute; inset: -10% 0; }
+.gf-bildtext-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gf-bildtext-text .gf-text { margin: 2.4rem 0 3.2rem; }
+.gf-bildtext-text .gf-text p { margin: 0 0 1.2rem; }
+@media (width <= 989px) {
+  .gf-bildtext { grid-template-columns: 1fr; }
+  .gf-bildtext-rechts .gf-bildtext-foto { order: 0; }
+}
