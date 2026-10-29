@@ -385,3 +385,6 @@
   .gf-bildtext { grid-template-columns: 1fr; }
   .gf-bildtext-rechts .gf-bildtext-foto { order: 0; }
 }
+
+/* Dawn blendet leere divs aus (base.css, div:empty), die Abdunklungen sind aber absichtlich leer */
+:is(.gf-hero-schatten, .gf-doppel-schatten, .gf-beratung-schatten, .gf-hero-platzhalter):empty { display: block; }
