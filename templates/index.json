@@ -28,26 +28,55 @@
         "punkt-3"
       ],
       "settings": {
-        "kicker": "Матрак, създаден за теб",
-        "titel1": "Няма най-добрия матрак.",
-        "titel2": "Има правилният матрак за теб.",
-        "text": "Тялото ти е уникално. Начинът, по който спиш, също. Затова създаваме матраци, съобразени с човека, който ще спи върху тях.",
-        "knopf1_text": "Заяви консултация",
-        "knopf1_link": "shopify://pages/contact",
-        "knopf2_text": "Виж матраците",
-        "knopf2_link": "shopify://collections/all"
+        "kicker": "Комфорт по вашия начин",
+        "titel1": "Комфорт,",
+        "titel2": "създаден за вас.",
+        "text": "Открийте матрак, който отговаря на вашите предпочитания. Сравнете моделите или ни потърсете за помощ при избора.",
+        "knopf1_text": "Изберете своя матрак",
+        "knopf1_link": "shopify://collections/all",
+        "knopf2_text": "Помощ при избора",
+        "knopf2_link": "shopify://pages/contact"
       }
     },
-    "logik": {
-      "type": "gf-doppelbelichtung",
-      "settings": {
-        "ueberlappen": true
-      }
+    "einstieg": {
+      "type": "gf-einstieg",
+      "blocks": {
+        "k1": {
+          "type": "karte",
+          "settings": {
+            "titel": "Изберете размер",
+            "text": "Открийте подходящите модели.",
+            "link": "shopify://collections/all"
+          }
+        },
+        "k2": {
+          "type": "karte",
+          "settings": {
+            "titel": "Сравнете комфорта",
+            "text": "Вижте разликите между тях.",
+            "link": "shopify://collections/all"
+          }
+        },
+        "k3": {
+          "type": "karte",
+          "settings": {
+            "titel": "Попитайте ни",
+            "text": "Ще ви помогнем при избора.",
+            "link": "shopify://pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3"
+      ],
+      "settings": {}
     },
     "modelle": {
       "type": "featured-collection",
       "settings": {
-        "title": "Нашите матраци",
+        "title": "Избрани модели",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
@@ -61,111 +90,143 @@
         "view_all_style": "outline",
         "enable_desktop_slider": false,
         "swipe_on_mobile": true,
-        "image_ratio": "portrait",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "1",
-        "padding_top": 96,
-        "padding_bottom": 96
+        "padding_top": 48,
+        "padding_bottom": 64
       }
     },
-    "ablauf": {
+    "auswahl": {
       "type": "gf-schritte",
       "blocks": {
-        "schritt-1": {
+        "s1": {
           "type": "schritt",
           "settings": {
-            "titel": "Разговор",
-            "text": "Започваме с въпроси: как спиш, колко добре си почиваш, какво ти пречи в момента и какво очакваш от новия матрак."
+            "titel": "Размер",
+            "text": "Изберете ширина и дължина. Изработваме и нестандартни размери по поръчка."
           }
         },
-        "schritt-2": {
+        "s2": {
           "type": "schritt",
           "settings": {
-            "titel": "Индивидуални нужди",
-            "text": "Отчитаме тялото, позицията на сън, разпределението на теглото и желаното усещане за комфорт."
+            "titel": "Усещане",
+            "text": "Решете какво предпочитате: по-меко или по-твърдо легло."
           }
         },
-        "schritt-3": {
+        "s3": {
           "type": "schritt",
           "settings": {
-            "titel": "Конфигурация",
-            "text": "Определяме подходяща комбинация от конструкция, материали, твърдост, размер и допълнителни функции."
+            "titel": "Сравнение",
+            "text": "Сравнете височина, материали и цена на подходящите модели."
           }
         },
-        "schritt-4": {
+        "s4": {
           "type": "schritt",
           "settings": {
-            "titel": "Твоят матрак",
-            "text": "Изработваме решението според договорените изисквания в собственото ни производство."
+            "titel": "Консултация",
+            "text": "Обадете ни се или ни посетете в шоурума в София."
           }
         }
       },
       "block_order": [
-        "schritt-1",
-        "schritt-2",
-        "schritt-3",
-        "schritt-4"
+        "s1",
+        "s2",
+        "s3",
+        "s4"
       ],
       "settings": {
         "karte": true,
-        "grund": "nebel",
-        "knopf_link": "shopify://pages/contact"
+        "grund": "salbei",
+        "index": "Помощ при избор",
+        "titel1": "Как да намерите",
+        "titel2": "своя матрак.",
+        "text": "Четири кратки стъпки. Ако се колебаете, ние сме насреща.",
+        "knopf_text": "Изберете своя матрак",
+        "knopf_link": "shopify://collections/all"
       }
     },
     "beratung": {
       "type": "gf-beratung",
       "settings": {
         "karte": true,
+        "index": "Производител и консултация",
+        "titel1": "Нуждаете се от помощ",
+        "titel2": "при избора?",
+        "text": "Изработваме матраците в собствена фабрика в София. Разкажете ни как спите и ще ви помогнем да намерите подходящия модел.",
+        "knopf1_text": "Свържете се с нас",
         "knopf1_link": "shopify://pages/contact",
+        "knopf2_text": "Изберете своя матрак",
         "knopf2_link": "shopify://collections/all"
       }
     },
-    "zahlen": {
-      "type": "gf-zahlen",
+    "fragen": {
+      "type": "collapsible-content",
       "blocks": {
-        "z1": {
-          "type": "zahl",
+        "f1": {
+          "type": "collapsible_row",
           "settings": {
-            "zahl": 10,
-            "zusatz": "",
-            "text": "години на пазара"
+            "heading": "Как да разбера кой матрак е подходящ за мен?",
+            "icon": "question_mark",
+            "row_content": "<p>Започнете с размера и с усещането, което предпочитате. Ако се колебаете, нашите консултанти ще ви зададат няколко въпроса и ще ви препоръчат подходящи модели.</p>"
           }
         },
-        "z2": {
-          "type": "zahl",
+        "f2": {
+          "type": "collapsible_row",
           "settings": {
-            "zahl": 50000,
-            "zusatz": "",
-            "text": "изработени матрака"
+            "heading": "Може ли матракът да бъде изработен по индивидуален размер?",
+            "icon": "ruler",
+            "row_content": "<p>Да. Като производител изработваме матраци и по нестандартни мерки. Свържете се с нас с размера и модела, а ние ще ви кажем цената и срока за изработка.</p>"
           }
         },
-        "z3": {
-          "type": "zahl",
+        "f3": {
+          "type": "collapsible_row",
           "settings": {
-            "zahl": 20000,
-            "zusatz": "",
-            "text": "доволни клиенти"
+            "heading": "Колко време отнема изработката?",
+            "icon": "truck",
+            "row_content": "<p>В зависимост от натовареността на фабриката изработката отнема от 1 до 3 работни дни.</p>"
+          }
+        },
+        "f4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Мога ли да пробвам матрака?",
+            "icon": "map_pin",
+            "row_content": "<p>Да. Заповядайте в шоурума ни на бул. „България“ 49A в София.</p>"
           }
         }
       },
       "block_order": [
-        "z1",
-        "z2",
-        "z3"
+        "f1",
+        "f2",
+        "f3",
+        "f4"
       ],
-      "settings": {}
+      "settings": {
+        "caption": "",
+        "heading": "Често задавани въпроси",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "color_scheme": "scheme-1",
+        "container_color_scheme": "scheme-2",
+        "open_first_collapsible_row": false,
+        "desktop_layout": "image_second",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "hero",
-    "logik",
-    "zahlen",
+    "einstieg",
     "modelle",
-    "ablauf",
-    "beratung"
+    "auswahl",
+    "beratung",
+    "fragen"
   ]
 }

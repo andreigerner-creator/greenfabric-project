@@ -5,6 +5,9 @@ Zuerst [README.md](README.md) lesen.
 
 * **Keine Gedankenstriche** (U+2014, U+2013): nirgends, in keiner Sprache, auch nicht in
   Kommentaren, Commits oder Antworten. Komma, Punkt, Doppelpunkt, Klammer.
+* **Marke:** Green Fabric Brand Guidelines v1.0 gelten (Farben, Montserrat, Maße). Kunden auf
+  Bulgarisch mit „вие“ ansprechen, kurze Sätze, keine Heil-, Öko- oder Perfektionsversprechen,
+  keine erfundenen Bewertungen, Siegel oder Knappheit. Logo unverändert, nur auf hellem Grund.
 * **Sprachen:** Bulgarisch ist der Originaltext. Deutsch und Englisch sind sorgfältige,
   natürliche Übersetzungen.
 * **Eigene Dateien** beginnen mit `gf-`. Dawn-Dateien nur ändern, wenn es nicht anders geht,

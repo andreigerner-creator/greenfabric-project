@@ -3,7 +3,7 @@
   steigt Zeile fuer Zeile auf, beim Scrollen laeuft das Bild mit halber Geschwindigkeit und der
   Inhalt blendet aus (gf-bewegung.js). Aussehen: gf-signatur.css, Abschnitt "Hero".
 {%- endcomment -%}
-<section class="gf-hero" data-hero>
+<section class="gf-hero gf-dunkel" data-hero>
   <div class="gf-hero-bild" data-hero-bild>
     {%- if section.settings.bild != blank -%}
       <picture>
@@ -31,7 +31,7 @@
       {%- endif -%}
       <div class="gf-knoepfe gf-auftritt" style="--n: 4">
         {%- if section.settings.knopf1_text != blank -%}
-          <a class="gf-knopf gf-knopf-sand" href="{{ section.settings.knopf1_link | default: routes.root_url }}">{{ section.settings.knopf1_text }}{% render 'gf-pfeil' %}</a>
+          <a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf1_link | default: routes.root_url }}">{{ section.settings.knopf1_text }}{% render 'gf-pfeil' %}</a>
         {%- endif -%}
         {%- if section.settings.knopf2_text != blank -%}
           <a class="gf-knopf gf-knopf-still" href="{{ section.settings.knopf2_link | default: routes.root_url }}">{{ section.settings.knopf2_text }}{% render 'gf-pfeil' %}</a>
@@ -55,31 +55,99 @@
   "class": "gf-sektion",
   "max_blocks": 3,
   "settings": [
-    { "type": "image_picker", "id": "bild", "label": "Bild (breit)" },
-    { "type": "image_picker", "id": "bild_handy", "label": "Bild fürs Handy (hochkant, optional)" },
-    { "type": "text", "id": "kicker", "label": "Kleine Zeile über dem Titel", "default": "Матрак, създаден за теб" },
-    { "type": "text", "id": "titel1", "label": "Titel, Zeile 1", "default": "Няма най-добрия матрак." },
-    { "type": "text", "id": "titel2", "label": "Titel, Zeile 2", "default": "Има правилният матрак за теб." },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Тялото ти е уникално. Начинът, по който спиш, също. Затова създаваме матраци, съобразени с човека, който ще спи върху тях." },
-    { "type": "text", "id": "knopf1_text", "label": "Knopf 1, Text", "default": "Заяви консултация" },
-    { "type": "url", "id": "knopf1_link", "label": "Knopf 1, Link" },
-    { "type": "text", "id": "knopf2_text", "label": "Knopf 2, Text", "default": "Виж матраците" },
-    { "type": "url", "id": "knopf2_link", "label": "Knopf 2, Link" }
+    {
+      "type": "image_picker",
+      "id": "bild",
+      "label": "Bild (breit)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bild_handy",
+      "label": "Bild fürs Handy (hochkant, optional)"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kleine Zeile über dem Titel",
+      "default": "Комфорт по вашия начин"
+    },
+    {
+      "type": "text",
+      "id": "titel1",
+      "label": "Titel, Zeile 1",
+      "default": "Комфорт,"
+    },
+    {
+      "type": "text",
+      "id": "titel2",
+      "label": "Titel, Zeile 2",
+      "default": "създаден за вас."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Открийте матрак, който отговаря на вашите предпочитания. Сравнете моделите или ни потърсете за помощ при избора."
+    },
+    {
+      "type": "text",
+      "id": "knopf1_text",
+      "label": "Knopf 1, Text",
+      "default": "Изберете своя матрак"
+    },
+    {
+      "type": "url",
+      "id": "knopf1_link",
+      "label": "Knopf 1, Link"
+    },
+    {
+      "type": "text",
+      "id": "knopf2_text",
+      "label": "Knopf 2, Text",
+      "default": "Помощ при избора"
+    },
+    {
+      "type": "url",
+      "id": "knopf2_link",
+      "label": "Knopf 2, Link"
+    }
   ],
   "blocks": [
     {
       "type": "punkt",
       "name": "Punkt in der Fußzeile",
-      "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Лична консултация преди всяко решение" }]
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "8 години гаранция"
+        }
+      ]
     }
   ],
   "presets": [
     {
       "name": "GF Hero",
       "blocks": [
-        { "type": "punkt", "settings": { "text": "Лична консултация преди всяко решение" } },
-        { "type": "punkt", "settings": { "text": "Собствено производство в София" } },
-        { "type": "punkt", "settings": { "text": "Индивидуален размер, твърдост и материали" } }
+        {
+          "type": "punkt",
+          "settings": {
+            "text": "8 години гаранция"
+          }
+        },
+        {
+          "type": "punkt",
+          "settings": {
+            "text": "100 дни тестов период"
+          }
+        },
+        {
+          "type": "punkt",
+          "settings": {
+            "text": "Собствено производство в София"
+          }
+        }
       ]
     }
   ]

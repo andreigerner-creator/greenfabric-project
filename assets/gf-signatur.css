@@ -1,9 +1,14 @@
-/* Greenfabric: Gestaltungsschicht ueber Dawn, Bewegungssprache nach dem Vorbild der
-   Dr.-Sleep-Seite (ruhig, weich, nachtgruen statt nachtblau). Verhalten in gf-bewegung.js.
+/* Greenfabric: Gestaltungsschicht ueber Dawn. Farben, Schrift und Masse nach den Green Fabric
+   Brand Guidelines v1.0 (GNT Media, 05.10.2026), Bewegungssprache nach dem Vorbild der
+   Dr.-Sleep-Seite (ruhig, weich). Verhalten in gf-bewegung.js.
    Geladen in layout/theme.liquid nach base.css, damit die Werte hier gewinnen.
 
-     Farben             --gf-nacht, --gf-wald, --gf-moos, --gf-nebel, --gf-sand, --gf-weiss, --gf-tinte
-     Schriften          EB Garamond (Titel) und Inter (Text), siehe snippets/gf-schriften.liquid
+     Farben             Waldgruen #244C3D (Knoepfe, Titel), Warmweiss #F5F3EC (Seitengrund),
+                        Salbei #DFE7DC (ruhige Flaechen, nur Hintergrund), Graphit #222823 (Text);
+                        etwa 70 % hell, 20 % Salbei, 10 % dunkel. --gf-nacht nur fuer Bild-Abdunklung
+     Schrift            Montserrat (Titel Medium, Text Regular, Knoepfe SemiBold), gf-schriften.liquid
+     Masse              H1 48/56 (mobil 32/40), H2 32/40 (mobil 26/34), Text 16/24, Labels 14/20,
+                        Inhalt max. 1200 px, mobil 20 px Rand, Karten 12 px, Knoepfe 8 px, Bedienelemente ab 44 px
      Bausteine          data-einblenden           blendet beim Hereinscrollen ein (von unten);
                                                   mehrere gemeinsam erscheinen nacheinander
                         data-einblenden="links|rechts|zoom|weich"   Varianten
@@ -21,28 +26,28 @@
    alles sichtbar, "Bewegung reduzieren" schaltet Bewegung ab. */
 
 :root {
-  --gf-nacht: oklch(25% .035 155);
-  --gf-wald: oklch(34% .055 150);
-  --gf-moos: oklch(45% .05 150);
-  --gf-nebel: oklch(93% .018 150);
-  --gf-sand: oklch(77.4% .055 68.8);
-  --gf-weiss: oklch(98.3% .008 85);
-  --gf-tinte: oklch(24% .012 60);
-  --gf-linie-hell: oklch(98.3% .008 85 / .2);
-  --gf-linie-dunkel: oklch(34% .055 150 / .2);
+  --gf-wald: #244C3D;
+  --gf-weiss: #F5F3EC;
+  --gf-salbei: #DFE7DC;
+  --gf-graphit: #222823;
+  --gf-nacht: #17332A;
+  --gf-linie-hell: rgb(245 243 236 / .22);
+  --gf-linie-dunkel: rgb(36 76 61 / .2);
 
   --gf-weich: cubic-bezier(.2, .7, .2, 1);
   --gf-ruhig: cubic-bezier(.7, 0, .2, 1);
   --gf-atem: 4.5s;
-  --gf-rand: clamp(1.25rem, 4.5vw, 4rem);
-  --gf-breite: 82rem;
-  --gf-karte-rundung: clamp(1.75rem, 3.6vw, 3.25rem);
+  --gf-rand: clamp(1.25rem, 4vw, 3rem);
+  --gf-breite: 75rem;
+  --gf-karte-rundung: 1.5rem;
+  --gf-radius-karte: 12px;
+  --gf-radius-knopf: 8px;
   --gf-ueberlapp: clamp(9rem, 28vh, 17rem);
 
-  --font-heading-family: 'EB Garamond', 'Times New Roman', serif;
+  --font-heading-family: 'Montserrat', system-ui, sans-serif;
   --font-heading-style: normal;
-  --font-heading-weight: 400;
-  --font-body-family: 'Inter', system-ui, sans-serif;
+  --font-heading-weight: 500;
+  --font-body-family: 'Montserrat', system-ui, sans-serif;
   --font-body-style: normal;
   --font-body-weight: 400;
   --font-body-weight-bold: 600;
@@ -52,41 +57,43 @@
 /* Gemeinsame Typografie der gf-Sektionen ------------------------------------------------ */
 .gf-breite { width: min(100% - var(--gf-rand) * 2, var(--gf-breite)); margin-inline: auto; }
 .gf-titel {
-  margin: 0; font-family: var(--font-heading-family); font-weight: 400;
-  line-height: 1.02; letter-spacing: -.01em; text-wrap: balance;
+  margin: 0; font-family: var(--font-heading-family); font-weight: 500;
+  font-size: 2rem; line-height: 2.5rem; letter-spacing: -.01em; text-wrap: balance;
 }
-.gf-titel-xl { font-size: clamp(2.9rem, 6.4vw, 6.6rem); }
-.gf-titel-l { font-size: clamp(2.4rem, 4.6vw, 4.8rem); }
+.gf-titel-xl, .gf-titel-l { font-size: 2rem; line-height: 2.5rem; }
+@media (width <= 749px) { .gf-titel, .gf-titel-xl, .gf-titel-l { font-size: 1.625rem; line-height: 2.125rem; } }
 .gf-zeile-block { display: block; }
 .gf-index {
-  display: flex; align-items: center; gap: .8rem; margin: 0 0 1.6rem;
-  font-size: .6875rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
-  color: var(--gf-sand);
+  display: flex; align-items: center; gap: .75rem; margin: 0 0 1.5rem;
+  font-size: .875rem; line-height: 1.25rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gf-salbei);
 }
 .gf-index::before {
   content: ""; flex: none; width: .4rem; height: .4rem; border-radius: 50%; background: currentColor;
 }
-.gf-index-dunkel { color: var(--gf-moos); }
-.gf-text { max-width: 36rem; font-size: 1.02rem; line-height: 1.7; }
+.gf-index-dunkel { color: var(--gf-wald); }
+.gf-text { max-width: 36rem; font-size: 1rem; line-height: 1.5rem; }
 
-/* Knoepfe: Pille, heben sich langsam, Pfeil zieht nach (nur mit Maus) */
-.gf-knoepfe { display: flex; flex-wrap: wrap; gap: .85rem; }
+/* Knoepfe: 8 px Radius, 16 px SemiBold, mind. 48 px hoch; heben sich langsam, Pfeil zieht nach (nur mit Maus).
+   Primaer: Weiss auf Waldgruen; auf dunklem Grund (Bild) Waldgruen auf Warmweiss. */
+.gf-knoepfe { display: flex; flex-wrap: wrap; gap: 1rem; }
 .gf-knopf {
   position: relative; display: inline-flex; align-items: center; gap: .65rem;
-  min-height: 3.25rem; padding: 0 1.6rem; border-radius: 999px; overflow: hidden;
-  font-size: .9rem; font-weight: 500; letter-spacing: .01em; text-decoration: none;
+  min-height: 3rem; padding: 0 1.5rem; border-radius: var(--gf-radius-knopf); overflow: hidden;
+  font-size: 1rem; font-weight: 600; text-decoration: none;
   transition: translate .6s var(--gf-weich), box-shadow .6s var(--gf-weich), background-color .4s ease;
 }
 .gf-knopf svg { width: 1rem; height: 1rem; transition: translate .5s var(--gf-weich); }
-.gf-knopf-sand { background: var(--gf-sand); color: var(--gf-nacht); }
-.gf-knopf-still { background: oklch(98.3% .008 85 / .08); color: var(--gf-weiss); box-shadow: inset 0 0 0 1px var(--gf-linie-hell); backdrop-filter: blur(6px); }
-.gf-knopf-dunkel { background: var(--gf-wald); color: var(--gf-weiss); }
+.gf-knopf-primaer { background: var(--gf-wald); color: #fff; }
+.gf-dunkel .gf-knopf-primaer { background: var(--gf-weiss); color: var(--gf-wald); }
+.gf-knopf-still { background: transparent; color: var(--gf-wald); box-shadow: inset 0 0 0 1px var(--gf-wald); }
+.gf-dunkel .gf-knopf-still { background: rgb(245 243 236 / .08); color: var(--gf-weiss); box-shadow: inset 0 0 0 1px var(--gf-linie-hell); backdrop-filter: blur(6px); }
 .gf-knopf::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-120%);
   background: linear-gradient(100deg, transparent 30%, oklch(100% 0 0 / .28) 50%, transparent 70%);
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .gf-knopf:hover { translate: 0 -2px; box-shadow: 0 14px 30px -14px oklch(20% .03 155 / .55); }
+  .gf-knopf:hover { translate: 0 -2px; box-shadow: 0 14px 30px -14px rgb(23 51 42 / .5); }
   .gf-knopf:hover svg { translate: 3px 0; }
   .gf-knopf:hover::after { transform: translateX(120%); transition: transform 1.1s var(--gf-weich); }
 }
@@ -136,7 +143,7 @@
 .gf-fortschritt { position: fixed; z-index: 1000; inset: 0 0 auto; height: 2px; pointer-events: none; }
 .gf-fortschritt b {
   position: absolute; inset: 0; transform-origin: left center; transform: scaleX(0);
-  background: linear-gradient(90deg, oklch(77.4% .055 68.8 / .12), oklch(77.4% .055 68.8 / .6) 70%, var(--gf-sand));
+  background: linear-gradient(90deg, rgb(36 76 61 / .15), rgb(36 76 61 / .6) 70%, var(--gf-wald));
 }
 @supports (animation-timeline: scroll()) {
   .gf-fortschritt b { animation: gf-linie linear both; animation-timeline: scroll(root block); }
@@ -169,24 +176,24 @@
 .gf-hero-schatten {
   position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(to top, var(--gf-nacht) 0, oklch(25% .035 155 / .55) 35%, transparent 70%),
-    linear-gradient(to right, oklch(25% .035 155 / .65), transparent 60%);
+    linear-gradient(to top, rgb(23 51 42 / .85) 0, rgb(23 51 42 / .4) 35%, transparent 70%),
+    linear-gradient(to right, rgb(23 51 42 / .6), transparent 60%);
 }
-.gf-hero-platzhalter { width: 100%; height: 100%; background: radial-gradient(120% 90% at 70% 30%, var(--gf-moos), var(--gf-nacht)); }
+.gf-hero-platzhalter { width: 100%; height: 100%; background: radial-gradient(120% 90% at 70% 30%, var(--gf-wald), var(--gf-nacht)); }
 .gf-hero-inhalt { width: 100%; padding: clamp(6rem, 14vh, 9rem) var(--gf-rand) clamp(2rem, 5vh, 3.5rem); }
 [data-hero-inhalt] {
   opacity: calc(1 - var(--hero-p, 0) * 1.25);
   transform: translate3d(0, calc(var(--hero-p, 0) * -5rem), 0);
 }
-.gf-hero-text { max-width: 52rem; }
-.gf-hero-titel { font-size: clamp(3rem, 7vw, 7.2rem); }
+.gf-hero-text { max-width: 40rem; }
+.gf-hero-titel { font-size: 3rem; line-height: 3.5rem; }
 .gf-zeile { display: block; overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; }
 .gf-zeile > span { display: inline-block; }
-.gf-hero-copy { max-width: 34rem; margin: 1.75rem 0 2.25rem; color: var(--gf-nebel); }
+.gf-hero-copy { max-width: 34rem; margin: 1.5rem 0 2rem; color: var(--gf-weiss); }
 .gf-hero-fuss {
   position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem; margin-top: clamp(2.5rem, 6vh, 4.5rem); padding-top: 1.1rem; list-style: none; padding-left: 0;
-  font-size: .6875rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gf-nebel);
+  font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: var(--gf-weiss);
 }
 .gf-hero-fuss::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
@@ -215,7 +222,7 @@
 @keyframes gf-linie-ein { from { transform: scaleX(0); } }
 
 @media (width <= 639px) {
-  .gf-hero-titel { font-size: clamp(2.7rem, 12.5vw, 4.1rem); line-height: .98; }
+  .gf-hero-titel { font-size: 2rem; line-height: 2.5rem; }
   .gf-knoepfe { flex-direction: column; }
   .gf-knoepfe > a { justify-content: center; }
   .gf-hero-fuss { grid-template-columns: 1fr; gap: .5rem; }
@@ -230,16 +237,16 @@
 .gf-doppel.gf-doppelbelichtung { background: linear-gradient(to bottom, transparent, var(--gf-nacht) var(--gf-ueberlapp)); }
 /* Folgt eine Doppelbelichtung, bleibt der Hero-Inhalt ueber der Ueberlappung */
 .shopify-section:has(> .gf-hero):has(+ .shopify-section > .gf-doppelbelichtung) .gf-hero-inhalt { padding-bottom: calc(var(--gf-ueberlapp) + clamp(1.5rem, 4vh, 3rem)); }
-.gf-doppel-schatten { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to right, oklch(25% .035 155 / .82), oklch(25% .035 155 / .2) 70%); }
+.gf-doppel-schatten { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to right, rgb(23 51 42 / .82), rgb(23 51 42 / .2) 70%); }
 .gf-doppel-inhalt { padding: calc(var(--gf-ueberlapp) + clamp(5rem, 10vw, 9rem)) 0 clamp(6rem, 12vw, 11rem); }
-.gf-doppel .gf-text { margin-top: 2rem; color: var(--gf-nebel); }
-.gf-zitat { max-width: 40rem; margin: 2.5rem 0 0; padding-left: 1.5rem; border-left: 1px solid var(--gf-sand); font-family: var(--font-heading-family); font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1.3; }
+.gf-doppel .gf-text { margin-top: 1.5rem; color: var(--gf-weiss); }
+.gf-zitat { max-width: 40rem; margin: 2.5rem 0 0; padding-left: 1.5rem; border-left: 2px solid var(--gf-salbei); font-family: var(--font-heading-family); font-weight: 500; font-size: 1.25rem; line-height: 1.875rem; }
 
 /* Schritte mit Linie (sections/gf-schritte.liquid) ------------------------------------- */
-.gf-schritte-abschnitt { background: var(--gf-weiss); color: var(--gf-tinte); padding: clamp(5.5rem, 10vw, 9rem) 0 calc(var(--gf-karte-rundung) + clamp(5rem, 9vw, 8rem)); --gf-grund: var(--gf-weiss); }
-.gf-schritte-abschnitt.gf-nebel-grund { background: var(--gf-nebel); --gf-grund: var(--gf-nebel); }
+.gf-schritte-abschnitt { background: var(--gf-weiss); color: var(--gf-graphit); padding: clamp(5.5rem, 10vw, 9rem) 0 calc(var(--gf-karte-rundung) + clamp(5rem, 9vw, 8rem)); --gf-grund: var(--gf-weiss); }
+.gf-schritte-abschnitt.gf-salbei-grund { background: var(--gf-salbei); --gf-grund: var(--gf-salbei); }
 .gf-schritte-kopf { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 2rem 5rem; align-items: end; }
-.gf-schritte-kopf .gf-text { color: oklch(24% .012 60 / .78); }
+.gf-schritte-abschnitt .gf-titel { color: var(--gf-wald); }
 .gf-schritte {
   --fortschritt: 1;
   position: relative; list-style: none; margin: clamp(4rem, 7vw, 6rem) 0 0; padding: 0;
@@ -255,9 +262,9 @@
   transition: transform .6s var(--gf-weich), background-color .6s ease;
 }
 .gf-schritte.zeichnen-an .gf-schritt:not(.ist-erreicht)::before { background: var(--gf-grund); transform: scale(.75); box-shadow: inset 0 0 0 1px var(--gf-wald), 0 0 0 4px var(--gf-grund); }
-.gf-schritt i { display: block; margin-bottom: .9rem; font-style: normal; font-size: .6875rem; font-weight: 600; letter-spacing: .12em; color: var(--gf-moos); }
-.gf-schritt strong { display: block; margin-bottom: .6rem; font-family: var(--font-heading-family); font-weight: 400; font-size: clamp(1.45rem, 2.1vw, 1.95rem); line-height: 1.1; }
-.gf-schritt small { display: block; font-size: .92rem; line-height: 1.6; color: oklch(24% .012 60 / .72); }
+.gf-schritt i { display: block; margin-bottom: .9rem; font-style: normal; font-size: .875rem; font-weight: 600; letter-spacing: .08em; color: var(--gf-wald); }
+.gf-schritt strong { display: block; margin-bottom: .5rem; font-family: var(--font-heading-family); font-weight: 500; font-size: 1.25rem; line-height: 1.75rem; color: var(--gf-wald); }
+.gf-schritt small { display: block; font-size: 1rem; line-height: 1.5rem; color: var(--gf-graphit); }
 .gf-schritte-knopf { display: flex; justify-content: center; margin-top: clamp(3.5rem, 6vw, 5rem); }
 @media (width <= 989px) {
   .gf-schritte-kopf { grid-template-columns: 1fr; }
@@ -271,18 +278,38 @@
 .gf-beratung { position: relative; isolation: isolate; overflow: hidden; background: var(--gf-nacht); color: var(--gf-weiss); text-align: center; }
 .gf-beratung-bild { position: absolute; inset: -14% 0; z-index: -2; }
 .gf-beratung-bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.gf-beratung-schatten { position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 70% at 50% 50%, oklch(25% .035 155 / .55), oklch(25% .035 155 / .92)); }
+.gf-beratung { background: var(--gf-wald); }
+.gf-beratung-schatten { position: absolute; inset: 0; z-index: -1; background: radial-gradient(80% 70% at 50% 50%, rgb(36 76 61 / .7), rgb(23 51 42 / .92)); }
 .gf-beratung-inhalt { padding: clamp(7rem, 14vw, 12rem) 0; }
 .gf-beratung .gf-index { justify-content: center; }
-.gf-beratung .gf-text { margin: 1.75rem auto 0; color: var(--gf-nebel); }
+.gf-beratung .gf-text { margin: 1.5rem auto 0; color: var(--gf-weiss); }
 .gf-beratung .gf-knoepfe { justify-content: center; margin-top: 2.5rem; }
-.gf-kontakt { margin-top: 2rem; font-size: .85rem; color: var(--gf-nebel); }
+.gf-kontakt { margin-top: 2rem; font-size: .875rem; line-height: 1.25rem; color: var(--gf-salbei); }
 .gf-kontakt a { color: inherit; }
 
 /* Zahlen (sections/gf-zahlen.liquid) --------------------------------------------------- */
 .gf-zahlen-abschnitt { background: var(--gf-wald); color: var(--gf-weiss); padding: clamp(5rem, 9vw, 8rem) 0 calc(var(--gf-karte-rundung) + clamp(4.5rem, 8vw, 7rem)); }
 .gf-zahlen { list-style: none; margin: clamp(3rem, 6vw, 5rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(var(--anzahl, 3), minmax(0, 1fr)); gap: 2.5rem 2rem; }
 .gf-zahl { padding-top: 1.4rem; border-top: 1px solid var(--gf-linie-hell); }
-.gf-zahl strong { display: block; font-family: var(--font-heading-family); font-weight: 400; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1; font-variant-numeric: tabular-nums; color: var(--gf-sand); }
-.gf-zahl small { display: block; margin-top: .8rem; font-size: .8rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--gf-nebel); }
+.gf-zahl strong { display: block; font-family: var(--font-heading-family); font-weight: 500; font-size: 3rem; line-height: 3.5rem; font-variant-numeric: tabular-nums; color: var(--gf-weiss); }
+.gf-zahl small { display: block; margin-top: .5rem; font-size: .875rem; line-height: 1.25rem; font-weight: 500; color: var(--gf-salbei); }
 @media (width <= 749px) { .gf-zahlen { grid-template-columns: 1fr; } }
+
+/* Einstieg in die Auswahl (sections/gf-einstieg.liquid): drei ruhige Karten auf Salbei ------- */
+.gf-einstieg-abschnitt { background: var(--gf-weiss); color: var(--gf-graphit); padding: 4rem 0; }
+.gf-einstieg-abschnitt .gf-titel { color: var(--gf-wald); margin-bottom: 2rem; }
+.gf-einstieg { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--anzahl, 3), minmax(0, 1fr)); gap: 1.5rem; }
+.gf-einstieg-karte {
+  position: relative; display: flex; flex-direction: column; gap: .5rem; height: 100%; min-height: 11rem;
+  padding: 2rem; border-radius: var(--gf-radius-karte); background: var(--gf-salbei); color: var(--gf-graphit); text-decoration: none;
+  transition: translate .6s var(--gf-weich), box-shadow .6s var(--gf-weich);
+}
+.gf-einstieg-karte strong { font-size: 1.25rem; line-height: 1.75rem; font-weight: 500; color: var(--gf-wald); }
+.gf-einstieg-karte span { font-size: 1rem; line-height: 1.5rem; }
+.gf-einstieg-karte svg { width: 1.25rem; height: 1.25rem; margin-top: auto; color: var(--gf-wald); transition: translate .5s var(--gf-weich); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .gf-einstieg-karte:hover { translate: 0 -3px; box-shadow: 0 18px 36px -22px rgb(23 51 42 / .45); }
+  .gf-einstieg-karte:hover svg { translate: 4px 0; }
+}
+.gf-einstieg-karte:focus-visible { outline: 2px solid var(--gf-wald); outline-offset: 3px; }
+@media (width <= 749px) { .gf-einstieg { grid-template-columns: 1fr; } .gf-einstieg-karte { min-height: 0; } }
