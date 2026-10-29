@@ -59,6 +59,9 @@
 .gf-dunkel { --color-foreground: 245, 243, 236; color: var(--gf-weiss); }
 .gf-dunkel .gf-titel { color: var(--gf-weiss); }
 
+/* Dawn-Ueberschriften auf hellen Flaechen in Waldgruen (Brand Guidelines) */
+:is(.color-scheme-1, .color-scheme-2, .color-scheme-5) :is(h1, h2, .h0, .h1, .h2, .title) { color: var(--gf-wald); }
+
 /* Gemeinsame Typografie der gf-Sektionen ------------------------------------------------ */
 .gf-breite { width: min(100% - var(--gf-rand) * 2, var(--gf-breite)); margin-inline: auto; }
 .gf-titel {
@@ -185,6 +188,16 @@
     linear-gradient(to right, rgb(23 51 42 / .6), transparent 60%);
 }
 .gf-hero-platzhalter { width: 100%; height: 100%; background: radial-gradient(120% 90% at 70% 30%, var(--gf-wald), var(--gf-nacht)); }
+/* Ohne Foto: feine Steppnaht wie auf einem Matratzenbezug, bis ein echtes Bild gewaehlt ist */
+.gf-hero-platzhalter::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 5.4rem, rgb(245 243 236 / .07) 5.4rem 5.5rem),
+    repeating-linear-gradient(-45deg, transparent 0 5.4rem, rgb(245 243 236 / .07) 5.4rem 5.5rem);
+  -webkit-mask-image: radial-gradient(90% 80% at 75% 35%, #000, transparent 75%);
+  mask-image: radial-gradient(90% 80% at 75% 35%, #000, transparent 75%);
+}
+.gf-hero:has(.gf-hero-platzhalter) { min-height: max(56rem, 78svh); }
 .gf-hero-inhalt {
   width: 100%; padding: clamp(9.6rem, 14vh, 14.4rem) var(--gf-rand) clamp(3.2rem, 5vh, 5.6rem);
   padding-inline: max(var(--gf-rand), (100% - var(--gf-breite)) / 2);
