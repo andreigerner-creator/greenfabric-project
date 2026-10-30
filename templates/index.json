@@ -51,7 +51,7 @@
           "settings": {
             "titel": "Матраци за двама",
             "text": "Двулицеви модели в много размери.",
-            "link": "/search?type=product&q=%D0%94%D0%B2%D1%83%D0%BB%D0%B8%D1%86%D0%B5%D0%B2",
+            "link": "shopify://collections/матраци",
             "datei": "gf-kategorie-matratzen.jpg"
           }
         },
@@ -60,7 +60,7 @@
           "settings": {
             "titel": "Бебешки матраци",
             "text": "За креватчето на вашето бебе.",
-            "link": "/search?type=product&q=%D0%91%D0%B5%D0%B1%D0%B5%D1%88%D0%BA%D0%B8",
+            "link": "shopify://collections/бебешки-матраци",
             "datei": "gf-kategorie-baby.jpg"
           }
         },
@@ -69,7 +69,7 @@
           "settings": {
             "titel": "Завивки",
             "text": "Памучна завивка за всеки сезон.",
-            "link": "/search?type=product&q=%D0%B7%D0%B0%D0%B2%D0%B8%D0%B2%D0%BA%D0%B0",
+            "link": "shopify://collections/завивки",
             "datei": "gf-kategorie-kissen-decken.jpg"
           }
         },
@@ -98,7 +98,7 @@
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
+        "collection": "матраци",
         "products_to_show": 6,
         "columns_desktop": 3,
         "color_scheme": "scheme-1",
@@ -258,7 +258,7 @@
         "titel": "Какво има във вашия матрак.",
         "text": "Три неща определят комфорта: калъфът, сърцевината и шевът. На всяка продуктова страница ще намерите подробностите за модела.",
         "knopf_text": "Разгледайте моделите",
-        "knopf_link": "shopify://collections/all"
+        "knopf_link": "shopify://collections/матраци"
       },
       "blocks": {
         "m1": {
@@ -314,8 +314,8 @@
         "index": "За хотели",
         "titel": "Матраци за вашия хотел.",
         "text": "<p>Изработваме матраци в нужните ви размери и количества. Пишете ни и ще ви изпратим оферта.</p>",
-        "knopf_text": "Поискайте оферта",
-        "knopf_link": "shopify://pages/contact"
+        "knopf_text": "Към страницата за хотели",
+        "knopf_link": "shopify://pages/za-hoteli"
       }
     }
   },

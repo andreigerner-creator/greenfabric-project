@@ -1,0 +1,135 @@
+{
+  "sections": {
+    "hero": {
+      "type": "gf-hero",
+      "blocks": {
+        "p1": {
+          "type": "punkt",
+          "settings": {
+            "text": "Собствено производство в София"
+          }
+        },
+        "p2": {
+          "type": "punkt",
+          "settings": {
+            "text": "8 години гаранция"
+          }
+        },
+        "p3": {
+          "type": "punkt",
+          "settings": {
+            "text": "Шоурум в София"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "datei": "gf-ueber-uns.jpg",
+        "datei_handy": "",
+        "kicker": "За нас",
+        "titel1": "Матраци от София,",
+        "titel2": "направени с внимание.",
+        "text": "Green Fabric е производител на матраци. Шием всеки модел в собствената си фабрика и ви съветваме лично.",
+        "knopf1_text": "Разгледайте матраците",
+        "knopf1_link": "shopify://collections/матраци",
+        "knopf2_text": "Свържете се с нас",
+        "knopf2_link": "shopify://pages/contact"
+      }
+    },
+    "werkstatt": {
+      "type": "gf-doppelbelichtung",
+      "settings": {
+        "datei": "gf-werkstatt.jpg",
+        "ueberlappen": true,
+        "index": "Производство",
+        "titel1": "От кройката",
+        "titel2": "до последния шев.",
+        "text": "Всеки матрак минава през ръцете на нашите хора. Затова познаваме всеки модел и можем да ви кажем честно кой е подходящ за вас.",
+        "zitat": ""
+      }
+    },
+    "material": {
+      "type": "gf-material",
+      "settings": {
+        "grund": "weiss",
+        "index": "Материали",
+        "titel": "Какво има във вашия матрак.",
+        "text": "Калъфът, сърцевината и шевът определят комфорта. Подробностите за всеки модел ще намерите на неговата страница.",
+        "knopf_text": "Разгледайте моделите",
+        "knopf_link": "shopify://collections/матраци"
+      },
+      "blocks": {
+        "m1": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-stoff.jpg",
+            "titel": "Калъф",
+            "text": "Мек, капитониран плат."
+          }
+        },
+        "m2": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-schaum.jpg",
+            "titel": "Сърцевина",
+            "text": "Пяна или пружини, според модела."
+          }
+        },
+        "m3": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-naht.jpg",
+            "titel": "Шев",
+            "text": "Всеки матрак се шие в София."
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ]
+    },
+    "showroom": {
+      "type": "gf-bild-text",
+      "settings": {
+        "datei": "gf-schlafzimmer-abend.jpg",
+        "bild_rechts": true,
+        "grund": "salbei",
+        "index": "Шоурум",
+        "titel": "Елате и легнете.",
+        "text": "<p>В шоурума ни в София можете да пробвате матраците спокойно. Ще ви покажем разликите и ще отговорим на въпросите ви.</p>",
+        "knopf_text": "Свържете се с нас",
+        "knopf_link": "shopify://pages/contact"
+      }
+    },
+    "beratung": {
+      "type": "gf-beratung",
+      "settings": {
+        "datei": "gf-beratung.jpg",
+        "karte": true,
+        "index": "Консултация",
+        "titel1": "Имате въпроси?",
+        "titel2": "Пишете ни.",
+        "text": "Ще ви отговорим спокойно и без натиск.",
+        "knopf1_text": "Свържете се с нас",
+        "knopf1_link": "shopify://pages/contact",
+        "knopf2_text": "Разгледайте матраците",
+        "knopf2_link": "shopify://collections/матраци",
+        "telefon": "+359 885 502 222",
+        "email": "office@greenfabric.bg"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "werkstatt",
+    "material",
+    "showroom",
+    "beratung"
+  ]
+}
