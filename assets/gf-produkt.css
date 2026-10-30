@@ -1,0 +1,350 @@
+/* Greenfabric: Produktseite. Ruhige Kaufspalte nach den Brand Guidelines (Titel Waldgruen,
+   Preis deutlich, Bedienelemente ab 44 px, Karten 12 px, Knoepfe 8 px), Vorteile unter dem
+   Kaufknopf (snippets/gf-produkt-vorteile.liquid) und die 3D Schichtansicht (sections/gf-schichten.liquid).
+   Geladen in layout/theme.liquid nur auf Produktseiten, Verhalten in gf-produkt.js. */
+
+/* Kaufspalte ------------------------------------------------------------------------- */
+.product__info-container > * + * { margin-block: 1.6rem; }
+.product__info-container .product__text.caption-with-letter-spacing {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 0.8rem;
+  font-size: 1.3rem; line-height: 2rem; font-weight: 600; letter-spacing: .12em; color: var(--gf-wald); opacity: .8;
+}
+.product__info-container .product__text.caption-with-letter-spacing::before {
+  content: ""; width: 0.64rem; height: 0.64rem; border-radius: 50%; background: currentColor;
+}
+.product__title { margin-bottom: 0.8rem; }
+.product__title h1 {
+  font-family: var(--font-heading-family); font-weight: 500; color: var(--gf-wald);
+  font-size: 3.2rem; line-height: 4rem; letter-spacing: -.01em; text-wrap: balance;
+}
+@media (width >= 990px) { .product__title h1 { font-size: 4rem; line-height: 4.8rem; } }
+
+.product__info-container .price--large { font-size: 2.6rem; line-height: 3.2rem; }
+.product__info-container .price-item--regular,
+.product__info-container .price-item--sale { color: var(--gf-wald); font-weight: 600; letter-spacing: 0; }
+.product__info-container .price--on-sale .price-item--regular { color: rgb(34 40 35 / .5); font-weight: 400; font-size: 1.8rem; }
+.product__info-container .price__badge-sale,
+.product__info-container .badge {
+  border-radius: 99rem; border: 0; padding: .4rem 1.2rem; font-size: 1.3rem; font-weight: 600; letter-spacing: .02em;
+  background: var(--gf-salbei); color: var(--gf-wald);
+}
+.product__tax { font-size: 1.3rem; color: rgb(34 40 35 / .65); }
+
+/* Auswahl (Laenge, Breite) als ruhige Felder */
+.product-form__input .form__label { font-size: 1.4rem; line-height: 2rem; font-weight: 600; color: var(--gf-graphit); letter-spacing: 0; margin-bottom: .8rem; }
+.product-form__input .select { max-width: 100%; }
+.product-form__input .select__select {
+  min-height: 5.2rem; border-radius: var(--gf-radius-knopf); font-size: 1.6rem; padding-inline: 1.6rem 4.4rem;
+  background: #fff; color: var(--gf-graphit);
+}
+.product-form__input .select::after,
+.product-form__input .select::before { border-radius: var(--gf-radius-knopf); }
+.product__info-container variant-selects { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0 1.6rem; }
+.product__info-container .quantity { min-height: 5.2rem; border-radius: var(--gf-radius-knopf); background: #fff; }
+.product__info-container .quantity::after,
+.product__info-container .quantity::before { border-radius: var(--gf-radius-knopf); }
+
+/* Kaufknopf: 8 px Radius, 16 px SemiBold, deutlich hoch */
+.product-form__submit.button {
+  min-height: 5.6rem; border-radius: var(--gf-radius-knopf); font-size: 1.6rem; font-weight: 600; letter-spacing: .02em;
+  transition: translate .6s var(--gf-weich), box-shadow .6s var(--gf-weich), background-color .3s ease;
+}
+.product-form__submit.button::after, .product-form__submit.button::before { border-radius: var(--gf-radius-knopf); }
+.product-form__submit.button--primary { background: var(--gf-wald); color: #fff; }
+.product-form__submit.button--secondary { background: var(--gf-wald); color: #fff; --color-button-text: 255, 255, 255; }
+.product-form__submit.button--secondary::after { box-shadow: none; }
+.shopify-payment-button__button { border-radius: var(--gf-radius-knopf) !important; min-height: 5.2rem; overflow: hidden; }
+.shopify-payment-button__button--unbranded {
+  background: transparent !important; color: var(--gf-wald) !important; box-shadow: inset 0 0 0 1px var(--gf-wald);
+  font-size: 1.6rem !important; font-weight: 600 !important; letter-spacing: .02em !important;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .product-form__submit.button:not([disabled]):hover { translate: 0 -2px; box-shadow: 0 14px 30px -14px rgb(23 51 42 / .55); }
+}
+
+/* Vorteile unter dem Kaufknopf (snippets/gf-produkt-vorteile.liquid) */
+.gf-vorteile {
+  list-style: none; margin: 2.4rem 0 0; padding: 0.4rem 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-radius: var(--gf-radius-karte); background: var(--gf-salbei);
+}
+.gf-vorteile li {
+  display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem 1.6rem; font-size: 1.4rem; line-height: 2rem; color: var(--gf-graphit);
+}
+.gf-vorteile li:nth-child(n+3) { border-top: 1px solid var(--gf-linie-dunkel); }
+.gf-vorteile svg { flex: none; width: 2.4rem; height: 2.4rem; color: var(--gf-wald); }
+.gf-vorteile strong { display: block; font-weight: 600; color: var(--gf-wald); }
+.gf-vorteile a { color: inherit; text-decoration: none; }
+.gf-vorteile a:hover { text-decoration: underline; text-underline-offset: .3rem; }
+@media (width <= 479px) { .gf-vorteile { grid-template-columns: 1fr; } .gf-vorteile li:nth-child(n+2) { border-top: 1px solid var(--gf-linie-dunkel); } }
+
+/* Beschreibung: Einleitung etwas groesser, Ja/Nein der Merkmalstabelle als Zeichen (gf-produkt.js) */
+.product__description { font-size: 1.6rem; line-height: 2.6rem; color: var(--gf-graphit); }
+.product__description > p:first-child { font-size: 1.8rem; line-height: 2.8rem; }
+.product__description > p:first-child strong { font-weight: 500; color: var(--gf-wald); }
+.product__description h3 { margin: 3.2rem 0 0; font-size: 2rem; line-height: 2.8rem; font-weight: 500; color: var(--gf-wald); }
+.product__description ul { padding-left: 2rem; }
+.product__description li::marker { color: var(--gf-wald); }
+.product__description td.gf-ja, .product__description td.gf-nein { font-size: 0; line-height: 0; }
+.product__description td.gf-ja::before, .product__description td.gf-nein::before {
+  content: ""; display: inline-block; width: 2.2rem; height: 2.2rem; border-radius: 50%; vertical-align: middle;
+}
+.product__description td.gf-ja::before {
+  background: var(--gf-wald) no-repeat center / 1.2rem
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.3 5 8.6l4.6-5.2' fill='none' stroke='%23fff' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.product__description td.gf-nein::before {
+  background: transparent no-repeat center / 1rem
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5h6' stroke='%23222823' stroke-opacity='.4' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  box-shadow: inset 0 0 0 1px var(--gf-linie-dunkel);
+}
+.product__description tr:has(td.gf-nein) > :first-child { color: rgb(34 40 35 / .5); font-weight: 400; }
+.product__description tr:has(td.gf-ja) > :first-child { color: var(--gf-graphit); }
+
+/* Galerie: weiche Ecken, ruhiger heller Grund, aktive Vorschau in Waldgruen */
+.product__media-list .product__media-item .product-media-container,
+.product__media-wrapper .product-media-container { border-radius: var(--gf-radius-karte); overflow: hidden; background: #fff; }
+.thumbnail-list .thumbnail { border-radius: var(--gf-radius-knopf); overflow: hidden; border: 0; box-shadow: inset 0 0 0 1px var(--gf-linie-dunkel); }
+.thumbnail-list .thumbnail[aria-current] { box-shadow: inset 0 0 0 2px var(--gf-wald); }
+.thumbnail-list .thumbnail img { transition: scale .8s var(--gf-weich); }
+@media (hover: hover) { .thumbnail-list .thumbnail:hover img { scale: 1.06; } }
+.product__media-list .slider-counter, .product__media-wrapper .slider-buttons { font-size: 1.4rem; }
+
+/* Teilen und Klappbereiche ruhiger */
+.product .share-button__button { font-size: 1.4rem; color: var(--gf-wald); }
+.product__accordion summary .accordion__title { font-size: 1.6rem; font-weight: 500; color: var(--gf-wald); }
+
+/* Schichten (sections/gf-schichten.liquid) --------------------------------------------- */
+.gf-schichten {
+  --auf: 1;                 /* 0 = zusammen, 1 = auseinander; gf-produkt.js setzt den Wert beim Scrollen */
+  --breite: 34rem;          /* Matratze in der Zeichnung: Breite, Tiefe, Hoehe zusammen */
+  --tiefe: 23rem;
+  --stapel: 10rem;
+  --abstand: 4.8rem;        /* Luft zwischen den Schichten, wenn auseinandergezogen */
+  --kipp: 58deg;
+  --dreh: -34deg;
+  position: relative; overflow: hidden;
+  padding: clamp(6.4rem, 8vw, 11.2rem) 0;
+  background:
+    radial-gradient(60rem 40rem at 78% 55%, rgb(255 255 255 / .55), transparent 70%),
+    var(--gf-salbei);
+  color: var(--gf-graphit);
+}
+.gf-schichten-raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 4.8rem 6.4rem; align-items: center; }
+.gf-schichten-name { color: var(--gf-graphit); }
+.gf-schichten-einleitung { margin: 2.4rem 0 3.2rem; }
+
+.gf-schichten-liste { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--gf-linie-dunkel); counter-reset: none; }
+.gf-schichten-punkt {
+  position: relative; display: grid; grid-template-columns: 3.2rem 4.4rem minmax(0, 1fr); gap: 1.6rem; align-items: center;
+  padding: 1.6rem 1.2rem 1.6rem 0; border-bottom: 1px solid var(--gf-linie-dunkel); cursor: default; outline: none;
+  transition: background-color .4s ease, padding .5s var(--gf-weich);
+}
+.gf-schichten-punkt::before {
+  content: ""; position: absolute; left: 0; top: -1px; bottom: -1px; width: 3px; border-radius: 3px;
+  background: var(--gf-wald); transform: scaleY(0); transition: transform .5s var(--gf-weich);
+}
+.gf-schichten-punkt.ist-aktiv, .gf-schichten-punkt:focus-visible { background: rgb(255 255 255 / .55); padding-left: 1.2rem; }
+.gf-schichten-punkt.ist-aktiv::before, .gf-schichten-punkt:focus-visible::before { transform: scaleY(1); }
+.gf-schichten-nr { font-size: 1.3rem; font-weight: 600; letter-spacing: .08em; color: var(--gf-wald); font-variant-numeric: tabular-nums; }
+.gf-schichten-probe {
+  width: 4.4rem; height: 4.4rem; border-radius: var(--gf-radius-knopf);
+  background: var(--seite); box-shadow: inset 0 0 0 1px rgb(34 40 35 / .08), 0 6px 14px -8px rgb(23 51 42 / .4);
+}
+.gf-schichten-inhalt { display: grid; gap: 0.2rem; }
+.gf-schichten-titel { font-size: 1.6rem; line-height: 2.2rem; font-weight: 600; color: var(--gf-wald); }
+.gf-schichten-cm {
+  display: inline-block; margin-left: .6rem; padding: 0 .8rem; border-radius: 99rem; vertical-align: .1rem;
+  font-size: 1.2rem; line-height: 2rem; font-weight: 600; background: var(--gf-wald); color: #fff;
+}
+.gf-schichten-beschreibung { font-size: 1.4rem; line-height: 2rem; color: rgb(34 40 35 / .8); }
+.gf-schichten-notizen { list-style: none; margin: 2.4rem 0 0; padding: 0; display: grid; gap: 0.8rem; }
+.gf-schichten-notizen li { position: relative; padding-left: 2.4rem; font-size: 1.4rem; line-height: 2rem; }
+.gf-schichten-notizen li::before {
+  content: ""; position: absolute; left: 0.4rem; top: 0.7rem; width: 0.64rem; height: 0.64rem; border-radius: 50%; background: var(--gf-wald);
+}
+
+/* Buehne: Perspektive, Szene gekippt und gedreht, Stapel aus echten 3D Quadern */
+.gf-schichten-buehne { position: relative; display: grid; justify-items: center; gap: 1.6rem; min-width: 0; }
+.gf-schichten-raum {
+  position: relative; width: 100%; height: calc(var(--tiefe) * .9 + (var(--stapel) + (var(--anzahl) - 1) * var(--abstand)) * .85 + 6rem);
+  perspective: 180rem; perspective-origin: 50% 30%;
+  display: grid; place-items: center;
+  touch-action: pan-y;
+}
+.gf-schichten-szene {
+  position: relative; width: var(--breite); height: var(--tiefe);
+  transform-style: preserve-3d;
+  transform: translateY(calc((var(--stapel) + (var(--anzahl) - 1) * var(--abstand) * var(--auf)) * .42))
+    rotateX(calc(var(--kipp) + var(--zeiger-y, 0deg))) rotateZ(calc(var(--dreh) + var(--schwenk, 0deg) + var(--zeiger-x, 0deg)));
+  transition: transform .9s var(--gf-weich);
+}
+/* Schatten auf dem Boden, wird weicher, je weiter der Stapel aufgeht */
+.gf-schichten-szene::before {
+  content: ""; position: absolute; inset: -8%; border-radius: 2.4rem;
+  background: radial-gradient(closest-side, rgb(23 51 42 / calc(.34 - var(--auf) * .14)), transparent);
+  transform: translateZ(-1px) scale(calc(1 + var(--auf) * .08)); filter: blur(10px);
+}
+.gf-schichten-stapel {
+  --mitte: calc((var(--stapel) + (var(--anzahl) - 1) * var(--abstand) * var(--auf)) / 2);
+  position: absolute; inset: 0; transform-style: preserve-3d;
+  transform-origin: 50% 50% var(--mitte);
+  transform: rotateX(var(--wende, 0deg));
+  transition: transform 1.4s var(--gf-ruhig);
+}
+.gf-schichten.ist-gewendet .gf-schichten-stapel { --wende: 180deg; }
+
+.gf-lage {
+  --dicke: calc(var(--h) / var(--summe) * var(--stapel));
+  --z: calc(var(--unter) / var(--summe) * var(--stapel) + var(--j) * var(--abstand) * var(--auf));
+  position: absolute; inset: 0; transform-style: preserve-3d;
+  transform: translateZ(calc(var(--z) + var(--heben, 0rem)));
+  transition: transform .7s var(--gf-weich);
+  cursor: pointer;
+}
+.gf-lage.ist-aktiv { --heben: calc(1.6rem * var(--auf) + .4rem); }
+
+.gf-f { position: absolute; display: block; backface-visibility: hidden; transition: filter .5s ease; }
+.gf-f::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.gf-f-oben, .gf-f-unten { inset: 0; background: var(--oben); }
+.gf-f-oben { transform: translateZ(var(--dicke)); }
+.gf-f-unten { transform: rotateY(180deg); }
+.gf-f-vorne, .gf-f-hinten { left: 0; width: 100%; height: var(--dicke); top: calc(50% - var(--dicke) / 2); background: var(--seite); }
+.gf-f-vorne { transform: translateZ(calc(var(--dicke) / 2)) rotateX(-90deg) translateZ(calc(var(--tiefe) / 2)); }
+.gf-f-hinten { transform: translateZ(calc(var(--dicke) / 2)) rotateX(90deg) translateZ(calc(var(--tiefe) / 2)); }
+.gf-f-links, .gf-f-rechts { top: 0; height: 100%; width: var(--dicke); left: calc(50% - var(--dicke) / 2); background: var(--seite-quer, var(--seite)); }
+.gf-f-links { transform: translateZ(calc(var(--dicke) / 2)) rotateY(-90deg) translateZ(calc(var(--breite) / 2)); }
+.gf-f-rechts { transform: translateZ(calc(var(--dicke) / 2)) rotateY(90deg) translateZ(calc(var(--breite) / 2)); }
+/* Licht von vorne links: Seiten etwas dunkler, Kanten weich */
+.gf-f-vorne::after { background: linear-gradient(to bottom, rgb(255 255 255 / .18), rgb(0 0 0 / .06)); }
+.gf-f-rechts::after, .gf-f-links::after { background: rgb(23 51 42 / .16); }
+.gf-f-hinten::after { background: rgb(23 51 42 / .22); }
+.gf-f-oben::after { background: linear-gradient(135deg, rgb(255 255 255 / .35), transparent 45%, rgb(0 0 0 / .05)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .35); }
+.gf-f-unten::after { background: rgb(23 51 42 / .18); }
+
+.gf-f-nr {
+  position: absolute; right: 1.2rem; bottom: 1.2rem; display: grid; place-items: center;
+  width: 2.8rem; height: 2.8rem; border-radius: 50%; font-size: 1.3rem; font-weight: 600;
+  background: var(--gf-wald); color: #fff; box-shadow: 0 4px 10px -4px rgb(23 51 42 / .6);
+  opacity: var(--auf); transition: opacity .4s ease, scale .5s var(--gf-weich);
+  rotate: calc((var(--dreh) + var(--schwenk, 0deg) + var(--zeiger-x, 0deg)) * -1);
+}
+.gf-lage.ist-aktiv .gf-f-nr { scale: 1.25; }
+
+/* Hervorheben: die anderen Schichten treten zurueck (Filter auf den Flaechen, nicht auf den
+   3D Ebenen, sonst wird der Stapel flach gerechnet) */
+.gf-schichten.hat-aktiv .gf-lage:not(.ist-aktiv) .gf-f { filter: saturate(.25) brightness(1.1); }
+
+/* Materialien: --oben (Draufsicht), --seite (Schnitt), --seite-quer (Schnitt quer) */
+.gf-art-bezug {
+  --oben:
+    radial-gradient(circle at 50% 50%, rgb(36 76 61 / .1) 0 .14rem, transparent .18rem) 0 0 / .8rem .8rem,
+    repeating-linear-gradient(45deg, transparent 0 2.6rem, rgb(36 76 61 / .1) 2.6rem 2.7rem),
+    repeating-linear-gradient(-45deg, transparent 0 2.6rem, rgb(36 76 61 / .1) 2.6rem 2.7rem),
+    #FBFAF6;
+  --seite:
+    linear-gradient(to bottom, #DCE3DA 0 .25rem, transparent .25rem calc(100% - .25rem), #DCE3DA calc(100% - .25rem)),
+    repeating-linear-gradient(90deg, rgb(36 76 61 / .07) 0 .1rem, transparent .1rem 1.2rem),
+    #F2F1EA;
+}
+.gf-art-topper {
+  --oben:
+    radial-gradient(circle at 50% 50%, rgb(36 76 61 / .12) 0 .35rem, transparent .4rem) 0 0 / 3rem 3rem,
+    repeating-linear-gradient(0deg, transparent 0 2.9rem, rgb(36 76 61 / .08) 2.9rem 3rem),
+    repeating-linear-gradient(90deg, transparent 0 2.9rem, rgb(36 76 61 / .08) 2.9rem 3rem),
+    #FFFFFF;
+  --seite: repeating-linear-gradient(90deg, #2A2E2B 0 1.6rem, #3A403B 1.6rem 1.7rem), #2A2E2B;
+}
+.gf-art-wolle {
+  --oben:
+    radial-gradient(circle at 30% 40%, rgb(255 255 255 / .7) 0 .3rem, transparent .5rem) 0 0 / 1.4rem 1.1rem,
+    radial-gradient(circle at 70% 60%, rgb(160 140 110 / .18) 0 .25rem, transparent .45rem) 0 0 / 1.1rem 1.3rem,
+    #EFE6D6;
+  --seite: radial-gradient(circle, rgb(255 255 255 / .6) 0 .2rem, transparent .35rem) 0 0 / .9rem .7rem, #E9DFCC;
+}
+.gf-art-memory {
+  --oben:
+    radial-gradient(circle, rgb(150 130 95 / .16) 0 .08rem, transparent .12rem) 0 0 / .5rem .5rem,
+    radial-gradient(circle, rgb(150 130 95 / .12) 0 .1rem, transparent .14rem) .25rem .25rem / .7rem .7rem,
+    #F3ECDC;
+  --seite: radial-gradient(circle, rgb(150 130 95 / .2) 0 .08rem, transparent .12rem) 0 0 / .45rem .45rem, #EDE3CE;
+}
+.gf-art-gel {
+  --oben:
+    radial-gradient(circle, rgb(255 255 255 / .55) 0 .08rem, transparent .14rem) 0 0 / .6rem .6rem,
+    radial-gradient(circle, rgb(140 190 255 / .5) 0 .12rem, transparent .2rem) .3rem .2rem / 1.1rem 1.1rem,
+    linear-gradient(135deg, #3F67C2, #2B4C9B);
+  --seite: radial-gradient(circle, rgb(255 255 255 / .45) 0 .07rem, transparent .12rem) 0 0 / .5rem .5rem, #2F55AA;
+}
+.gf-art-hr {
+  --oben:
+    radial-gradient(circle at 50% 50%, rgb(255 255 255 / .45) 0 22%, transparent 48%) 0 0 / 2.4rem 2.4rem,
+    radial-gradient(circle at 50% 50%, rgb(36 76 61 / .14) 0 20%, transparent 46%) 1.2rem 1.2rem / 2.4rem 2.4rem,
+    #B8CDB2;
+  --seite:
+    radial-gradient(ellipse 1.2rem .7rem at 50% 0, #B8CDB2 0 98%, transparent) 0 0 / 2.4rem 100%,
+    linear-gradient(to bottom, transparent 30%, #A9C0A2 30%);
+}
+.gf-art-kern {
+  --oben:
+    radial-gradient(circle, rgb(140 110 70 / .18) 0 .1rem, transparent .16rem) 0 0 / .6rem .6rem,
+    radial-gradient(circle, rgb(255 255 255 / .35) 0 .12rem, transparent .2rem) .3rem .3rem / .9rem .9rem,
+    #E6D6B8;
+  --seite: radial-gradient(circle, rgb(140 110 70 / .22) 0 .1rem, transparent .16rem) 0 0 / .55rem .55rem, #DCC9A6;
+}
+.gf-art-federn {
+  --oben:
+    radial-gradient(circle, transparent 0 .55rem, #B9BEBA .6rem .8rem, #EDEEEA .85rem) 0 0 / 2rem 2rem,
+    #EDEEEA;
+  --seite:
+    repeating-linear-gradient(90deg, transparent 0 1.6rem, rgb(36 40 35 / .12) 1.6rem 1.7rem, transparent 1.7rem 2rem),
+    repeating-linear-gradient(170deg, #C9CDC8 0 .12rem, transparent .12rem .7rem),
+    #F1F2EF;
+}
+
+/* Liegeseiten und Leiste unter der Buehne */
+.gf-schichten-seite {
+  margin: 0; padding: .6rem 1.4rem; border-radius: 99rem; background: rgb(255 255 255 / .7); backdrop-filter: blur(6px);
+  font-size: 1.3rem; line-height: 2rem; font-weight: 600; color: var(--gf-wald); text-align: center;
+  display: grid;
+}
+.gf-schichten-seite > span { grid-area: 1 / 1; transition: opacity .6s ease, translate .8s var(--gf-weich); }
+.gf-schichten-seite-b { opacity: 0; translate: 0 .6rem; }
+.gf-schichten.ist-gewendet .gf-schichten-seite-a { opacity: 0; translate: 0 -.6rem; }
+.gf-schichten.ist-gewendet .gf-schichten-seite-b { opacity: 1; translate: 0 0; }
+.gf-schichten-seite-oben::before, .gf-schichten-seite-unten::before { content: none; }
+
+.gf-schichten-leiste { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.2rem 2.4rem; }
+.gf-schichten-hoehe { margin: 0; display: inline-flex; align-items: center; gap: .8rem; font-size: 1.4rem; font-weight: 600; color: var(--gf-wald); }
+.gf-schichten-hoehe svg, .gf-schichten-wenden svg { width: 1.6rem; height: 1.6rem; }
+.gf-schichten-wenden {
+  display: inline-flex; align-items: center; gap: .8rem; min-height: 4.4rem; padding: 0 2rem; border: 0; border-radius: var(--gf-radius-knopf);
+  background: transparent; color: var(--gf-wald); box-shadow: inset 0 0 0 1px var(--gf-wald);
+  font: inherit; font-size: 1.5rem; font-weight: 600; cursor: pointer;
+  transition: background-color .3s ease, color .3s ease;
+}
+.gf-schichten-wenden:hover, .gf-schichten-wenden[aria-pressed="true"] { background: var(--gf-wald); color: #fff; }
+.gf-schichten-wenden svg { transition: rotate .9s var(--gf-ruhig); }
+.gf-schichten-wenden[aria-pressed="true"] svg { rotate: 180deg; }
+.gf-schichten-leer { padding: 3.2rem 0; font-size: 1.4rem; opacity: .7; }
+
+/* Ruhiges Schwenken, solange niemand mit der Maus darueber ist */
+@property --schwenk { syntax: "<angle>"; inherits: true; initial-value: 0deg; }
+@keyframes gf-schwenken { from { --schwenk: -5deg; } to { --schwenk: 5deg; } }
+@media (prefers-reduced-motion: no-preference) {
+  .gf-schichten.ist-bereit:not(.ist-zeiger) .gf-schichten-szene { animation: gf-schwenken 7s ease-in-out infinite alternate; }
+  .gf-schichten.ist-zeiger .gf-schichten-szene { transition: transform .25s linear; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gf-schichten-szene, .gf-schichten-stapel, .gf-lage, .gf-f, .gf-schichten-seite > span { transition: none !important; }
+}
+
+@media (width <= 989px) {
+  .gf-schichten-raster { grid-template-columns: 1fr; }
+  .gf-schichten-buehne { order: -1; }
+  .gf-schichten { --breite: 28rem; --tiefe: 19rem; --stapel: 8.5rem; --abstand: 4rem; }
+}
+@media (width <= 479px) {
+  .gf-schichten { --breite: 22rem; --tiefe: 15rem; --stapel: 7rem; --abstand: 3.2rem; }
+  .gf-schichten-punkt { grid-template-columns: 2.4rem 3.6rem minmax(0, 1fr); gap: 1.2rem; }
+  .gf-schichten-probe { width: 3.6rem; height: 3.6rem; }
+}
