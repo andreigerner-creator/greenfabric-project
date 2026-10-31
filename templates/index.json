@@ -45,6 +45,7 @@
     "werkstatt": {
       "type": "gf-doppelbelichtung",
       "settings": {
+        "position_handy": 75,
         "datei": "gf-werkstatt.jpg",
         "ueberlappen": true,
         "index": "Собствено производство",

@@ -4,7 +4,7 @@
   Aussehen: gf-signatur.css, Abschnitt "Doppelbelichtung".
 {%- endcomment -%}
 <section class="gf-doppel gf-dunkel{% if section.settings.ueberlappen %} gf-doppelbelichtung{% endif %}">
-  <div class="gf-doppel-bild">
+  <div class="gf-doppel-bild" style="--gf-bild-x-handy: {{ section.settings.position_handy | default: 50 }}%">
     <div class="gf-doppel-bild-innen" data-parallax="0.8">
       {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '800, 1200, 1600, 2000, 2800, 3840', sizes: '125vw', verhaeltnis: 0.5 -%}
     </div>
@@ -44,6 +44,17 @@
       "label": "Standardbild aus dem Theme",
       "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist.",
       "default": "gf-werkstatt.jpg"
+    },
+    {
+      "type": "range",
+      "id": "position_handy",
+      "label": "Bildausschnitt auf dem Handy (links bis rechts)",
+      "info": "Nur auf dem Handy: 0 zeigt den linken Bildrand, 100 den rechten.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
     },
     {
       "type": "checkbox",
