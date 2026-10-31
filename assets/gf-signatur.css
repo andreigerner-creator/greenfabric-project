@@ -74,8 +74,10 @@
 .gf-index {
   display: flex; align-items: center; gap: 1.2rem; margin: 0 0 2.4rem;
   font-size: 1.4rem; line-height: 2rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--gf-salbei);
+  color: var(--gf-wald);
 }
+/* Salbei nur auf dunklem Grund, auf hellem Grund Waldgruen (Kontrast ueber 7:1) */
+.gf-dunkel .gf-index { color: var(--gf-salbei); }
 .gf-index::before {
   content: ""; flex: none; width: 0.64rem; height: 0.64rem; border-radius: 50%; background: currentColor;
 }
@@ -369,6 +371,14 @@
   .gf-material-karten { grid-template-columns: repeat(3, minmax(22rem, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1.6rem; margin-inline: calc(var(--gf-rand) * -1); padding-inline: var(--gf-rand); }
   .gf-material-karte { scroll-snap-align: start; margin-top: 0 !important; }
   .gf-material-lauf[data-parallax] { transform: none !important; }
+}
+/* Handy: kein seitliches Scrollen, die drei Karten stehen untereinander, Bild links, Text rechts */
+@media screen and (max-width: 749px) {
+  .gf-material-karten { grid-template-columns: 1fr; gap: 1.6rem; overflow: visible; margin-inline: 0; padding: 0; scroll-snap-type: none; }
+  .gf-material-lauf { display: grid; grid-template-columns: 11.2rem minmax(0, 1fr); column-gap: 1.6rem; align-items: center; }
+  .gf-material-foto { grid-row: 1 / span 2; aspect-ratio: 1; margin-bottom: 0; box-shadow: 0 16px 32px -24px rgb(23 51 42 / .45); }
+  .gf-material-karte strong { align-self: end; font-size: 1.8rem; line-height: 2.4rem; }
+  .gf-material-karte small { align-self: start; }
 }
 
 /* Bild und Text (sections/gf-bild-text.liquid) ---------------------------------------- */
