@@ -74,8 +74,10 @@
 .gf-index {
   display: flex; align-items: center; gap: 1.2rem; margin: 0 0 2.4rem;
   font-size: 1.4rem; line-height: 2rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--gf-salbei);
+  color: var(--gf-wald);
 }
+/* Salbei nur auf dunklem Grund, auf hellem Grund Waldgruen (Kontrast ueber 7:1) */
+.gf-dunkel .gf-index { color: var(--gf-salbei); }
 .gf-index::before {
   content: ""; flex: none; width: 0.64rem; height: 0.64rem; border-radius: 50%; background: currentColor;
 }
