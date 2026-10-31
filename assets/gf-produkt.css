@@ -348,3 +348,15 @@
   .gf-schichten-punkt { grid-template-columns: 2.4rem 3.6rem minmax(0, 1fr); gap: 1.2rem; }
   .gf-schichten-probe { width: 3.6rem; height: 3.6rem; }
 }
+
+/* Kurzfassung der Geschichte in der Kaufspalte (snippets/gf-story-kurz.liquid) */
+.gf-kurz { display: grid; gap: 1.6rem; }
+.gf-kurz-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.gf-kurz-liste li { display: flex; align-items: flex-start; gap: 1.2rem; font-size: 1.6rem; line-height: 2.4rem; color: var(--gf-graphit); }
+.gf-kurz-liste svg { flex: none; width: 2.2rem; height: 2.2rem; margin-top: .1rem; }
+.gf-kurz-link {
+  justify-self: start; display: inline-flex; align-items: center; gap: .8rem; min-height: 4.4rem;
+  font-size: 1.5rem; font-weight: 600; color: var(--gf-wald); text-decoration: underline; text-underline-offset: .4rem; text-decoration-thickness: 1px;
+}
+.gf-kurz-link svg { width: 1.6rem; height: 1.6rem; transition: translate .5s var(--gf-weich); }
+.gf-kurz-link:hover svg { translate: 0 3px; }

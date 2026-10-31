@@ -1,0 +1,146 @@
+{%- comment -%}
+  GF Serien: Empfehlung der Kollektionen (Serien) am Ende der Produktseite.
+  Karten mit Bild, Name, Anzahl der Modelle und Preis ab. Die Serie des aktuellen Produkts
+  bekommt einen Hinweis. Ohne Auswahl im Editor: alle Kollektionen mit Produkten
+  (ohne "all" und "frontpage"). Karten blenden nacheinander ein, Bild zoomt beim Darueberfahren.
+{%- endcomment -%}
+{{ 'gf-geschichte.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign auswahl = section.settings.kollektionen
+  if auswahl == blank or auswahl.size == 0
+    assign auswahl = collections
+  endif
+  assign name = product.title | remove: 'Двулицев матрак с пружини' | remove: 'Двулицев матрак' | remove: 'Бебешки матрак' | strip
+-%}
+<div class="gf-serien color-{{ section.settings.color_scheme }}">
+  <div class="gf-breite">
+    <div class="gf-serien-kopf">
+      {%- if section.settings.index != blank -%}
+        <p class="gf-index gf-index-dunkel" data-einblenden>{{ section.settings.index }}</p>
+      {%- endif -%}
+      <h2 class="gf-titel" data-einblenden>{{ section.settings.titel }}</h2>
+    </div>
+
+    <ul class="gf-serien-liste" role="list">
+      {%- assign gezeigt = 0 -%}
+      {%- for c in auswahl -%}
+        {%- if c.handle == 'all' or c.handle == 'frontpage' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+        {%- if gezeigt >= section.settings.anzahl -%}{%- break -%}{%- endif -%}
+        {%- liquid
+          assign gezeigt = gezeigt | plus: 1
+          assign bild = c.featured_image
+          if bild == blank
+            assign bild = c.products.first.featured_media.preview_image
+          endif
+          assign ab = nil
+          for p in c.products limit: 30
+            if ab == nil or p.price_min < ab
+              assign ab = p.price_min
+            endif
+          endfor
+          assign hier = false
+          for pc in product.collections
+            if pc.id == c.id
+              assign hier = true
+            endif
+          endfor
+        -%}
+        <li class="gf-serie{% if hier %} ist-hier{% endif %}" data-einblenden>
+          <a href="{{ c.url }}" class="gf-serie-link">
+            <span class="gf-serie-bild">
+              {%- if bild != blank -%}
+                {{ bild | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 33vw, (min-width: 600px) 50vw, 90vw', alt: c.title | escape }}
+              {%- endif -%}
+              {%- if hier -%}<span class="gf-serie-hier">{{ section.settings.hier_text }} {{ name }}</span>{%- endif -%}
+            </span>
+            <span class="gf-serie-text">
+              <span class="gf-serie-titel">{{ c.title }}</span>
+              {%- assign beschreibung = c.description | strip_html | strip -%}
+              {%- if beschreibung != blank -%}<span class="gf-serie-beschreibung">{{ beschreibung | truncate: 110 }}</span>{%- endif -%}
+              <span class="gf-serie-zeile">
+                <span>
+                  {{- c.products_count }} {% if c.products_count == 1 %}{{ section.settings.modell_eins }}{% else %}{{ section.settings.modell_mehr }}{% endif -%}
+                  {%- if ab != nil %} · {{ section.settings.ab_text }} {{ ab | money }}{% endif -%}
+                </span>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h12M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GF Serien",
+  "tag": "section",
+  "class": "gf-sektion",
+  "settings": [
+    {
+      "type": "text",
+      "id": "index",
+      "label": "Kleine Zeile über dem Titel",
+      "default": "Още от Green Fabric"
+    },
+    {
+      "type": "text",
+      "id": "titel",
+      "label": "Titel",
+      "default": "Разгледайте нашите серии"
+    },
+    {
+      "type": "collection_list",
+      "id": "kollektionen",
+      "label": "Kollektionen",
+      "limit": 8,
+      "info": "Leer lassen: alle Kollektionen mit Produkten."
+    },
+    {
+      "type": "range",
+      "id": "anzahl",
+      "label": "Höchstens",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "hier_text",
+      "label": "Hinweis auf der eigenen Serie (davor der Modellname)",
+      "default": "Тук е"
+    },
+    {
+      "type": "text",
+      "id": "modell_eins",
+      "label": "Wort für ein Modell",
+      "default": "модел"
+    },
+    {
+      "type": "text",
+      "id": "modell_mehr",
+      "label": "Wort für mehrere Modelle",
+      "default": "модела"
+    },
+    {
+      "type": "text",
+      "id": "ab_text",
+      "label": "Wort vor dem niedrigsten Preis",
+      "default": "от"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Serien"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+{%- comment -%}
+  Kurzfassung der Produktgeschichte in der Kaufspalte: die Punkte aus
+  <ul class="gf-story-kratko"> der Beschreibung mit Haken, darunter ein Link zur Geschichte
+  (sections/gf-geschichte.liquid). Ohne diesen Aufbau steht die ganze Beschreibung da wie bei Dawn.
+  Eingebunden ueber einen Block "Eigenes Liquid" in templates/product.json.
+  Aufruf: {% render 'gf-story-kurz', product: product %}
+{%- endcomment -%}
+{%- assign d = product.description -%}
+{%- if d contains '<ul class="gf-story-kratko">' -%}
+  {%- assign punkte = d | split: '<ul class="gf-story-kratko">' | last | split: '</ul>' | first | split: '</li>' -%}
+  <div class="gf-kurz">
+    <ul class="gf-kurz-liste" role="list">
+      {%- for p in punkte -%}
+        {%- assign t = p | remove_first: '<li>' | strip -%}
+        {%- if t != blank -%}
+          <li>
+            <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="9" fill="var(--gf-salbei)"/><path d="m6.2 10.2 2.6 2.5 5-5.2" fill="none" stroke="var(--gf-wald)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ t }}</span>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    {%- if d contains 'class="gf-kapitel"' -%}
+      <a class="gf-kurz-link" href="#gf-geschichte">
+        Прочетете историята на модела
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v12m-5-5 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    {%- endif -%}
+  </div>
+{%- elsif d != blank -%}
+  <div class="product__description rte quick-add-hidden">{{ d }}</div>
+{%- endif -%}
