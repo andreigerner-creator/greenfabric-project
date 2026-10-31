@@ -150,7 +150,7 @@
 
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   /* Szenen warten, bis sie zu sehen sind */
-  .gf-szene:not(.ist-sichtbar) * { animation-play-state: paused !important; }
+  .gf-szene:not(.ist-sichtbar) *, .gf-szene:not(.ist-im-bild) * { animation-play-state: paused !important; }
   /* Haerteskala: Marken gleiten von links an ihren Platz */
   .gf-skala-marke { transition: left 1.8s var(--gf-weich) calc(var(--verzoegerung, 0ms) + .3s); }
   .gf-skala:not(.ist-sichtbar) .gf-skala-marke { left: 0; }

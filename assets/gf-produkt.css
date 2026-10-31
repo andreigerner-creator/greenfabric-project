@@ -333,6 +333,7 @@
 @keyframes gf-schwenken { from { --schwenk: -5deg; } to { --schwenk: 5deg; } }
 @media (prefers-reduced-motion: no-preference) {
   .gf-schichten.ist-bereit:not(.ist-zeiger) .gf-schichten-szene { animation: gf-schwenken 7s ease-in-out infinite alternate; }
+  .gf-schichten:not(.ist-im-bild) .gf-schichten-szene { animation-play-state: paused; }
   .gf-schichten.ist-zeiger .gf-schichten-szene { transition: transform .25s linear; }
 }
 @media (prefers-reduced-motion: reduce) {
