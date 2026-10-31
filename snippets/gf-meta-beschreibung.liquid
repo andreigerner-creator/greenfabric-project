@@ -39,6 +39,23 @@
           endif
           assign text = probe
         endfor
+        comment
+          Ist die Einleitung kurz, kommen die Kurzpunkte (gf-story-kratko) dazu, solange sie passen.
+        endcomment
+        if product.description contains 'gf-story-kratko'
+          assign punkte = product.description | split: 'gf-story-kratko' | last | split: '</ul>' | first | split: '<li>'
+          for punkt in punkte
+            assign teil = punkt | strip_html | remove: '">' | strip
+            if teil == blank
+              continue
+            endif
+            assign probe = text | append: ' ' | append: teil | append: '.'
+            if probe.size > maximal
+              break
+            endif
+            assign text = probe
+          endfor
+        endif
         if text.size > maximal
           assign text = text | truncatewords: 22, '…'
         endif
