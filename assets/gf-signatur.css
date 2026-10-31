@@ -395,3 +395,13 @@
 @media screen and (max-width: 749px) {
   .gf-logo, .gf-logo img { width: 16rem; }
 }
+
+/* Telefon im Header (snippets/gf-header-telefon.liquid) */
+.header__icon.gf-header-telefon { gap: .8rem; width: auto; min-width: 4.4rem; text-decoration: none; color: rgb(var(--color-foreground)); }
+.gf-header-telefon svg { width: 2rem; height: 2rem; flex: none; }
+.gf-header-telefon .gf-header-telefon__nummer { display: none; height: auto; font-size: 1.4rem; font-weight: 600; letter-spacing: .02em; white-space: nowrap; }
+@media screen and (min-width: 990px) {
+  .header__icon.gf-header-telefon { padding: 0 1.2rem; }
+  .gf-header-telefon .gf-header-telefon__nummer { display: inline; }
+}
+@media (hover: hover) { .gf-header-telefon:hover .gf-header-telefon__nummer { text-decoration: underline; text-underline-offset: .3rem; } }
