@@ -1,0 +1,211 @@
+{%- comment -%}
+  GF Geschichte: die Produktbeschreibung als bebilderte Geschichte unter der Kaufspalte.
+  Die Texte stehen in der Shopify Produktbeschreibung (Bulgarisch), in diesem Aufbau:
+
+    <div class="gf-story">
+    <p class="gf-story-lead">Einleitung, wird zum Titel</p>
+    <ul class="gf-story-kratko"><li>...</li></ul>        Kurzfassung (steht in der Kaufspalte)
+    <div class="gf-kapitel" data-bild="nacht"><h3>...</h3><p>...</p></div>
+    ...
+    <ul class="gf-fakten"><li><b>28 см</b>височина</li></ul>
+    </div>
+
+  data-bild waehlt die bewegte Szene aus snippets/gf-szene.liquid. Die Haerteskala kommt aus den
+  Produkt-Tags "Твърдост: ...". Fehlt der Aufbau (z. B. nach Bearbeitung im Editor), bleibt die
+  Sektion leer und die Kaufspalte zeigt die Beschreibung wie gewohnt (snippets/gf-story-kurz.liquid).
+  Bewegung: Kapitel blenden ein, die Linie in der Mitte zeichnet sich mit (data-zeichnen),
+  die Szenen laufen erst, wenn sie zu sehen sind. Aussehen in assets/gf-geschichte.css.
+{%- endcomment -%}
+{{ 'gf-geschichte.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign d = product.description
+  assign name = product.title | remove: 'Двулицев матрак с пружини' | remove: 'Двулицев матрак' | remove: 'Бебешки матрак' | strip
+
+  assign lead = ''
+  if d contains '<p class="gf-story-lead">'
+    assign lead = d | split: '<p class="gf-story-lead">' | last | split: '</p>' | first | strip
+  endif
+
+  assign kapitel = d | split: '<div class="gf-kapitel" data-bild="'
+  assign anzahl_kapitel = kapitel.size | minus: 1
+
+  assign fakten = ''
+  if d contains '<ul class="gf-fakten">'
+    assign fakten = d | split: '<ul class="gf-fakten">' | last | split: '</ul>' | first | strip
+  endif
+
+  comment
+    Haerteskala 1 bis 5 aus den Tags
+  endcomment
+  assign stufen = 'мек|средно мек|среден|средно твърд|твърд' | split: '|'
+  assign haerten = ''
+  for tag in product.tags
+    if tag contains 'Твърдост:'
+      assign wert = tag | remove: 'Твърдост:' | strip | downcase
+      if stufen contains wert
+        assign haerten = haerten | append: wert | append: '§'
+      endif
+    endif
+  endfor
+  assign haerten = haerten | split: '§'
+
+  assign hat_schichten = false
+  capture schichten_daten
+    render 'gf-schichten-daten', handle: product.handle
+  endcapture
+  if product.metafields.custom.schichten.value != blank or schichten_daten contains 'schicht|'
+    assign hat_schichten = true
+  endif
+-%}
+
+{%- if anzahl_kapitel > 0 -%}
+  <div class="gf-geschichte color-{{ section.settings.color_scheme }}" id="gf-geschichte">
+    <div class="gf-breite">
+      <header class="gf-geschichte-kopf">
+        <p class="gf-index gf-index-dunkel" data-einblenden>{{ section.settings.index }} {{ name }}</p>
+        {%- if lead != blank -%}
+          <h2 class="gf-titel gf-geschichte-titel" data-einblenden>{{ lead }}</h2>
+        {%- endif -%}
+      </header>
+
+      <ol class="gf-kapitel-liste" role="list" data-zeichnen>
+        {%- for k in kapitel offset: 1 -%}
+          {%- liquid
+            assign bild = k | split: '"' | first
+            assign inhalt = k | remove_first: bild | remove_first: '">' | split: '</div>' | first
+            if bild == 'sloeve' and hat_schichten == false
+              assign bild = 'plat'
+            endif
+          -%}
+          <li class="gf-kapitel" data-einblenden>
+            <figure class="gf-szene" data-bild="{{ bild }}" data-einblenden="zoom">
+              {%- render 'gf-szene', name: bild, product: product -%}
+            </figure>
+            <div class="gf-kapitel-text">
+              <span class="gf-kapitel-nr" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              {{ inhalt }}
+              {%- if bild == 'sloeve' and section.settings.schichten_link != blank -%}
+                <a class="gf-geschichte-link" href="#gf-schichten">
+                  {{- section.settings.schichten_link -}}
+                  <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v12m-5-5 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+
+      {%- if haerten.size > 0 or fakten != blank -%}
+        <div class="gf-geschichte-fuss">
+          {%- if haerten.size > 0 -%}
+            <div class="gf-skala" data-einblenden>
+              <p class="gf-skala-titel">{{ section.settings.skala_titel }}</p>
+              <div class="gf-skala-band">
+                {%- for st in stufen -%}<span class="gf-skala-feld" style="--n: {{ forloop.index }}"></span>{%- endfor -%}
+                {%- for h in haerten -%}
+                  {%- for st in stufen -%}
+                    {%- if st == h -%}{%- assign pos = forloop.index -%}{%- endif -%}
+                  {%- endfor -%}
+                  <span class="gf-skala-marke{% if forloop.index == 2 %} gf-skala-marke-unten{% endif %}" style="--pos: {{ pos }}; --verzoegerung: {{ forloop.index0 | times: 220 }}ms">
+                    <span class="gf-skala-wert">{{ h }}</span>
+                  </span>
+                {%- endfor -%}
+              </div>
+              <ol class="gf-skala-stufen" role="list">
+                {%- for st in stufen -%}<li>{{ st }}</li>{%- endfor -%}
+              </ol>
+              {%- if haerten.size > 1 and section.settings.skala_zwei != blank -%}
+                <p class="gf-skala-hinweis">{{ section.settings.skala_zwei }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if fakten != blank -%}
+            <ul class="gf-fakten" role="list">
+              {%- assign punkte = fakten | split: '</li>' -%}
+              {%- for p in punkte -%}
+                {%- assign roh = p | remove_first: '<li>' | strip -%}
+                {%- if roh != blank -%}
+                  {%- liquid
+                    assign wert = roh | split: '</b>' | first | remove: '<b>' | strip
+                    assign text = roh | split: '</b>' | last | strip
+                    if roh contains '</b>'
+                    else
+                      assign wert = roh
+                      assign text = ''
+                    endif
+                    assign zahl = wert | split: ' ' | first
+                    assign zahl_wert = zahl | plus: 0
+                    assign zahl_text = zahl_wert | append: ''
+                    assign rest = wert | remove_first: zahl | strip
+                  -%}
+                  <li data-einblenden>
+                    <b>
+                      {%- if zahl_wert > 0 and zahl_text == zahl -%}
+                        <span data-zaehlen="{{ zahl }}">{{ zahl }}</span>{% if rest != blank %} {{ rest }}{% endif %}
+                      {%- else -%}
+                        {{ wert }}
+                      {%- endif -%}
+                    </b>
+                    {%- if text != blank -%}<span>{{ text }}</span>{%- endif -%}
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="gf-breite" style="padding: 3.2rem 0; font-size: 1.4rem; opacity: .7;">
+    <p>GF Geschichte: Die Beschreibung dieses Produkts hat noch keine Kapitel (div class="gf-kapitel"). Sie steht deshalb wie gewohnt in der Kaufspalte.</p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "GF Geschichte",
+  "tag": "section",
+  "class": "gf-sektion",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Zeigt die Produktbeschreibung als Geschichte mit bewegten Bildern. Kapitel, Bilder und Fakten stehen in der Produktbeschreibung, die Härteskala kommt aus den Tags \"Твърдост: ...\"."
+    },
+    {
+      "type": "text",
+      "id": "index",
+      "label": "Kleine Zeile über dem Titel (davor der Modellname)",
+      "default": "Историята на"
+    },
+    {
+      "type": "text",
+      "id": "schichten_link",
+      "label": "Link zur 3D Schichtansicht",
+      "default": "Вижте слоевете в 3D"
+    },
+    {
+      "type": "text",
+      "id": "skala_titel",
+      "label": "Titel der Härteskala",
+      "default": "Твърдост по нашата скала"
+    },
+    {
+      "type": "text",
+      "id": "skala_zwei",
+      "label": "Hinweis bei zwei Härten",
+      "default": "Двете страни на матрака са с различна твърдост. Обърнете го, когато искате другото усещане."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}
