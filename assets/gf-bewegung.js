@@ -6,7 +6,8 @@
 (function () {
   'use strict';
   var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var handy = window.matchMedia('(max-width: 639px)');
+  // Handy und Tablet hochkant: kein Parallax (spart Rechenzeit und Grafikspeicher, kein Ruckeln)
+  var handy = window.matchMedia('(max-width: 749px)');
   var imEditor = !!(window.Shopify && window.Shopify.designMode);
   if (imEditor) document.documentElement.classList.add('gf-editor');
 
@@ -52,6 +53,11 @@
     };
     requestAnimationFrame(schritt);
   };
+  // Endlos laufende Szenen (SVG-Animationen) nur abspielen, solange sie zu sehen sind
+  var szenenBeobachter = 'IntersectionObserver' in window ? new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (e) { e.target.classList.toggle('ist-im-bild', e.isIntersecting); });
+  }, { rootMargin: '100px 0px' }) : null;
+
   var zaehlBeobachter = 'IntersectionObserver' in window ? new IntersectionObserver(function (eintraege) {
     eintraege.forEach(function (e) {
       if (e.isIntersecting) { zaehlen(e.target); zaehlBeobachter.unobserve(e.target); }
@@ -64,12 +70,31 @@
   //   data-zeichnen         Linie mit Punkten (direkte Kinder): --fortschritt, .ist-erreicht
   var parallax = [], heros = [], linien = [];
   var geplant = false;
+  // Nur Parallax-Elemente in Bildschirmnaehe werden je Bild gemessen (IntersectionObserver statt
+  // getBoundingClientRect fuer alle). Wer weit weg ist, verliert seine Verschiebung und damit
+  // seine eigene Grafikebene.
+  var nah = new Set();
+  var nahBeobachter = 'IntersectionObserver' in window ? new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (e) {
+      if (e.isIntersecting) nah.add(e.target);
+      else { nah.delete(e.target); e.target.style.transform = ''; }
+    });
+    anstossen();
+  }, { rootMargin: '200px 0px' }) : null;
+  var linienLagen = function (linie) {
+    var erster = linie.punkte[0], zweiter = linie.punkte[1];
+    var waagerecht = erster && zweiter && Math.abs(erster.offsetTop - zweiter.offsetTop) < 4;
+    linie.lagen = linie.punkte.map(function (pkt) {
+      return waagerecht ? pkt.offsetLeft / (linie.el.clientWidth || 1) : pkt.offsetTop / (linie.el.clientHeight || 1);
+    });
+  };
 
   var bewegen = function () {
     geplant = false;
     var vh = window.innerHeight;
+    var still = handy.matches;
     var p = parallax.map(function (el) {
-      if (!el.isConnected) return null;
+      if (still || !el.isConnected || (nahBeobachter && !nah.has(el))) return null;
       var faktor = parseFloat(el.getAttribute('data-parallax')) || 0.5;
       var bezug = el.parentElement.getBoundingClientRect();
       if (bezug.bottom < -200 || bezug.top > vh + 200) return null;
@@ -87,22 +112,17 @@
       if (!linie.el.isConnected) return null;
       var r = linie.el.getBoundingClientRect();
       if (r.bottom < -100 || r.top > vh + 100) return null;
-      var erster = linie.punkte[0], zweiter = linie.punkte[1];
-      var waagerecht = erster && zweiter && Math.abs(erster.offsetTop - zweiter.offsetTop) < 4;
-      return {
-        p: Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (r.height + vh * 0.35))),
-        lagen: linie.punkte.map(function (pkt) {
-          return waagerecht ? pkt.offsetLeft / (linie.el.clientWidth || 1) : pkt.offsetTop / (linie.el.clientHeight || 1);
-        })
-      };
+      if (!linie.lagen) linienLagen(linie);
+      return { p: Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (r.height + vh * 0.35))), lagen: linie.lagen };
     });
 
     parallax.forEach(function (el, i) {
       if (p[i] !== null) el.style.transform = 'translate3d(0,' + p[i].toFixed(1) + 'px,0)';
+      else if (still && el.style.transform) el.style.transform = '';
     });
     heros.forEach(function (hero, i) {
       if (!h[i]) return;
-      hero.bilder.forEach(function (bild) { bild.style.transform = 'translate3d(0,' + h[i].y.toFixed(1) + 'px,0)'; });
+      hero.bilder.forEach(function (bild) { bild.style.transform = h[i].y ? 'translate3d(0,' + h[i].y.toFixed(1) + 'px,0)' : ''; });
       hero.el.style.setProperty('--hero-p', h[i].p.toFixed(3));
     });
     linien.forEach(function (linie, i) {
@@ -132,7 +152,12 @@
       if (zaehlBeobachter && !imEditor && !ruhig) zaehlBeobachter.observe(el);
     });
     if (ruhig) return;
-    parallax = parallax.filter(function (el) { return el.isConnected; }).concat(alle('[data-parallax]'));
+    var neueParallax = alle('[data-parallax]');
+    if (nahBeobachter) neueParallax.forEach(function (el) { nahBeobachter.observe(el); });
+    parallax = parallax.filter(function (el) { return el.isConnected; }).concat(neueParallax);
+    alle('.gf-szene, .gf-schichten').forEach(function (el) {
+      if (szenenBeobachter) szenenBeobachter.observe(el); else el.classList.add('ist-im-bild');
+    });
     heros = heros.filter(function (x) { return x.el.isConnected; }).concat(alle('[data-hero]').map(function (el) {
       return { el: el, bilder: [].slice.call(el.querySelectorAll('[data-hero-bild]')) };
     }));
@@ -145,7 +170,10 @@
 
   if (!ruhig) {
     window.addEventListener('scroll', anstossen, { passive: true });
-    window.addEventListener('resize', anstossen);
+    window.addEventListener('resize', function () {
+      linien.forEach(function (linie) { linie.lagen = null; });
+      anstossen();
+    });
   }
   anmelden(document);
 

@@ -126,15 +126,15 @@
 /* Einblenden und Bewegung -------------------------------------------------------------- */
 @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
   [data-einblenden] {
-    transition: opacity 1.4s cubic-bezier(.33, 0, .2, 1), transform 1.7s cubic-bezier(.19, .8, .22, 1), filter 1.3s ease;
+    transition: opacity 1.4s cubic-bezier(.33, 0, .2, 1), transform 1.7s cubic-bezier(.19, .8, .22, 1);
     transition-delay: calc(var(--verzoegerung, 0ms) + var(--staffel, 0ms));
   }
   [data-einblenden]:not(.ist-sichtbar) { opacity: 0; transform: translate3d(0, 3.84rem, 0); }
   [data-einblenden="links"]:not(.ist-sichtbar) { transform: translate3d(-2.5rem, 0, 0); }
   [data-einblenden="rechts"]:not(.ist-sichtbar) { transform: translate3d(4rem, 0, 0); }
   [data-einblenden="zoom"]:not(.ist-sichtbar) { transform: scale(.94); }
-  [data-einblenden="weich"]:not(.ist-sichtbar) { transform: none; filter: blur(6px); }
-  [data-parallax] { will-change: transform; }
+  /* weich: nur Deckkraft (ein animierter Unschaerfe-Filter ruckelt vor allem in Safari) */
+  [data-einblenden="weich"]:not(.ist-sichtbar) { transform: none; }
   .gf-atmen { animation: gf-atmen 24s ease-in-out infinite alternate; }
 
   @supports (animation-timeline: view()) {
@@ -162,14 +162,16 @@
 @media (prefers-reduced-motion: reduce) { .gf-fortschritt { display: none; } }
 @keyframes gf-linie { to { transform: scaleX(1); } }
 
-/* Seitenwechsel: weiche Ueberblendung zwischen Seiten des Shops (nicht im Checkout) */
-@media (prefers-reduced-motion: no-preference) {
+/* Seitenwechsel: kurze Ueberblendung zwischen Seiten des Shops (nicht im Checkout). Nur am Rechner
+   mit Maus: auf Handys hielt der Browser die alte Seite sichtbar fest, bis die neue fertig war,
+   das wirkte wie ein Haenger. Nur Deckkraft, kurz. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 750px) and (pointer: fine) {
   @view-transition { navigation: auto; }
-  ::view-transition-old(root) { animation: gf-vt-aus .35s ease both; }
-  ::view-transition-new(root) { animation: gf-vt-ein .55s var(--gf-weich) both; }
+  ::view-transition-old(root) { animation: gf-vt-aus .18s ease both; }
+  ::view-transition-new(root) { animation: gf-vt-ein .26s ease both; }
 }
 @keyframes gf-vt-aus { to { opacity: 0; } }
-@keyframes gf-vt-ein { from { opacity: 0; transform: translateY(10px); } }
+@keyframes gf-vt-ein { from { opacity: 0; } }
 
 /* Hero (sections/gf-hero.liquid) ------------------------------------------------------ */
 .gf-hero {
