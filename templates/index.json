@@ -36,7 +36,7 @@
         "knopf1_link": "shopify://collections/all",
         "knopf2_text": "Помощ при избора",
         "knopf2_link": "shopify://pages/contact",
-        "datei": "gf-hero-breit.jpg",
+        "datei": "gf-menschen-aufwachen.jpg",
         "datei_handy": "gf-hero-hoch.jpg"
       }
     },
@@ -295,7 +295,7 @@
     "showroom": {
       "type": "gf-bild-text",
       "settings": {
-        "datei": "gf-showroom.jpg",
+        "datei": "gf-menschen-beratung.jpg",
         "bild_rechts": false,
         "grund": "weiss",
         "index": "Шоурум в София",

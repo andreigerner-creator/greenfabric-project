@@ -388,3 +388,10 @@
 
 /* Dawn blendet leere divs aus (base.css, div:empty), die Abdunklungen sind aber absichtlich leer */
 :is(.gf-hero-schatten, .gf-doppel-schatten, .gf-beratung-schatten, .gf-hero-platzhalter):empty { display: block; }
+
+/* Logo im Kopf: Rasterdatei aus den Guidelines, nie schmaler als 160 px */
+.gf-logo { width: 18rem; }
+.gf-logo img { display: block; width: 18rem; height: auto; }
+@media screen and (max-width: 749px) {
+  .gf-logo, .gf-logo img { width: 16rem; }
+}
