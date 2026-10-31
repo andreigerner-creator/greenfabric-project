@@ -1,0 +1,23 @@
+{%- comment -%}
+  Strukturierte Daten fuer Google (nur Startseite): Geschaeft mit Showroom, Telefon und E-Mail.
+  Nur Angaben, die auch sichtbar auf der Seite stehen. Keine Oeffnungszeiten, solange sie nicht bestaetigt sind.
+{%- endcomment -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FurnitureStore",
+    "name": {{ shop.name | json }},
+    "url": {{ request.origin | append: routes.root_url | json }},
+    "logo": {{ 'gf-logo.png' | asset_url | prepend: 'https:' | json }},
+    "image": {{ 'gf-showroom.jpg' | asset_url | prepend: 'https:' | json }},
+    "telephone": "+359885502222",
+    "email": "office@greenfabric.bg",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "бул. „България“ 49A",
+      "addressLocality": "София",
+      "addressCountry": "BG"
+    }
+  }
+</script>

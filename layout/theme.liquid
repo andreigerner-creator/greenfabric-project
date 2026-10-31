@@ -18,18 +18,22 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- comment -%} gf: Trenner | statt Gedankenstrich, Startseite mit beschreibendem Titel, Meta-Beschreibung aus gf-meta-beschreibung {%- endcomment -%}
     <title>
       {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- if request.page_type == 'index' and page_title == shop.name %} | Матраци от производител в София{% endif -%}
+      {%- if current_tags %} | {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} | {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} | {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {%- capture gf_beschreibung -%}{% render 'gf-meta-beschreibung', page_description: page_description %}{%- endcapture -%}
+    {% if gf_beschreibung != blank %}
+      <meta name="description" content="{{ gf_beschreibung | escape }}">
     {% endif %}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', gf_beschreibung: gf_beschreibung %}
+    {%- if request.page_type == 'index' -%}{% render 'gf-geschaeft-daten' %}{%- endif -%}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';

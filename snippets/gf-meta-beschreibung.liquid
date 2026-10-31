@@ -1,0 +1,71 @@
+{%- comment -%}
+  Meta-Beschreibung fuer Suchmaschinen und Vorschauen beim Teilen. Gibt nur Text aus.
+  Vorrang hat immer, was im Admin als SEO-Beschreibung eingetragen ist. Sonst:
+  Startseite: fester Satz. Produkt: Einleitung der Geschichte (gf-story-lead), auf ganze Saetze
+  bis 160 Zeichen gekuerzt, damit nichts mitten im Satz abbricht. Kollektion ohne Text: kurzer Satz.
+  Aufruf: {%- capture x -%}{% render 'gf-meta-beschreibung', page_description: page_description %}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign text = page_description
+  assign maximal = 160
+
+  case request.page_type
+    when 'index'
+      if text == blank or text == shop.name
+        assign text = 'Матраци от производител в София. Двулицеви, бебешки и с пружини, в много размери. Доставка със Speedy до цяла България, шоурум на бул. „България“ 49A.'
+      endif
+
+    when 'product'
+      assign seo = product.metafields.global.description_tag
+      if seo != blank
+        assign text = seo
+      elsif product.description contains '<p class="gf-story-lead">'
+        assign lead = product.description | split: '<p class="gf-story-lead">' | last | split: '</p>' | first | strip_html | strip | replace: '  ', ' '
+        assign saetze = lead | split: '. '
+        assign text = ''
+        for satz in saetze
+          assign teil = satz | strip
+          assign letztes = teil | slice: -1
+          if letztes != '.' and letztes != '!' and letztes != '?'
+            assign teil = teil | append: '.'
+          endif
+          if text == blank
+            assign probe = teil
+          else
+            assign probe = text | append: ' ' | append: teil
+          endif
+          if probe.size > maximal and text != blank
+            break
+          endif
+          assign text = probe
+        endfor
+        comment
+          Ist die Einleitung kurz, kommen die Kurzpunkte (gf-story-kratko) dazu, solange sie passen.
+        endcomment
+        if product.description contains 'gf-story-kratko'
+          assign punkte = product.description | split: 'gf-story-kratko' | last | split: '</ul>' | first | split: '<li>'
+          for punkt in punkte
+            assign teil = punkt | strip_html | remove: '">' | strip
+            if teil == blank
+              continue
+            endif
+            assign probe = text | append: ' ' | append: teil | append: '.'
+            if probe.size > maximal
+              break
+            endif
+            assign text = probe
+          endfor
+        endif
+        if text.size > maximal
+          assign text = text | truncatewords: 22, '…'
+        endif
+      endif
+
+    when 'collection'
+      if text == blank
+        assign text = collection.title | append: ' от Green Fabric, производител от София. Сравнете моделите, размерите и цените. Доставка със Speedy до цяла България.'
+      endif
+  endcase
+
+  echo text | strip_newlines | strip
+-%}

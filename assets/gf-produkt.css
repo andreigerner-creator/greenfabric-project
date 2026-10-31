@@ -75,6 +75,7 @@
 .gf-vorteile strong { display: block; font-weight: 600; color: var(--gf-wald); }
 .gf-vorteile a { color: inherit; text-decoration: none; }
 .gf-vorteile a:hover { text-decoration: underline; text-underline-offset: .3rem; }
+.gf-vorteile li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 @media (width <= 479px) { .gf-vorteile { grid-template-columns: 1fr; } .gf-vorteile li:nth-child(n+2) { border-top: 1px solid var(--gf-linie-dunkel); } }
 
 /* Beschreibung: Einleitung etwas groesser, Ja/Nein der Merkmalstabelle als Zeichen (gf-produkt.js) */
@@ -360,3 +361,17 @@
 }
 .gf-kurz-link svg { width: 1.6rem; height: 1.6rem; transition: translate .5s var(--gf-weich); }
 .gf-kurz-link:hover svg { translate: 0 3px; }
+
+/* Mitlaufende Kaufleiste (snippets/gf-kaufleiste.liquid) */
+.gf-kaufleiste {
+  position: fixed; inset: auto 0 0; z-index: 3; padding: 1.2rem var(--gf-rand) calc(1.2rem + env(safe-area-inset-bottom));
+  background: var(--gf-weiss); box-shadow: 0 -10px 30px -18px rgb(23 51 42 / .45); border-top: 1px solid var(--gf-linie-dunkel);
+  translate: 0 110%; transition: translate .45s var(--gf-weich);
+}
+.gf-kaufleiste--sichtbar { translate: 0 0; }
+.gf-kaufleiste__innen { max-width: var(--gf-breite); margin: 0 auto; display: flex; align-items: center; gap: 1.6rem; }
+.gf-kaufleiste__text { flex: 1; min-width: 0; margin: 0; display: flex; flex-direction: column; line-height: 2rem; }
+.gf-kaufleiste__titel { font-size: 1.4rem; color: var(--gf-graphit); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gf-kaufleiste__preis { font-size: 1.8rem; font-weight: 600; color: var(--gf-wald); }
+.gf-kaufleiste__knopf { flex: none; min-height: 4.8rem; min-width: 0; padding: 0 2.4rem; }
+@media (prefers-reduced-motion: reduce) { .gf-kaufleiste { transition: none; } }
