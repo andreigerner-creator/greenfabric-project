@@ -1,0 +1,74 @@
+{%- comment -%}
+  Greenfabric Material: Titel links, rechts drei Nahaufnahmen (Bezug, Kern, Naht) als Karten,
+  die versetzt stehen und beim Scrollen leicht gegeneinander laufen (data-parallax). Karten
+  blenden gestaffelt ein. Aussehen: gf-signatur.css, Abschnitt "Material".
+{%- endcomment -%}
+<section class="gf-material-abschnitt{% if section.settings.grund == 'salbei' %} gf-salbei-grund{% endif %}">
+  <div class="gf-breite gf-material">
+    <div class="gf-material-kopf">
+      {%- if section.settings.index != blank -%}
+        <p class="gf-index" data-einblenden>{{ section.settings.index }}</p>
+      {%- endif -%}
+      <h2 class="gf-titel gf-titel-l" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="gf-text" data-einblenden="weich" style="--verzoegerung: 200ms">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.knopf_text != blank -%}
+        <p data-einblenden style="--verzoegerung: 300ms"><a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf_link | default: routes.all_products_collection_url }}">{{ section.settings.knopf_text }}{% render 'gf-pfeil' %}</a></p>
+      {%- endif -%}
+    </div>
+    <ul class="gf-material-karten" style="--anzahl: {{ section.blocks.size | at_least: 1 }}">
+      {%- for block in section.blocks -%}
+        {%- if forloop.index0 == 1 -%}{%- assign tempo = '0.92' -%}{%- else -%}{%- assign tempo = '1.05' -%}{%- endif -%}
+        <li class="gf-material-karte" data-einblenden style="--verzoegerung: {{ forloop.index0 | times: 140 }}ms" {{ block.shopify_attributes }}>
+          <div class="gf-material-lauf" data-parallax="{{ tempo }}">
+            <div class="gf-material-foto">
+              {%- render 'gf-bild', bild: block.settings.bild, datei: block.settings.datei, alt: block.settings.titel, breiten: '400, 600, 900, 1200', sizes: '(min-width: 990px) 22vw, 80vw' -%}
+            </div>
+            <strong>{{ block.settings.titel }}</strong>
+            {%- if block.settings.text != blank -%}<small>{{ block.settings.text }}</small>{%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Material",
+  "tag": "div",
+  "class": "gf-sektion",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "select", "id": "grund", "label": "Hintergrund", "options": [ { "value": "weiss", "label": "Warmweiß" }, { "value": "salbei", "label": "Salbei" } ], "default": "weiss" },
+    { "type": "text", "id": "index", "label": "Kleine Zeile über dem Titel", "default": "Изработено в София" },
+    { "type": "text", "id": "titel", "label": "Titel", "default": "От какво е направен вашият матрак." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Шием всеки матрак в собствената ни фабрика. Така знаем какво има вътре и можем да ви го обясним." },
+    { "type": "text", "id": "knopf_text", "label": "Knopf, Text", "default": "Разгледайте моделите" },
+    { "type": "url", "id": "knopf_link", "label": "Knopf, Link" }
+  ],
+  "blocks": [
+    {
+      "type": "karte",
+      "name": "Karte",
+      "settings": [
+        { "type": "image_picker", "id": "bild", "label": "Bild" },
+        { "type": "text", "id": "datei", "label": "Standardbild aus dem Theme", "info": "Wird gezeigt, solange kein eigenes Bild gewählt ist", "default": "gf-stoff.jpg" },
+        { "type": "text", "id": "titel", "label": "Titel", "default": "Калъф" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Мек, капитониран плат." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Material",
+      "blocks": [
+        { "type": "karte", "settings": { "datei": "gf-stoff.jpg", "titel": "Калъф", "text": "Мек, капитониран плат." } },
+        { "type": "karte", "settings": { "datei": "gf-schaum.jpg", "titel": "Сърцевина", "text": "Пяна или пружини, според модела." } },
+        { "type": "karte", "settings": { "datei": "gf-naht.jpg", "titel": "Шев", "text": "Всеки матрак се шие в София." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

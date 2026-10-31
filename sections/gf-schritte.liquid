@@ -1,0 +1,160 @@
+{%- comment -%}
+  Greenfabric Schritte: heller Abschnitt als Karte mit runden Ecken, Schritte mit einer Linie,
+  die sich beim Scrollen zeichnet (data-zeichnen, gf-bewegung.js); am Handy senkrecht.
+  Aussehen: gf-signatur.css, Abschnitt "Schritte".
+{%- endcomment -%}
+<section class="gf-schritte-abschnitt{% if section.settings.karte %} gf-karte{% endif %}{% if section.settings.grund == 'salbei' %} gf-salbei-grund{% endif %}">
+  <div class="gf-breite">
+    <div class="gf-schritte-kopf">
+      <div>
+        {%- if section.settings.index != blank -%}
+          <p class="gf-index gf-index-dunkel" data-einblenden>{{ section.settings.index }}</p>
+        {%- endif -%}
+        <h2 class="gf-titel gf-titel-l">
+          <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel1 }}</span>
+          {%- if section.settings.titel2 != blank %} <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 200ms">{{ section.settings.titel2 }}</span>{%- endif -%}
+        </h2>
+      </div>
+      {%- if section.settings.text != blank -%}
+        <p class="gf-text" data-einblenden style="--verzoegerung: 300ms">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+    <ol class="gf-schritte" data-zeichnen style="--anzahl: {{ section.blocks.size | at_least: 1 }}">
+      {%- for block in section.blocks -%}
+        <li class="gf-schritt" data-einblenden style="--verzoegerung: {{ forloop.index0 | times: 120 }}ms" {{ block.shopify_attributes }}>
+          <i>{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</i>
+          <strong>{{ block.settings.titel }}</strong>
+          <small>{{ block.settings.text }}</small>
+        </li>
+      {%- endfor -%}
+    </ol>
+    {%- if section.settings.knopf_text != blank -%}
+      <div class="gf-schritte-knopf" data-einblenden style="--verzoegerung: 150ms">
+        <a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf_link | default: routes.root_url }}">{{ section.settings.knopf_text }}{% render 'gf-pfeil' %}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Schritte",
+  "tag": "div",
+  "class": "gf-sektion",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "karte",
+      "label": "Als Karte über den Abschnitt davor legen",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "grund",
+      "label": "Hintergrund",
+      "default": "weiss",
+      "options": [
+        {
+          "value": "weiss",
+          "label": "Warmweiß"
+        },
+        {
+          "value": "salbei",
+          "label": "Salbei"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "index",
+      "label": "Kleine Zeile über dem Titel",
+      "default": "Помощ при избор"
+    },
+    {
+      "type": "text",
+      "id": "titel1",
+      "label": "Titel, Zeile 1",
+      "default": "Как да намерите"
+    },
+    {
+      "type": "text",
+      "id": "titel2",
+      "label": "Titel, Zeile 2",
+      "default": "своя матрак."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Четири кратки стъпки. Ако се колебаете, ние сме насреща."
+    },
+    {
+      "type": "text",
+      "id": "knopf_text",
+      "label": "Knopf, Text",
+      "default": "Изберете своя матрак"
+    },
+    {
+      "type": "url",
+      "id": "knopf_link",
+      "label": "Knopf, Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "schritt",
+      "name": "Schritt",
+      "settings": [
+        {
+          "type": "text",
+          "id": "titel",
+          "label": "Titel",
+          "default": "Размер"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Изберете ширина и дължина."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Schritte",
+      "blocks": [
+        {
+          "type": "schritt",
+          "settings": {
+            "titel": "Размер",
+            "text": "Изберете ширина и дължина. Изработваме и нестандартни размери по поръчка."
+          }
+        },
+        {
+          "type": "schritt",
+          "settings": {
+            "titel": "Усещане",
+            "text": "Решете какво предпочитате: по-меко или по-твърдо легло."
+          }
+        },
+        {
+          "type": "schritt",
+          "settings": {
+            "titel": "Сравнение",
+            "text": "Сравнете височина, материали и цена на подходящите модели."
+          }
+        },
+        {
+          "type": "schritt",
+          "settings": {
+            "titel": "Консултация",
+            "text": "Обадете ни се или ни посетете в шоурума в София."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

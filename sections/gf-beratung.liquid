@@ -1,0 +1,128 @@
+{%- comment -%}
+  Greenfabric Beratung: dunkler Schlussabschnitt mit Bild (Parallax), Titel und zwei Knoepfen,
+  wahlweise als Karte ueber dem Abschnitt davor. Aussehen: gf-signatur.css, Abschnitt "Beratung".
+{%- endcomment -%}
+<section class="gf-beratung gf-dunkel{% if section.settings.karte %} gf-karte{% endif %}">
+  <div class="gf-beratung-bild" data-parallax="0.8">
+    {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '800, 1200, 1600, 2000', sizes: '100vw' -%}
+  </div>
+  <div class="gf-beratung-schatten" aria-hidden="true"></div>
+  <div class="gf-breite gf-beratung-inhalt">
+    {%- if section.settings.index != blank -%}
+      <p class="gf-index" data-einblenden>{{ section.settings.index }}</p>
+    {%- endif -%}
+    <h2 class="gf-titel gf-titel-xl">
+      <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel1 }}</span>
+      {%- if section.settings.titel2 != blank %} <span class="gf-zeile-block" data-einblenden style="--verzoegerung: 200ms">{{ section.settings.titel2 }}</span>{%- endif -%}
+    </h2>
+    {%- if section.settings.text != blank -%}
+      <p class="gf-text" data-einblenden="weich" style="--verzoegerung: 280ms">{{ section.settings.text }}</p>
+    {%- endif -%}
+    <div class="gf-knoepfe" data-einblenden style="--verzoegerung: 340ms">
+      {%- if section.settings.knopf1_text != blank -%}
+        <a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf1_link | default: routes.root_url }}">{{ section.settings.knopf1_text }}{% render 'gf-pfeil' %}</a>
+      {%- endif -%}
+      {%- if section.settings.knopf2_text != blank -%}
+        <a class="gf-knopf gf-knopf-still" href="{{ section.settings.knopf2_link | default: routes.root_url }}">{{ section.settings.knopf2_text }}{% render 'gf-pfeil' %}</a>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.telefon != blank or section.settings.email != blank -%}
+      <p class="gf-kontakt" data-einblenden style="--verzoegerung: 450ms">
+        {%- if section.settings.telefon != blank -%}<a href="tel:{{ section.settings.telefon | remove: ' ' }}">{{ section.settings.telefon }}</a>{%- endif -%}
+        {%- if section.settings.telefon != blank and section.settings.email != blank %} · {% endif -%}
+        {%- if section.settings.email != blank -%}<a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>{%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Beratung",
+  "tag": "div",
+  "class": "gf-sektion",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bild",
+      "label": "Bild"
+    },
+    {
+      "type": "text",
+      "id": "datei",
+      "label": "Standardbild aus dem Theme",
+      "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist.",
+      "default": "gf-beratung.jpg"
+    },
+    {
+      "type": "checkbox",
+      "id": "karte",
+      "label": "Als Karte über den Abschnitt davor legen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "index",
+      "label": "Kleine Zeile über dem Titel",
+      "default": "Консултация"
+    },
+    {
+      "type": "text",
+      "id": "titel1",
+      "label": "Titel, Zeile 1",
+      "default": "Нуждаете се от помощ"
+    },
+    {
+      "type": "text",
+      "id": "titel2",
+      "label": "Titel, Zeile 2",
+      "default": "при избора?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Разкажете ни как спите. Ще ви помогнем да намерите подходящия матрак."
+    },
+    {
+      "type": "text",
+      "id": "knopf1_text",
+      "label": "Knopf 1, Text",
+      "default": "Свържете се с нас"
+    },
+    {
+      "type": "url",
+      "id": "knopf1_link",
+      "label": "Knopf 1, Link"
+    },
+    {
+      "type": "text",
+      "id": "knopf2_text",
+      "label": "Knopf 2, Text",
+      "default": "Изберете своя матрак"
+    },
+    {
+      "type": "url",
+      "id": "knopf2_link",
+      "label": "Knopf 2, Link"
+    },
+    {
+      "type": "text",
+      "id": "telefon",
+      "label": "Telefon",
+      "default": "+359 885 502 222"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "E-Mail",
+      "default": "office@greenfabric.bg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Beratung"
+    }
+  ]
+}
+{% endschema %}

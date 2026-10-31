@@ -1,0 +1,81 @@
+{%- comment -%}
+  Schichtaufbau je Produkt fuer die Sektion "GF Schichten" (sections/gf-schichten.liquid).
+  Quelle: Produktbeschreibungen und Schnittbilder der alten Seite greenfabric.bg. Nur was dort
+  steht, nichts dazuerfunden. Reihenfolge der Schichten: von oben nach unten.
+
+  Eine Zeile je Angabe, Felder mit | getrennt:
+    gesamt|28                         Gesamthoehe in cm
+    oben|Text                         Liegeseite oben (nur bei zwei verschiedenen Seiten)
+    unten|Text                        Liegeseite unten
+    schicht|art|Name|Text|cm|anteil   art: bezug, topper, wolle, memory, gel, hr, kern, federn
+                                      cm leer lassen, wenn die Dicke nicht bekannt ist;
+                                      anteil = Hoehe in der Zeichnung (relativ)
+    notiz|Text                        Hinweis unter der Liste
+
+  Ein Metafeld custom.schichten (mehrzeiliger Text, gleiches Format) ersetzt diese Angaben,
+  so laesst sich der Aufbau spaeter im Shopify Admin pflegen.
+
+  Aufruf: {% render 'gf-schichten-daten', handle: product.handle %}
+{%- endcomment -%}
+{%- case handle -%}
+  {%- when 'dvulicev-matrak-elite-club' -%}
+gesamt|28
+oben|По-мека страна: мемори пяна
+unten|Средно твърда страна
+schicht|bezug|Калъф с бамбукови нишки|Висококачествени платове с високоеластични нишки Green600 за по-нежно докосване.||3
+schicht|memory|Термоактивна мемори пяна|Копира извивките на тялото. Тук е по-меката страна на матрака.||3
+schicht|gel|Мемори пяна с охлаждащ гел|Memory cool gel: разпределя тежестта на тялото равномерно.||3
+schicht|hr|HR високоеластична пяна|Профилирана пяна, която придава еластичност.||3
+schicht|kern|Ядро Sonocell G 3030|Ядро с плътност 30/30 за стабилна опора.|11|9
+  {%- when 'dvulicev-matrak-s-prujini-ultimate-dream' -%}
+gesamt|30
+schicht|bezug|Калъф с бамбукови нишки|Бамбукови нишки и памучен бял плат. Нишките улавят влагата от тялото и я отвеждат.||3
+schicht|gel|Мемори пяна с охлаждащ гел|Разпределя лесно тежестта на тялото.||3
+schicht|memory|Мемори пяна|Втори слой мемори пяна за обгръщаща мекота.||3
+schicht|federn|Индивидуално пакетирани пружини|Ядро от стоманени пружини, всяка в отделен джоб. Подходящ за двойки.||10
+notiz|Страничният плат има хиляди отвори за проветривост.
+notiz|Две степени на твърдост: мека и средно мека.
+  {%- when 'dvulicev-matrak-icomfort' -%}
+gesamt|22
+oben|Мека страна: мемори пяна
+unten|По-твърда страна: профилирана пяна
+schicht|bezug|Калъф|Противоалергичен и антибактериален.||2
+schicht|memory|Термоактивна мемори пяна|Реагира на топлина и копира извивките на тялото.|4|4
+schicht|kern|Ядро от пенополиуретанова пяна|Висока плътност 30 кг/м³ за равномерна опора.||10
+schicht|hr|Профилирана пяна|По-твърдата страна, с ефект на лек масаж.|4|4
+  {%- when 'dvulicev-matrak-optimum' -%}
+gesamt|22
+oben|Мека страна: мемори пяна
+unten|Средно твърда страна: профилирана пяна
+schicht|bezug|Плат с екстракт от лавандула|Хиляди въздушни камери отделят лек аромат на лавандула.||2
+schicht|wolle|Мериносова вълна|Поема влагата и не задържа бактериите, които причиняват изпотяване.||2
+schicht|memory|Мемори пяна|Меката страна на матрака.|4|4
+schicht|kern|Ядро с въздушни камери|Проветриво и недеформиращо се.||9
+schicht|hr|Профилирана високоеластична пяна|Средно твърдата страна на матрака.||4
+  {%- when 'dvulicev-matrak-grande' -%}
+gesamt|21
+schicht|bezug|Калъф|Подходящ за всеки сезон.||2
+schicht|memory|Термоактивна мемори пяна|Поглъща и разпределя тежестта, облекчава зоните с напрежение.|4|4
+schicht|kern|Ядро с плътност 30/30|Недеформиращо се ядро, следва S-образната форма на гръбнака.||10
+schicht|hr|Профилирана пяна MyGREEN|Високоеластична, с усещане за масаж по време на сън.||4
+  {%- when 'dvulicev-matrak-relaxo' -%}
+gesamt|20
+oben|Средно твърда страна
+unten|Твърда страна
+schicht|bezug|Плат с екстракт от лавандула|Дишащ плат, който не задържа акари и мухъл.||2
+schicht|hr|Сърцевина от профилирана високоеластична пяна|С приятен масажиращ ефект, който отпуска мускулите.||12
+  {%- when 'dvulicev-matrak-nero' -%}
+gesamt|28
+schicht|bezug|Антиалергичен и антиакарен плат|Висококачествен плат на лицето на матрака.||2
+schicht|topper|Вграден топер|С лек масажиращ ефект.||5
+schicht|kern|Основен матрак|Анатомичен дизайн и оптимална опора на тялото.||12
+notiz|Стилен монохромен борд по цялата страна.
+  {%- when 'bebeshki-matrak-rose', 'bebeshki-matrak-smurfy' -%}
+gesamt|10
+schicht|bezug|Калъф|Антиалергичен и антиакарен.||2
+schicht|kern|Ядро с плътност 30/30|Твърдо и ортопедично. Поддържа правилната позиция на гръбнака.||8
+  {%- when 'bebeshki-matrak-zippo' -%}
+gesamt|10
+schicht|bezug|Сваляем калъф със сребърни йони|С цип за лесна поддръжка, антиалергичен и антиакарен.||2
+schicht|kern|Ядро с плътност 30/30|Твърдо и ортопедично. Поддържа правилната позиция на гръбнака.||8
+{%- endcase -%}

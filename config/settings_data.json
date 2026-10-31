@@ -7,57 +7,57 @@
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#FFFFFF",
+            "background": "#F5F3EC",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
+            "text": "#222823",
+            "button": "#244C3D",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "secondary_button_label": "#244C3D",
+            "shadow": "#17332A"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F3F3F3",
+            "background": "#DFE7DC",
             "background_gradient": "",
-            "text": "#121212",
-            "button": "#121212",
-            "button_label": "#F3F3F3",
-            "secondary_button_label": "#121212",
-            "shadow": "#121212"
+            "text": "#222823",
+            "button": "#244C3D",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#244C3D",
+            "shadow": "#17332A"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#242833",
+            "background": "#244C3D",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#000000",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F5F3EC",
+            "button": "#F5F3EC",
+            "button_label": "#244C3D",
+            "secondary_button_label": "#F5F3EC",
+            "shadow": "#000000"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#121212",
+            "background": "#222823",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#121212",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#F5F3EC",
+            "button": "#F5F3EC",
+            "button_label": "#222823",
+            "secondary_button_label": "#F5F3EC",
+            "shadow": "#000000"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#334FB4",
+            "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#334FB4",
-            "secondary_button_label": "#FFFFFF",
-            "shadow": "#121212"
+            "text": "#222823",
+            "button": "#244C3D",
+            "button_label": "#FFFFFF",
+            "secondary_button_label": "#244C3D",
+            "shadow": "#17332A"
           }
         }
       },
@@ -69,11 +69,11 @@
       "spacing_sections": 0,
       "spacing_grid_horizontal": 8,
       "spacing_grid_vertical": 8,
-      "animations_reveal_on_scroll": true,
+      "animations_reveal_on_scroll": false,
       "animations_hover_elements": "none",
       "buttons_border_thickness": 1,
       "buttons_border_opacity": 100,
-      "buttons_radius": 0,
+      "buttons_radius": 8,
       "buttons_shadow_opacity": 0,
       "buttons_shadow_horizontal_offset": 0,
       "buttons_shadow_vertical_offset": 4,
@@ -87,7 +87,7 @@
       "variant_pills_shadow_blur": 5,
       "inputs_border_thickness": 1,
       "inputs_border_opacity": 55,
-      "inputs_radius": 0,
+      "inputs_radius": 8,
       "inputs_shadow_opacity": 0,
       "inputs_shadow_horizontal_offset": 0,
       "inputs_shadow_vertical_offset": 4,
@@ -95,10 +95,10 @@
       "card_style": "standard",
       "card_image_padding": 0,
       "card_text_alignment": "left",
-      "card_color_scheme": "scheme-2",
+      "card_color_scheme": "scheme-5",
       "card_border_thickness": 0,
       "card_border_opacity": 10,
-      "card_corner_radius": 0,
+      "card_corner_radius": 12,
       "card_shadow_opacity": 0,
       "card_shadow_horizontal_offset": 0,
       "card_shadow_vertical_offset": 4,
@@ -127,14 +127,14 @@
       "blog_card_shadow_blur": 5,
       "text_boxes_border_thickness": 0,
       "text_boxes_border_opacity": 10,
-      "text_boxes_radius": 0,
+      "text_boxes_radius": 12,
       "text_boxes_shadow_opacity": 0,
       "text_boxes_shadow_horizontal_offset": 0,
       "text_boxes_shadow_vertical_offset": 4,
       "text_boxes_shadow_blur": 5,
       "media_border_thickness": 1,
       "media_border_opacity": 5,
-      "media_radius": 0,
+      "media_radius": 12,
       "media_shadow_opacity": 0,
       "media_shadow_horizontal_offset": 0,
       "media_shadow_vertical_offset": 4,
@@ -156,22 +156,22 @@
       "badge_corner_radius": 40,
       "sale_badge_color_scheme": "scheme-4",
       "sold_out_badge_color_scheme": "scheme-3",
-      "brand_headline": "",
-      "brand_description": "<p></p>",
+      "brand_headline": "Green Fabric",
+      "brand_description": "<p>Матраци, създадени за вашия комфорт. Производител от София.</p>",
       "brand_image_width": 100,
       "social_twitter_link": "",
-      "social_facebook_link": "",
+      "social_facebook_link": "https://www.facebook.com/GreenFabricLTD",
       "social_pinterest_link": "",
-      "social_instagram_link": "",
+      "social_instagram_link": "https://www.instagram.com/greenfabricltd/",
       "social_tiktok_link": "",
       "social_tumblr_link": "",
       "social_snapchat_link": "",
-      "social_youtube_link": "",
+      "social_youtube_link": "https://www.youtube.com/channel/UC4NwaEqd9Q599itPoEJTjWg",
       "social_vimeo_link": "",
       "predictive_search_enabled": true,
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
-      "currency_code_enabled": true,
+      "currency_code_enabled": false,
       "cart_type": "notification",
       "show_vendor": false,
       "show_cart_note": false,

@@ -1,0 +1,165 @@
+{%- comment -%}
+  Greenfabric Hero: Vollbild, das Bild oeffnet sich wie ein Vorhang vom Horizont aus, der Titel
+  steigt Zeile fuer Zeile auf, beim Scrollen laeuft das Bild mit halber Geschwindigkeit und der
+  Inhalt blendet aus (gf-bewegung.js). Aussehen: gf-signatur.css, Abschnitt "Hero".
+{%- endcomment -%}
+<section class="gf-hero gf-dunkel" data-hero>
+  <div class="gf-hero-bild" data-hero-bild>
+    {%- if section.settings.bild != blank or section.settings.datei != blank -%}
+      <picture>
+        {%- if section.settings.bild_handy != blank -%}
+          <source media="(max-width: 639px)" srcset="{{ section.settings.bild_handy | image_url: width: 900 }} 900w, {{ section.settings.bild_handy | image_url: width: 1300 }} 1300w" sizes="100vw">
+        {%- elsif section.settings.bild == blank and section.settings.datei_handy != blank -%}
+          {%- assign hoch = section.settings.datei_handy | asset_url -%}
+          <source media="(max-width: 639px)" srcset="{{ hoch }}&width=700 700w, {{ hoch }}&width=1080 1080w" sizes="100vw">
+        {%- endif -%}
+        {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '900, 1400, 1900, 2400', sizes: '100vw', laden: 'eager', verhaeltnis: 0.5625 -%}
+      </picture>
+    {%- else -%}
+      <div class="gf-hero-platzhalter"></div>
+    {%- endif -%}
+  </div>
+  <div class="gf-hero-schatten" aria-hidden="true"></div>
+  <div class="gf-hero-inhalt" data-hero-inhalt>
+    <div class="gf-hero-text">
+      {%- if section.settings.kicker != blank -%}
+        <p class="gf-index gf-auftritt" style="--n: 0">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      <h1 class="gf-titel gf-hero-titel">
+        <span class="gf-zeile"><span style="--n: 1">{{ section.settings.titel1 }}</span></span>
+        {%- if section.settings.titel2 != blank %} <span class="gf-zeile"><span style="--n: 2">{{ section.settings.titel2 }}</span></span>{%- endif -%}
+      </h1>
+      {%- if section.settings.text != blank -%}
+        <p class="gf-text gf-hero-copy gf-auftritt" style="--n: 3">{{ section.settings.text }}</p>
+      {%- endif -%}
+      <div class="gf-knoepfe gf-auftritt" style="--n: 4">
+        {%- if section.settings.knopf1_text != blank -%}
+          <a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf1_link | default: routes.root_url }}">{{ section.settings.knopf1_text }}{% render 'gf-pfeil' %}</a>
+        {%- endif -%}
+        {%- if section.settings.knopf2_text != blank -%}
+          <a class="gf-knopf gf-knopf-still" href="{{ section.settings.knopf2_link | default: routes.root_url }}">{{ section.settings.knopf2_text }}{% render 'gf-pfeil' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if section.blocks.size > 0 -%}
+      <ul class="gf-hero-fuss gf-auftritt" style="--n: 5">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Hero",
+  "tag": "div",
+  "class": "gf-sektion",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bild",
+      "label": "Bild (breit)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bild_handy",
+      "label": "Bild fürs Handy (hochkant, optional)"
+    },
+    {
+      "type": "text",
+      "id": "datei",
+      "label": "Standardbild aus dem Theme",
+      "info": "Wird gezeigt, solange oben kein eigenes Bild gewählt ist. Leer lassen für reines Waldgrün.",
+      "default": "gf-hero-breit.jpg"
+    },
+    {
+      "type": "text",
+      "id": "datei_handy",
+      "label": "Standardbild fürs Handy aus dem Theme",
+      "default": "gf-hero-hoch.jpg"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kleine Zeile über dem Titel",
+      "default": "Комфорт по вашия начин"
+    },
+    {
+      "type": "text",
+      "id": "titel1",
+      "label": "Titel, Zeile 1",
+      "default": "Комфорт,"
+    },
+    {
+      "type": "text",
+      "id": "titel2",
+      "label": "Titel, Zeile 2",
+      "default": "създаден за вас."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Открийте матрак, който отговаря на вашите предпочитания. Сравнете моделите или ни потърсете за помощ при избора."
+    },
+    {
+      "type": "text",
+      "id": "knopf1_text",
+      "label": "Knopf 1, Text",
+      "default": "Изберете своя матрак"
+    },
+    {
+      "type": "url",
+      "id": "knopf1_link",
+      "label": "Knopf 1, Link"
+    },
+    {
+      "type": "text",
+      "id": "knopf2_text",
+      "label": "Knopf 2, Text",
+      "default": "Помощ при избора"
+    },
+    {
+      "type": "url",
+      "id": "knopf2_link",
+      "label": "Knopf 2, Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "punkt",
+      "name": "Punkt in der Fußzeile",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "8 години гаранция"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Hero",
+      "blocks": [
+        {
+          "type": "punkt",
+          "settings": {
+            "text": "8 години гаранция"
+          }
+        },
+        {
+          "type": "punkt",
+          "settings": {
+            "text": "Собствено производство в София"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

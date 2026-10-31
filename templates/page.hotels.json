@@ -1,0 +1,140 @@
+{
+  "sections": {
+    "hero": {
+      "type": "gf-hero",
+      "blocks": {
+        "p1": {
+          "type": "punkt",
+          "settings": {
+            "text": "Собствено производство в София"
+          }
+        },
+        "p2": {
+          "type": "punkt",
+          "settings": {
+            "text": "Размери по поръчка"
+          }
+        },
+        "p3": {
+          "type": "punkt",
+          "settings": {
+            "text": "Лична консултация"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "datei": "gf-hotels.jpg",
+        "datei_handy": "",
+        "kicker": "За хотели",
+        "titel1": "Матраци",
+        "titel2": "за вашия хотел.",
+        "text": "Изработваме матраци в нужните ви размери и количества. Разкажете ни за стаите си и ще ви изпратим оферта.",
+        "knopf1_text": "Поискайте оферта",
+        "knopf1_link": "/pages/za-hoteli#ContactForm",
+        "knopf2_text": "Разгледайте матраците",
+        "knopf2_link": "shopify://collections/матраци"
+      }
+    },
+    "schritte": {
+      "type": "gf-schritte",
+      "settings": {
+        "karte": false,
+        "grund": "weiss",
+        "index": "Как работим",
+        "titel1": "От запитването",
+        "titel2": "до доставката.",
+        "text": "Четири ясни стъпки. Ако имате въпроси по пътя, сме насреща.",
+        "knopf_text": "",
+        "knopf_link": ""
+      },
+      "blocks": {
+        "s1": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Запитване",
+            "text": "Пишете ни колко стаи и какви размери са ви нужни."
+          }
+        },
+        "s2": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Консултация",
+            "text": "Заедно избираме модел според вашите гости."
+          }
+        },
+        "s3": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Оферта",
+            "text": "Получавате писмена оферта с цени и срокове."
+          }
+        },
+        "s4": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Производство и доставка",
+            "text": "Шием матраците в София и ги доставяме до вас."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ]
+    },
+    "bild": {
+      "type": "gf-bild-text",
+      "settings": {
+        "datei": "gf-showroom.jpg",
+        "bild_rechts": false,
+        "grund": "salbei",
+        "index": "Шоурум",
+        "titel": "Елате да ги пробвате.",
+        "text": "<p>Преди да решите, можете да легнете на матраците в нашия шоурум в София.</p>",
+        "knopf_text": "",
+        "knopf_link": ""
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Поискайте оферта",
+        "heading_size": "h1",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "beratung": {
+      "type": "gf-beratung",
+      "settings": {
+        "datei": "gf-beratung.jpg",
+        "karte": true,
+        "index": "Консултация",
+        "titel1": "Имате въпроси?",
+        "titel2": "Пишете ни.",
+        "text": "Ще ви отговорим спокойно и без натиск.",
+        "knopf1_text": "Свържете се с нас",
+        "knopf1_link": "shopify://pages/contact",
+        "knopf2_text": "Разгледайте матраците",
+        "knopf2_link": "shopify://collections/матраци",
+        "telefon": "+359 885 502 222",
+        "email": "office@greenfabric.bg"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "schritte",
+    "bild",
+    "form",
+    "beratung"
+  ]
+}
