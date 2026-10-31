@@ -27,6 +27,12 @@
           "type": "price",
           "settings": {}
         },
+        "gf_kurz": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'gf-story-kurz', product: product %}"
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -45,22 +51,16 @@
             "show_gift_card_recipient": true
           }
         },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Споделете"
-          }
-        },
         "gf_vorteile": {
           "type": "custom_liquid",
           "settings": {
             "custom_liquid": "{% render 'gf-produkt-vorteile', product: product %}"
           }
         },
-        "gf_kurz": {
-          "type": "custom_liquid",
+        "share": {
+          "type": "share",
           "settings": {
-            "custom_liquid": "{% render 'gf-story-kurz', product: product %}"
+            "share_label": "Споделете"
           }
         }
       },
@@ -91,11 +91,26 @@
         "padding_bottom": 12
       }
     },
-    "disclosures": {
-      "type": "disclosures",
+    "gf_geschichte": {
+      "type": "gf-geschichte",
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 0
+        "index": "Историята на",
+        "schichten_link": "Вижте слоевете в 3D",
+        "skala_titel": "Твърдост по нашата скала",
+        "skala_zwei": "Двете страни на матрака са с различна твърдост. Обърнете го, когато искате другото усещане.",
+        "color_scheme": ""
+      }
+    },
+    "gf_schichten": {
+      "type": "gf-schichten",
+      "settings": {
+        "index": "Какво има вътре",
+        "titel": "Слой по слой:",
+        "titel_mit_name": true,
+        "text": "Превъртете надолу и вижте как е изграден матракът. Посочете слой, за да научите повече за него.",
+        "hoehe_text": "Обща височина",
+        "wenden_text": "Обърнете матрака",
+        "color_scheme": ""
       }
     },
     "related-products": {
@@ -116,9 +131,36 @@
         "padding_bottom": 28
       }
     },
-    "gf_schichten": {
-      "type": "gf-schichten",
-      "settings": {}
+    "gf_serien": {
+      "type": "gf-kollektionen",
+      "settings": {
+        "index": "Още от Green Fabric",
+        "titel": "Разгледайте нашите серии",
+        "kollektionen": [
+          "high",
+          "mid",
+          "low",
+          "baby",
+          "аксесоари-за-спалнята"
+        ],
+        "anzahl": 5,
+        "hier_text": "Тук е",
+        "modell_eins": "модел",
+        "modell_mehr": "модела",
+        "ab_text": "от",
+        "color_scheme": ""
+      }
+    },
+    "disclosures": {
+      "type": "disclosures",
+      "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
     },
     "gf_beratung": {
       "type": "gf-beratung",
@@ -132,23 +174,9 @@
         "knopf1_text": "Свържете се с нас",
         "knopf1_link": "shopify://pages/contact",
         "knopf2_text": "Всички матраци",
-        "knopf2_link": "shopify://collections/matraci"
-      }
-    },
-    "gf_geschichte": {
-      "type": "gf-geschichte",
-      "settings": {}
-    },
-    "gf_serien": {
-      "type": "gf-kollektionen",
-      "settings": {
-        "kollektionen": [
-          "high",
-          "mid",
-          "low",
-          "baby",
-          "аксесоари-за-спалнята"
-        ]
+        "knopf2_link": "shopify://collections/matraci",
+        "telefon": "+359 885 502 222",
+        "email": "office@greenfabric.bg"
       }
     },
     "gf_kaufleiste": {
@@ -158,6 +186,26 @@
         "color_scheme": "scheme-1",
         "padding_top": 0,
         "padding_bottom": 0
+      }
+    },
+    "1793472616b8057aff": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_eJixdm": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_eJixdm"
+      ],
+      "settings": {
+        "include_margins": true
       }
     }
   },
@@ -169,6 +217,7 @@
     "gf_serien",
     "disclosures",
     "gf_beratung",
-    "gf_kaufleiste"
+    "gf_kaufleiste",
+    "1793472616b8057aff"
   ]
 }
