@@ -129,7 +129,15 @@
     },
     "gf_serien": {
       "type": "gf-kollektionen",
-      "settings": {}
+      "settings": {
+        "kollektionen": [
+          "high",
+          "mid",
+          "low",
+          "baby",
+          "аксесоари-за-спалнята"
+        ]
+      }
     }
   },
   "order": [
