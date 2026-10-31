@@ -13,7 +13,7 @@
           {%- assign hoch = section.settings.datei_handy | asset_url -%}
           <source media="(max-width: 639px)" srcset="{{ hoch }}&width=700 700w, {{ hoch }}&width=1080 1080w" sizes="100vw">
         {%- endif -%}
-        {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '900, 1400, 1900, 2400, 3000, 3840', sizes: '100vw', laden: 'eager', verhaeltnis: 0.5625 -%}
+        {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel1, breiten: '900, 1400, 1900, 2400, 3000, 3840', sizes: 'max(100vw, 178vh)', laden: 'eager', verhaeltnis: 0.5625 -%}
       </picture>
     {%- else -%}
       <div class="gf-hero-platzhalter"></div>

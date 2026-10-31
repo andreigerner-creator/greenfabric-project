@@ -228,7 +228,6 @@
 [data-hero-bild]::after { bottom: -2px; transform: translateY(101%); background: linear-gradient(to top, var(--gf-nacht) 64%, transparent); }
 @media (prefers-reduced-motion: no-preference) {
   [data-hero-bild]::before, [data-hero-bild]::after { animation: gf-vorhang 1.9s var(--gf-ruhig) .1s backwards; }
-  [data-hero-bild] { animation: gf-atem-hero var(--gf-atem) ease-in-out 2.1s infinite alternate; }
   .gf-hero-bild img { animation: gf-ankunft 2.8s var(--gf-weich) both; }
   .gf-auftritt { animation: gf-auftritt 1s var(--gf-weich) both; animation-delay: calc(var(--n, 0) * 110ms + 250ms); }
   .gf-zeile > span { animation: gf-zeile 1.15s cubic-bezier(.16, .84, .24, 1) both; animation-delay: calc(var(--n, 0) * 120ms + 200ms); }
@@ -236,7 +235,6 @@
 }
 @media (prefers-reduced-motion: reduce) { [data-hero-inhalt] { opacity: 1; transform: none; } }
 @keyframes gf-vorhang { from { transform: none; } }
-@keyframes gf-atem-hero { from { scale: 1; } to { scale: 1.012; } }
 @keyframes gf-ankunft { from { opacity: .35; transform: scale(1.1); } }
 @keyframes gf-auftritt { from { opacity: 0; transform: translateY(18px); } }
 @keyframes gf-zeile { from { transform: translateY(108%); } }
