@@ -1,0 +1,9 @@
+{%- comment -%}
+  Telefon im Header: auf dem Handy als Symbol (direkt anrufen), ab Tablet mit Nummer.
+  Matratzen werden oft nach einem Gespraech gekauft, deshalb steht die Nummer immer sichtbar oben.
+  Eingebunden in sections/header.liquid (Dawn-Datei, eine Zeile vor .desktop-localization-wrapper).
+{%- endcomment -%}
+<a href="tel:+359885502222" class="header__icon link focus-inset gf-header-telefon" aria-label="Обадете се: +359 885 502 222">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h3l1.5 4-2 1.3a10.5 10.5 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A16.6 16.6 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  <span class="gf-header-telefon__nummer" aria-hidden="true">+359 885 502 222</span>
+</a>

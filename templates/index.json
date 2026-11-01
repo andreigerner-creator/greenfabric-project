@@ -1,75 +1,344 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "gf-hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "punkt-1": {
+          "type": "punkt",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "text": "8 години гаранция"
           }
         },
-        "button": {
-          "type": "buttons",
+        "punkt-3": {
+          "type": "punkt",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "text": "Собствено производство в София"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "punkt-1",
+        "punkt-3"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "datei": "gf-menschen-aufwachen.jpg",
+        "datei_handy": "gf-hero-hoch.jpg",
+        "kicker": "Комфорт по вашия начин",
+        "titel1": "Комфорт,",
+        "titel2": "създаден за вас.",
+        "text": "Открийте матрак, който отговаря на вашите предпочитания. Сравнете моделите или ни потърсете за помощ при избора.",
+        "knopf1_text": "Изберете своя матрак",
+        "knopf1_link": "shopify://collections/all",
+        "knopf2_text": "Помощ при избора",
+        "knopf2_link": "shopify://pages/contact"
       }
     },
-    "featured_collection": {
+    "werkstatt": {
+      "type": "gf-doppelbelichtung",
+      "settings": {
+        "position_handy": 75,
+        "datei": "gf-werkstatt.jpg",
+        "ueberlappen": true,
+        "index": "Собствено производство",
+        "titel1": "Шием всеки матрак",
+        "titel2": "в София.",
+        "text": "От кройката до последния шев. Затова знаем какво има във всеки модел и можем да ви го обясним спокойно.",
+        "zitat": ""
+      }
+    },
+    "einstieg": {
+      "type": "gf-einstieg",
+      "blocks": {
+        "k1": {
+          "type": "karte",
+          "settings": {
+            "titel": "Матраци за двама",
+            "text": "Двулицеви модели в много размери.",
+            "link": "shopify://collections/матраци",
+            "datei": "gf-kategorie-matratzen.jpg"
+          }
+        },
+        "k2": {
+          "type": "karte",
+          "settings": {
+            "titel": "Бебешки матраци",
+            "text": "За креватчето на вашето бебе.",
+            "link": "shopify://collections/бебешки-матраци",
+            "datei": "gf-kategorie-baby.jpg"
+          }
+        },
+        "k3": {
+          "type": "karte",
+          "settings": {
+            "titel": "Завивки",
+            "text": "Памучна завивка за всеки сезон.",
+            "link": "shopify://collections/завивки",
+            "datei": "gf-kategorie-kissen-decken.jpg"
+          }
+        },
+        "k4": {
+          "type": "karte",
+          "settings": {
+            "titel": "Помощ при избора",
+            "text": "Разкажете ни как спите.",
+            "link": "shopify://pages/contact",
+            "datei": "gf-kategorie-topper.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3",
+        "k4"
+      ],
+      "settings": {
+        "titel": "С какво да започнем?"
+      }
+    },
+    "modelle": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
+        "collection": "матраци",
+        "products_to_show": 6,
+        "title": "Избрани модели",
+        "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "view_all_style": "outline",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "material": {
+      "type": "gf-material",
+      "blocks": {
+        "m1": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-stoff.jpg",
+            "titel": "Калъф",
+            "text": "Мек, капитониран плат."
+          }
+        },
+        "m2": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-schaum.jpg",
+            "titel": "Сърцевина",
+            "text": "Пяна или пружини, според модела."
+          }
+        },
+        "m3": {
+          "type": "karte",
+          "settings": {
+            "datei": "gf-naht.jpg",
+            "titel": "Шев",
+            "text": "Всеки матрак се шие в София."
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
+      "settings": {
+        "grund": "salbei",
+        "index": "Материали",
+        "titel": "Какво има във вашия матрак.",
+        "text": "Три неща определят комфорта: калъфът, сърцевината и шевът. На всяка продуктова страница ще намерите подробностите за модела.",
+        "knopf_text": "Разгледайте моделите",
+        "knopf_link": "shopify://collections/матраци"
+      }
+    },
+    "showroom": {
+      "type": "gf-bild-text",
+      "settings": {
+        "datei": "gf-menschen-beratung.jpg",
+        "bild_rechts": false,
+        "grund": "weiss",
+        "index": "Шоурум в София",
+        "titel": "Легнете и сравнете.",
+        "text": "<p>Елате в шоурума ни на бул. „България“ 49A в София. Пробвайте матраците спокойно и ни задайте въпросите си.</p>",
+        "knopf_text": "Свържете се с нас",
+        "knopf_link": "shopify://pages/contact"
+      }
+    },
+    "auswahl": {
+      "type": "gf-schritte",
+      "blocks": {
+        "s1": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Размер",
+            "text": "Изберете ширина и дължина. Изработваме и нестандартни размери по поръчка."
+          }
+        },
+        "s2": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Усещане",
+            "text": "Решете какво предпочитате: по-меко или по-твърдо легло."
+          }
+        },
+        "s3": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Сравнение",
+            "text": "Сравнете височина, материали и цена на подходящите модели."
+          }
+        },
+        "s4": {
+          "type": "schritt",
+          "settings": {
+            "titel": "Консултация",
+            "text": "Обадете ни се или ни посетете в шоурума в София."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "settings": {
+        "karte": true,
+        "grund": "salbei",
+        "index": "Помощ при избор",
+        "titel1": "Как да намерите",
+        "titel2": "своя матрак.",
+        "text": "Четири кратки стъпки. Ако се колебаете, ние сме насреща.",
+        "knopf_text": "Изберете своя матрак",
+        "knopf_link": "shopify://collections/all"
+      }
+    },
+    "hotels": {
+      "type": "gf-bild-text",
+      "settings": {
+        "datei": "gf-hotels.jpg",
+        "bild_rechts": true,
+        "grund": "weiss",
+        "index": "За хотели",
+        "titel": "Матраци за вашия хотел.",
+        "text": "<p>Изработваме матраци в нужните ви размери и количества. Пишете ни и ще ви изпратим оферта.</p>",
+        "knopf_text": "Към страницата за хотели",
+        "knopf_link": "shopify://pages/za-hoteli"
+      }
+    },
+    "beratung": {
+      "type": "gf-beratung",
+      "settings": {
+        "datei": "gf-beratung.jpg",
+        "karte": true,
+        "index": "Производител и консултация",
+        "titel1": "Нуждаете се от помощ",
+        "titel2": "при избора?",
+        "text": "Изработваме матраците в собствена фабрика в София. Разкажете ни как спите и ще ви помогнем да намерите подходящия модел.",
+        "knopf1_text": "Свържете се с нас",
+        "knopf1_link": "shopify://pages/contact",
+        "knopf2_text": "Изберете своя матрак",
+        "knopf2_link": "shopify://collections/all",
+        "telefon": "+359 885 502 222",
+        "email": "office@greenfabric.bg"
+      }
+    },
+    "fragen": {
+      "type": "collapsible-content",
+      "blocks": {
+        "f1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Как да разбера кой матрак е подходящ за мен?",
+            "icon": "question_mark",
+            "row_content": "<p>Започнете с размера и с усещането, което предпочитате. Ако се колебаете, нашите консултанти ще ви зададат няколко въпроса и ще ви препоръчат подходящи модели.</p>",
+            "page": ""
+          }
+        },
+        "f2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Може ли матракът да бъде изработен по индивидуален размер?",
+            "icon": "ruler",
+            "row_content": "<p>Да. Като производител изработваме матраци и по нестандартни мерки. Свържете се с нас с размера и модела, а ние ще ви кажем цената и срока за изработка.</p>",
+            "page": ""
+          }
+        },
+        "f3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Колко време отнема изработката?",
+            "icon": "truck",
+            "row_content": "<p>В зависимост от натовареността на фабриката изработката отнема от 1 до 3 работни дни.</p>",
+            "page": ""
+          }
+        },
+        "f4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Мога ли да пробвам матрака?",
+            "icon": "map_pin",
+            "row_content": "<p>Да. Заповядайте в шоурума ни на бул. „България“ 49A в София.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "Често задавани въпроси",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 64,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "werkstatt",
+    "einstieg",
+    "modelle",
+    "material",
+    "showroom",
+    "auswahl",
+    "hotels",
+    "beratung",
+    "fragen"
   ]
 }

@@ -1,0 +1,267 @@
+/* Greenfabric: Produktgeschichte (sections/gf-geschichte.liquid) mit bewegten Szenen
+   (snippets/gf-szene.liquid), Haerteskala und Fakten, dazu die Serien-Empfehlung
+   (sections/gf-kollektionen.liquid). Farben und Masse nach den Brand Guidelines.
+   Grundsatz wie in gf-signatur.css: der Ruhezustand ist der sichtbare Endzustand. Szenen laufen
+   erst, wenn sie zu sehen sind (.ist-sichtbar aus gf-bewegung.js), "Bewegung reduzieren" haelt sie an. */
+
+.gf-geschichte, .gf-serien { --gf-salbei-tief: #C9D8C4; }
+
+/* Geschichte ---------------------------------------------------------------------------- */
+.gf-geschichte { padding: clamp(6.4rem, 8vw, 11.2rem) 0; background: var(--gf-weiss); color: var(--gf-graphit); scroll-margin-top: 8rem; }
+.gf-geschichte-kopf { max-width: 80rem; margin: 0 auto clamp(4.8rem, 7vw, 8rem); text-align: center; }
+.gf-geschichte-kopf .gf-index { justify-content: center; }
+.gf-geschichte-titel { font-size: 3.2rem; line-height: 4rem; }
+@media (width <= 749px) { .gf-geschichte-titel { font-size: 2.6rem; line-height: 3.4rem; } }
+
+.gf-kapitel-liste {
+  position: relative; list-style: none; margin: 0; padding: 0;
+  display: grid; gap: clamp(4.8rem, 8vw, 9.6rem);
+}
+.gf-kapitel {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3.2rem clamp(6.4rem, 10vw, 12.8rem); align-items: center;
+}
+.gf-kapitel:nth-child(even) .gf-szene { order: 2; }
+
+/* Linie in der Mitte, zeichnet sich beim Scrollen mit; Punkte fuellen sich (data-zeichnen) */
+@media (width >= 750px) {
+  .gf-kapitel-liste::before, .gf-kapitel-liste::after {
+    content: ""; position: absolute; left: 50%; top: 4rem; bottom: 4rem; width: 1px; translate: -50% 0;
+  }
+  .gf-kapitel-liste::before { background: var(--gf-linie-dunkel); }
+  .gf-kapitel-liste::after { background: var(--gf-wald); transform-origin: 50% 0; transform: scaleY(var(--fortschritt, 1)); }
+  .gf-kapitel::before {
+    content: ""; position: absolute; z-index: 1; left: 50%; top: 50%; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+    translate: -50% -50%; background: var(--gf-wald); box-shadow: 0 0 0 .6rem var(--gf-weiss);
+    transition: background-color .6s ease, scale .6s var(--gf-weich);
+  }
+  .gf-kapitel-liste.zeichnen-an .gf-kapitel:not(.ist-erreicht)::before {
+    background: var(--gf-weiss); scale: .8; box-shadow: inset 0 0 0 1.5px var(--gf-wald), 0 0 0 .6rem var(--gf-weiss);
+  }
+}
+
+.gf-szene {
+  position: relative; margin: 0; aspect-ratio: 4 / 3; border-radius: 2.4rem; overflow: hidden;
+  display: grid; place-items: center;
+  background:
+    radial-gradient(70% 70% at 30% 25%, rgb(255 255 255 / .6), transparent 70%),
+    var(--gf-salbei);
+}
+.gf-szene svg { width: 86%; height: auto; overflow: visible; }
+.gf-kapitel-text { max-width: 48rem; }
+.gf-kapitel:nth-child(even) .gf-kapitel-text { justify-self: end; }
+.gf-kapitel-nr {
+  display: inline-flex; align-items: center; min-height: 2.8rem; padding: 0 1.2rem; border-radius: 99rem;
+  background: var(--gf-salbei); color: var(--gf-wald);
+  font-size: 1.3rem; font-weight: 600; letter-spacing: .08em; font-variant-numeric: tabular-nums;
+}
+.gf-kapitel-text h3 {
+  margin: 1.6rem 0 1.2rem; font-family: var(--font-heading-family); font-weight: 500; color: var(--gf-wald);
+  font-size: 2.6rem; line-height: 3.4rem; letter-spacing: -.005em; text-wrap: balance;
+}
+.gf-kapitel-text p { margin: 0 0 1.2rem; font-size: 1.6rem; line-height: 2.6rem; color: var(--gf-graphit); text-wrap: pretty; }
+.gf-kapitel-text p:last-of-type { margin-bottom: 0; }
+.gf-kapitel-text strong { font-weight: 600; color: var(--gf-wald); }
+.gf-geschichte-link {
+  display: inline-flex; align-items: center; gap: .8rem; min-height: 4.4rem; margin-top: 2rem; padding: 0 2rem;
+  border-radius: var(--gf-radius-knopf); box-shadow: inset 0 0 0 1px var(--gf-wald);
+  font-size: 1.5rem; font-weight: 600; color: var(--gf-wald); text-decoration: none;
+  transition: background-color .3s ease, color .3s ease;
+}
+.gf-geschichte-link svg { width: 1.6rem; height: 1.6rem; transition: translate .5s var(--gf-weich); }
+.gf-geschichte-link:hover { background: var(--gf-wald); color: #fff; }
+.gf-geschichte-link:hover svg { translate: 0 3px; }
+
+@media (width <= 749px) {
+  .gf-kapitel { grid-template-columns: 1fr; }
+  .gf-kapitel .gf-szene, .gf-kapitel:nth-child(even) .gf-szene { order: 0; }
+  .gf-kapitel:nth-child(even) .gf-kapitel-text { justify-self: start; }
+  .gf-kapitel-text h3 { font-size: 2.2rem; line-height: 3rem; }
+}
+
+/* Haerteskala und Fakten */
+.gf-geschichte-fuss {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 4rem 6.4rem; align-items: center;
+  margin-top: clamp(6.4rem, 9vw, 11.2rem); padding: clamp(2.4rem, 4vw, 4.8rem);
+  border-radius: 2.4rem; background: #fff; box-shadow: 0 30px 60px -40px rgb(23 51 42 / .35);
+}
+.gf-geschichte-fuss:not(:has(.gf-skala)) { grid-template-columns: 1fr; }
+@media (width <= 989px) { .gf-geschichte-fuss { grid-template-columns: 1fr; } }
+
+.gf-skala-titel { margin: 0; font-size: 1.4rem; line-height: 2rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gf-wald); }
+.gf-skala-band { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem; margin: 5.6rem 0 1.2rem; }
+.gf-skala-band:has(.gf-skala-marke-unten) { margin-bottom: 5.2rem; }
+.gf-skala-feld {
+  height: 1.2rem; border-radius: 99rem;
+  background: color-mix(in srgb, var(--gf-wald) calc(var(--n) * 17%), var(--gf-salbei));
+}
+.gf-skala-marke {
+  position: absolute; top: 50%; left: calc((var(--pos) - .5) / 5 * 100%);
+  width: 2.6rem; height: 2.6rem; translate: -50% -50%; border-radius: 50%;
+  background: #fff; box-shadow: inset 0 0 0 .4rem var(--gf-wald), 0 6px 14px -6px rgb(23 51 42 / .6);
+}
+.gf-skala-wert {
+  position: absolute; left: 50%; bottom: calc(100% + 1rem); translate: -50% 0; white-space: nowrap;
+  padding: .3rem 1.2rem; border-radius: 99rem; background: var(--gf-wald); color: #fff;
+  font-size: 1.3rem; line-height: 2rem; font-weight: 600;
+}
+.gf-skala-marke-unten .gf-skala-wert { bottom: auto; top: calc(100% + 1rem); }
+.gf-skala-stufen {
+  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .4rem;
+  font-size: 1.2rem; line-height: 1.6rem; text-align: center; color: rgb(34 40 35 / .65);
+}
+.gf-skala-hinweis { margin: 2rem 0 0; font-size: 1.4rem; line-height: 2rem; color: rgb(34 40 35 / .8); }
+
+.gf-fakten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.gf-geschichte-fuss:not(:has(.gf-skala)) .gf-fakten { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.gf-fakten li { padding: 2rem; border-radius: var(--gf-radius-karte); background: var(--gf-salbei); }
+.gf-fakten b { display: block; font-size: 2.4rem; line-height: 3.2rem; font-weight: 500; color: var(--gf-wald); font-variant-numeric: tabular-nums; }
+.gf-fakten span:not([data-zaehlen]) { display: block; margin-top: .4rem; font-size: 1.4rem; line-height: 2rem; color: var(--gf-graphit); }
+
+/* Serien ------------------------------------------------------------------------------- */
+.gf-serien { padding: clamp(5.6rem, 7vw, 9.6rem) 0; background: var(--gf-weiss); }
+.gf-serien-kopf { margin-bottom: 4rem; }
+.gf-serien-liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr)); gap: 2.4rem; }
+.gf-serie-link {
+  display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: var(--gf-radius-karte);
+  background: #fff; color: var(--gf-graphit); text-decoration: none;
+  box-shadow: 0 0 0 1px rgb(36 76 61 / .08);
+  transition: translate .6s var(--gf-weich), box-shadow .6s var(--gf-weich);
+}
+.gf-serie-bild { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--gf-salbei); }
+.gf-serie-bild img { width: 100%; height: 100%; object-fit: cover; display: block; transition: scale 1.2s var(--gf-weich); }
+.gf-serie-hier {
+  position: absolute; left: 1.2rem; top: 1.2rem; padding: .3rem 1.2rem; border-radius: 99rem;
+  background: var(--gf-wald); color: #fff; font-size: 1.3rem; line-height: 2rem; font-weight: 600;
+}
+.gf-serie-text { display: grid; gap: .6rem; padding: 2rem 2rem 2.4rem; flex: 1; align-content: start; }
+.gf-serie-titel { font-size: 2rem; line-height: 2.8rem; font-weight: 500; color: var(--gf-wald); }
+.gf-serie-beschreibung { font-size: 1.4rem; line-height: 2rem; color: rgb(34 40 35 / .8); }
+.gf-serie-zeile { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; margin-top: .8rem; font-size: 1.4rem; font-weight: 600; color: var(--gf-wald); }
+.gf-serie-zeile svg { flex: none; width: 1.8rem; height: 1.8rem; transition: translate .5s var(--gf-weich); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .gf-serie-link:hover { translate: 0 -4px; box-shadow: 0 0 0 1px rgb(36 76 61 / .12), 0 24px 40px -24px rgb(23 51 42 / .45); }
+  .gf-serie-link:hover img { scale: 1.06; }
+  .gf-serie-link:hover .gf-serie-zeile svg { translate: 4px 0; }
+}
+
+/* Bewegung ------------------------------------------------------------------------------ */
+.gf-s * { transform-box: fill-box; }
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* Szenen warten, bis sie zu sehen sind */
+  .gf-szene:not(.ist-sichtbar) *, .gf-szene:not(.ist-im-bild) * { animation-play-state: paused !important; }
+  /* Haerteskala: Marken gleiten von links an ihren Platz */
+  .gf-skala-marke { transition: left 1.8s var(--gf-weich) calc(var(--verzoegerung, 0ms) + .3s); }
+  .gf-skala:not(.ist-sichtbar) .gf-skala-marke { left: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* nacht */
+  .gf-s-mond { animation: gf-schweben 6s ease-in-out infinite alternate; }
+  .gf-s-stern { animation: gf-funkeln 2.6s ease-in-out infinite; animation-delay: calc(var(--i) * .5s); transform-origin: center; }
+  .gf-s-z text { opacity: 0; animation: gf-zzz 3.6s ease-out infinite; animation-delay: calc(var(--i) * .6s); }
+  .gf-s-decke { transform-origin: 50% 100%; animation: gf-atmen-s 4.5s ease-in-out infinite alternate; }
+
+  /* obgrashtane: Kugel drueckt in die Memory-Schaum, die langsam zurueckkommt */
+  .gf-s-obgrashtane .gf-s-kugel { animation: gf-kugel 5s var(--gf-ruhig) infinite; }
+  .gf-s-saeule { transform-origin: 50% 100%; animation: gf-saeule 5s var(--gf-ruhig) infinite; }
+
+  /* hlad */
+  .gf-s-flocke { transform-origin: center; animation: gf-drehen 24s linear infinite; }
+  .gf-s-welle { opacity: 0; animation: gf-steigen 3.2s ease-out infinite; animation-delay: calc(var(--i) * 1.6s); }
+
+  /* vazduh */
+  .gf-s-luft { animation: gf-stroemen 1.8s linear infinite; animation-delay: calc(var(--i) * -.6s); }
+
+  /* obrashtane */
+  .gf-s-wende { transform-origin: center; animation: gf-wenden 6.5s var(--gf-ruhig) infinite; }
+  .gf-s-pfeil { transform-origin: center; animation: gf-pfeil 6.5s var(--gf-ruhig) infinite; }
+
+  /* prujini: Kugel rollt ueber die Federn, jede gibt nach, wenn sie darueber ist */
+  .gf-s-feder { transform-origin: 50% 100%; animation: gf-feder 3s ease-in-out infinite; animation-delay: calc(var(--i) * .43s - .15s); }
+  .gf-s-druck { animation: gf-rollen 3s linear infinite; }
+
+  /* partnyor: links dreht sich jemand, rechts bleibt alles ruhig */
+  .gf-s-dreht { transform-origin: 50% 100%; animation: gf-wackeln 3.4s ease-in-out infinite; }
+  .gf-s-ring { transform-origin: center; opacity: 0; animation: gf-ring 3.4s ease-out infinite; }
+
+  /* zashtita */
+  .gf-s-haken { stroke-dasharray: 1; animation: gf-zeichnen 1.4s var(--gf-weich) .4s both; }
+  .gf-s-teilchen { animation: gf-weg 3.4s ease-in infinite; animation-delay: calc(var(--i) * .6s); }
+
+  /* lavandula */
+  .gf-s-zweig { transform-origin: 50% 100%; animation: gf-wiegen 5s ease-in-out infinite alternate; }
+  .gf-s-duft { opacity: 0; animation: gf-duft 4s ease-out infinite; animation-delay: calc(var(--i) * 1s); }
+
+  /* valna */
+  .gf-s-tropfen { transform-origin: center; animation: gf-tropfen 3.8s var(--gf-ruhig) infinite; }
+  .gf-s-locke { transform-origin: center; animation: gf-drehen 9s linear infinite; animation-delay: calc(var(--i) * -2s); }
+
+  /* bebe */
+  .gf-s-mobile { transform-origin: 50% 0; animation: gf-wiegen 4s ease-in-out infinite alternate; }
+  .gf-s-atmet { transform-origin: 50% 100%; animation: gf-atmen-s 3s ease-in-out infinite alternate; }
+
+  /* gragnak: der Ruecken kommt in eine gerade Linie */
+  .gf-s-wirbel { animation: gf-wirbel 5.5s var(--gf-ruhig) infinite; animation-delay: calc(var(--i) * .05s); }
+  .gf-s-gerade { stroke-dasharray: 1; animation: gf-gerade 5.5s var(--gf-ruhig) infinite; }
+
+  /* masaj */
+  .gf-s-noppe { transform-origin: 50% 100%; animation: gf-noppe 2.2s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -.28s); }
+  .gf-s-hand { animation: gf-schweben 2.2s ease-in-out infinite alternate; }
+
+  /* bambuk */
+  .gf-s-halm { transform-origin: 50% 100%; animation: gf-wiegen 6s ease-in-out infinite alternate; }
+  .gf-s-weg { opacity: 0; animation: gf-wegtragen 3.6s ease-out infinite; animation-delay: calc(var(--i) * 1.2s); }
+
+  /* cip */
+  .gf-s-zipper { animation: gf-zipper 4.5s var(--gf-ruhig) infinite; }
+  .gf-s-naht { stroke-dasharray: 1; animation: gf-naht 4.5s var(--gf-ruhig) infinite; }
+
+  /* toper */
+  .gf-s-auflage { animation: gf-auflegen 5s var(--gf-weich) infinite; }
+
+  /* plat */
+  .gf-s-steppen { stroke-dasharray: 1; animation: gf-zeichnen 2.2s var(--gf-weich) both; animation-delay: calc(var(--i) * .14s); }
+  .gf-s-glanz { animation: gf-glanz 4.5s ease-in-out 1.5s infinite; }
+
+  /* sezoni */
+  .gf-s-sonne { transform-origin: center; animation: gf-drehen 18s linear infinite, gf-tag 9s ease-in-out infinite; }
+  .gf-s-schnee { transform-origin: center; opacity: 0; animation: gf-drehen 18s linear infinite reverse, gf-tag 9s ease-in-out -4.5s infinite; }
+  .gf-s-welle-decke { animation: gf-schweben 4s ease-in-out infinite alternate; }
+
+  /* sloeve: Schicht fuer Schicht von oben */
+  .gf-s-lage { animation: gf-lage .9s var(--gf-weich) both; animation-delay: calc(var(--i) * .22s + .3s); }
+}
+
+@keyframes gf-schweben { from { transform: translateY(-3px); } to { transform: translateY(4px); } }
+@keyframes gf-funkeln { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+@keyframes gf-zzz { 0% { opacity: 0; transform: translate(0, 6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(10px, -16px); } }
+@keyframes gf-atmen-s { from { transform: scaleY(1); } to { transform: scaleY(1.05); } }
+@keyframes gf-kugel { 0%, 12% { transform: translateY(0); } 38%, 55% { transform: translateY(24px); } 72%, 100% { transform: translateY(0); } }
+@keyframes gf-saeule { 0%, 12% { transform: scaleY(1); } 38%, 58% { transform: scaleY(calc(1 - .45 * var(--t))); } 92%, 100% { transform: scaleY(1); } }
+@keyframes gf-drehen { to { transform: rotate(360deg); } }
+@keyframes gf-steigen { 0% { opacity: 0; transform: translateY(6px); } 35% { opacity: .9; } 100% { opacity: 0; transform: translateY(-16px); } }
+@keyframes gf-stroemen { to { stroke-dashoffset: -36; } }
+@keyframes gf-wenden { 0%, 28% { transform: scaleY(1); } 46%, 78% { transform: scaleY(-1); } 96%, 100% { transform: scaleY(1); } }
+@keyframes gf-pfeil { 0%, 28% { transform: rotate(0); } 46%, 78% { transform: rotate(180deg); } 96%, 100% { transform: rotate(360deg); } }
+@keyframes gf-feder { 0%, 100% { transform: scaleY(1); } 8% { transform: scaleY(.8); } 18% { transform: scaleY(1); } }
+@keyframes gf-rollen { 0% { opacity: 0; transform: translate(-80px, 22px) rotate(0); } 6% { opacity: 1; } 94% { opacity: 1; } 100% { opacity: 0; transform: translate(80px, 22px) rotate(360deg); } }
+@keyframes gf-wackeln { 0%, 60%, 100% { transform: rotate(0) translateY(0); } 15% { transform: rotate(-6deg) translateY(-4px); } 32% { transform: rotate(5deg) translateY(-2px); } 45% { transform: rotate(0) translateY(0); } }
+@keyframes gf-ring { 0%, 8% { opacity: 0; transform: scale(.5); } 18% { opacity: .7; } 50%, 100% { opacity: 0; transform: scale(1.25); } }
+@keyframes gf-zeichnen { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes gf-weg { 0% { opacity: .9; transform: translate(0, 0); } 70%, 100% { opacity: 0; transform: translate(var(--x), var(--y)); } }
+@keyframes gf-wiegen { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+@keyframes gf-duft { 0% { opacity: 0; transform: translate(0, 8px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(6px, -22px); } }
+@keyframes gf-tropfen { 0% { opacity: 0; transform: translateY(-10px); } 12% { opacity: 1; } 55% { opacity: 1; transform: translateY(58px); } 70%, 100% { opacity: 0; transform: translateY(66px) scale(.3); } }
+@keyframes gf-wirbel { 0%, 12% { transform: translateY(var(--s)); } 42%, 82% { transform: translateY(0); } 100% { transform: translateY(var(--s)); } }
+@keyframes gf-gerade { 0%, 25% { stroke-dashoffset: 1; opacity: 0; } 50%, 82% { stroke-dashoffset: 0; opacity: .5; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes gf-noppe { from { transform: scaleY(1); } to { transform: scaleY(.62); } }
+@keyframes gf-wegtragen { 0% { opacity: 0; transform: translate(-18px, 14px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(26px, -20px); } }
+@keyframes gf-zipper { 0%, 10% { transform: translateX(0); } 55%, 80% { transform: translateX(158px); } 100% { transform: translateX(0); } }
+@keyframes gf-naht { 0%, 10% { stroke-dashoffset: 1; } 55%, 80% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
+@keyframes gf-auflegen { 0% { opacity: 0; transform: translateY(-28px); } 28% { opacity: 1; transform: translateY(3px); } 36%, 82% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-28px); } }
+@keyframes gf-glanz { 0% { transform: translateX(0); } 60%, 100% { transform: translateX(240px); } }
+@keyframes gf-tag { 0%, 40% { opacity: 1; } 50%, 90% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes gf-lage { from { opacity: 0; transform: translateY(-22px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gf-s-schnee { display: none; } }

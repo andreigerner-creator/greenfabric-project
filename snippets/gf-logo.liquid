@@ -1,0 +1,15 @@
+{%- comment -%}
+  Ersatz fuer das Dawn-Logo, solange im Theme-Editor kein Logo hochgeladen ist.
+  Quelle: Logo aus den Brand Guidelines v1.0 (400 x 45 px Rasterdatei). Mindestbreite laut
+  Guidelines 160 px, deshalb fest 180 px. Sobald die Vektordatei da ist, hier austauschen.
+{%- endcomment -%}
+<div class="header__heading-logo-wrapper gf-logo">
+  <img
+    src="{{ 'gf-logo.png' | asset_url }}"
+    alt="{{ shop.name | escape }}"
+    width="180"
+    height="20"
+    class="header__heading-logo"
+    fetchpriority="high"
+  >
+</div>

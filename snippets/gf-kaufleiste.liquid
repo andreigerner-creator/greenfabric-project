@@ -1,0 +1,63 @@
+{%- comment -%}
+  Mitlaufende Kaufleiste auf der Produktseite. Erscheint erst, wenn der Kaufknopf nach oben aus dem
+  Bild gescrollt ist (lange Geschichte darunter), zeigt Modell und aktuellen Preis der gewaehlten
+  Groesse und fuehrt mit einem Klick zurueck zur Groessenwahl. Ohne JavaScript bleibt sie verborgen,
+  der normale Kaufbereich funktioniert dann wie immer.
+  Eingebunden als Sektion "Eigenes Liquid" in templates/product.json.
+  Aufruf: {% render 'gf-kaufleiste', product: product %}
+{%- endcomment -%}
+{%- if product -%}
+  {%- liquid
+    assign mit_groesse = true
+    if product.has_only_default_variant
+      assign mit_groesse = false
+    endif
+    assign kurzname = product.title | remove: 'Двулицев матрак с пружини ' | remove: 'Двулицев матрак ' | remove: 'Бебешки матрак '
+  -%}
+  <div class="gf-kaufleiste" data-gf-kaufleiste hidden>
+    <div class="gf-kaufleiste__innen">
+      <p class="gf-kaufleiste__text">
+        <span class="gf-kaufleiste__titel">{{ kurzname | escape }}</span>
+        <span class="gf-kaufleiste__preis" data-gf-preis>{{ product.selected_or_first_available_variant.price | money }}</span>
+      </p>
+      <button type="button" class="button button--primary gf-kaufleiste__knopf" data-gf-ziel>
+        {%- if mit_groesse -%}Изберете размер{%- else -%}Към покупката{%- endif -%}
+      </button>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const leiste = document.querySelector('[data-gf-kaufleiste]');
+      const knopf = document.querySelector('.product__info-container .product-form__submit');
+      if (!leiste || !knopf || !('IntersectionObserver' in window)) return;
+      const preisQuelle = document.querySelector('.product__info-container [id^="price-"]');
+      const preisZiel = leiste.querySelector('[data-gf-preis]');
+      const ziel = document.querySelector('.product__info-container variant-selects') || knopf;
+
+      const preisLesen = () => {
+        const p = preisQuelle && preisQuelle.querySelector('.price');
+        if (!p) return;
+        const el = p.classList.contains('price--on-sale')
+          ? p.querySelector('.price__sale .price-item--last')
+          : p.querySelector('.price__regular .price-item--regular');
+        if (el && el.textContent.trim()) preisZiel.textContent = el.textContent.trim();
+      };
+      if (preisQuelle) new MutationObserver(preisLesen).observe(preisQuelle, { childList: true, subtree: true });
+      preisLesen();
+
+      new IntersectionObserver(([e]) => {
+        const vorbei = !e.isIntersecting && e.boundingClientRect.top < 0;
+        leiste.hidden = false;
+        leiste.classList.toggle('gf-kaufleiste--sichtbar', vorbei);
+        leiste.inert = !vorbei;
+      }).observe(knopf);
+
+      leiste.querySelector('[data-gf-ziel]').addEventListener('click', () => {
+        const ruhig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        ziel.scrollIntoView({ behavior: ruhig ? 'auto' : 'smooth', block: 'center' });
+        const erstes = ziel.querySelector('select, input:not([type="hidden"])') || knopf;
+        setTimeout(() => erstes.focus({ preventScroll: true }), ruhig ? 0 : 450);
+      });
+    })();
+  </script>
+{%- endif -%}

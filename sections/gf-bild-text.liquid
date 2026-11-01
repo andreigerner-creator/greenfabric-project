@@ -1,0 +1,46 @@
+{%- comment -%}
+  Greenfabric Bild und Text: grosses Bild mit runden Ecken und langsamem Parallax, daneben
+  Titel, Text und Knopf. Bildseite waehlbar, Hintergrund Warmweiss oder Salbei. Das Bild oeffnet
+  sich beim Hereinscrollen (data-einblenden="zoom"). Aussehen: gf-signatur.css, "Bild und Text".
+{%- endcomment -%}
+<section class="gf-bildtext-abschnitt{% if section.settings.grund == 'salbei' %} gf-salbei-grund{% endif %}">
+  <div class="gf-breite gf-bildtext{% if section.settings.bild_rechts %} gf-bildtext-rechts{% endif %}">
+    <div class="gf-bildtext-foto" data-einblenden="zoom">
+      <div class="gf-bildtext-foto-innen" data-parallax="0.9">
+        {%- render 'gf-bild', bild: section.settings.bild, datei: section.settings.datei, alt: section.settings.titel, breiten: '600, 900, 1200, 1600, 2200', sizes: '(min-width: 990px) 55vw, 100vw', verhaeltnis: 0.5625 -%}
+      </div>
+    </div>
+    <div class="gf-bildtext-text">
+      {%- if section.settings.index != blank -%}
+        <p class="gf-index" data-einblenden>{{ section.settings.index }}</p>
+      {%- endif -%}
+      <h2 class="gf-titel gf-titel-l" data-einblenden style="--verzoegerung: 90ms">{{ section.settings.titel }}</h2>
+      {%- if section.settings.text != blank -%}
+        <div class="gf-text" data-einblenden="weich" style="--verzoegerung: 200ms">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.knopf_text != blank -%}
+        <p data-einblenden style="--verzoegerung: 300ms"><a class="gf-knopf gf-knopf-primaer" href="{{ section.settings.knopf_link | default: routes.root_url }}">{{ section.settings.knopf_text }}{% render 'gf-pfeil' %}</a></p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GF Bild und Text",
+  "tag": "div",
+  "class": "gf-sektion",
+  "settings": [
+    { "type": "image_picker", "id": "bild", "label": "Bild" },
+    { "type": "text", "id": "datei", "label": "Standardbild aus dem Theme", "info": "Wird gezeigt, solange kein eigenes Bild gewählt ist", "default": "gf-showroom.jpg" },
+    { "type": "checkbox", "id": "bild_rechts", "label": "Bild rechts", "default": false },
+    { "type": "select", "id": "grund", "label": "Hintergrund", "options": [ { "value": "weiss", "label": "Warmweiß" }, { "value": "salbei", "label": "Salbei" } ], "default": "weiss" },
+    { "type": "text", "id": "index", "label": "Kleine Zeile über dem Titel", "default": "Шоурум в София" },
+    { "type": "text", "id": "titel", "label": "Titel", "default": "Елате и пробвайте." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Легнете на матраците спокойно и ни задайте въпросите си.</p>" },
+    { "type": "text", "id": "knopf_text", "label": "Knopf, Text", "default": "Свържете се с нас" },
+    { "type": "url", "id": "knopf_link", "label": "Knopf, Link" }
+  ],
+  "presets": [ { "name": "GF Bild und Text" } ]
+}
+{% endschema %}

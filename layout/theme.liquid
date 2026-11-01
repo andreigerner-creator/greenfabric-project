@@ -9,24 +9,32 @@
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- else -%}
+      <link rel="icon" type="image/png" sizes="192x192" href="{{ 'gf-favicon.png' | asset_url }}">
+      <link rel="apple-touch-icon" href="{{ 'gf-favicon.png' | asset_url }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- comment -%} gf: Trenner | statt Gedankenstrich, Startseite mit beschreibendem Titel, Meta-Beschreibung aus gf-meta-beschreibung {%- endcomment -%}
     <title>
       {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- if request.page_type == 'index' and page_title == shop.name %} | Матраци от производител в София{% endif -%}
+      {%- if current_tags %} | {{ current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} | {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} | {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {%- capture gf_beschreibung -%}{% render 'gf-meta-beschreibung', page_description: page_description %}{%- endcapture -%}
+    {% if gf_beschreibung != blank %}
+      <meta name="description" content="{{ gf_beschreibung | escape }}">
     {% endif %}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', gf_beschreibung: gf_beschreibung %}
+    {%- if request.page_type == 'index' -%}{% render 'gf-geschaeft-daten' %}{%- endif -%}
+    {%- if request.page_type == 'product' -%}{% render 'gf-produktbild-vorladen' %}{%- endif -%}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';
@@ -279,6 +287,9 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {%- render 'gf-schriften' -%}
+    {{ 'gf-signatur.css' | asset_url | stylesheet_tag }}
+    {%- if template.name == 'product' -%}{{ 'gf-produkt.css' | asset_url | stylesheet_tag }}{%- endif -%}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -322,6 +333,7 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    <div class="gf-fortschritt" aria-hidden="true"><b></b></div>
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -401,5 +413,7 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    <script src="{{ 'gf-bewegung.js' | asset_url }}" defer="defer"></script>
+    {%- if template.name == 'product' -%}<script src="{{ 'gf-produkt.js' | asset_url }}" defer="defer"></script>{%- endif -%}
   </body>
 </html>
