@@ -1,0 +1,30 @@
+{%- comment -%}
+  Laedt auf dem Handy das erste Produktbild vor, damit der Browser es nicht erst nach dem CSS findet
+  (Messung PageSpeed 1.11.2026: 2,2 s Wartezeit vor dem Bild). Gleiche URLs und Breiten wie
+  snippets/product-thumbnail.liquid, sizes wie dort fuer eine Spalte auf dem Handy.
+  Nur bis 749 px, weil die Desktop-Groessen anders sind und sonst doppelt geladen wuerde.
+{%- endcomment -%}
+{%- liquid
+  assign erstes = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+-%}
+{%- if erstes and erstes.preview_image -%}
+  {%- liquid
+    assign bild = erstes.preview_image
+    assign breiten = '246, 493, 600, 713, 823, 990, 1100, 1206, 1346, 1426, 1646, 1946' | split: ', '
+  -%}
+  {%- capture liste -%}
+    {%- for b in breiten -%}
+      {%- assign w = b | plus: 0 -%}
+      {%- if w <= bild.width -%}{{ bild | image_url: width: w }} {{ w }}w,{%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  <link
+    rel="preload"
+    as="image"
+    media="(max-width: 749px)"
+    fetchpriority="high"
+    href="{{ bild | image_url: width: 1946 }}"
+    imagesrcset="{{ liste | strip | remove_last: ',' }}"
+    imagesizes="calc(100vw / 1 - 4rem)"
+  >
+{%- endif -%}
