@@ -34,6 +34,7 @@
 
     {% render 'meta-tags', gf_beschreibung: gf_beschreibung %}
     {%- if request.page_type == 'index' -%}{% render 'gf-geschaeft-daten' %}{%- endif -%}
+    {%- if request.page_type == 'product' -%}{% render 'gf-produktbild-vorladen' %}{%- endif -%}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';

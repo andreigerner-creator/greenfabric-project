@@ -233,6 +233,13 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-hero-bild]::before, [data-hero-bild]::after { animation: gf-vorhang 1.9s var(--gf-ruhig) .1s backwards; }
   .gf-hero-bild img { animation: gf-ankunft 2.8s var(--gf-weich) both; }
+}
+/* Handy: Bild sofort zeigen (kein Vorhang, kein Einblenden), damit es schneller sichtbar ist
+   (Ladezeit LCP, wichtig fuer Besucher aus Meta-Anzeigen). Titel und Knoepfe bewegen sich weiter. */
+@media (prefers-reduced-motion: no-preference) and (width <= 639px) {
+  [data-hero-bild]::before, [data-hero-bild]::after, .gf-hero-bild img { animation: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
   .gf-auftritt { animation: gf-auftritt 1s var(--gf-weich) both; animation-delay: calc(var(--n, 0) * 110ms + 250ms); }
   .gf-zeile > span { animation: gf-zeile 1.15s cubic-bezier(.16, .84, .24, 1) both; animation-delay: calc(var(--n, 0) * 120ms + 200ms); }
   .gf-hero-fuss::before { animation: gf-linie-ein 1.6s var(--gf-weich) .9s both; }
