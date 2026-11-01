@@ -16,6 +16,50 @@
   (sonst bleibt das Leerzeichen vor der Breite stehen und der Browser verwirft den Eintrag).
 {%- endcomment -%}
 {%- liquid
+  comment
+    Alt-Texte der mitgelieferten Standardbilder: beschreiben, was zu sehen ist (fuer Screenreader
+    und die Google-Bildersuche). Die Ueberschrift der Sektion als Alt-Text sagt ueber das Bild nichts.
+  endcomment
+  if bild == blank
+  case datei
+    when 'gf-menschen-aufwachen.jpg'
+      assign alt = 'Двойка се събужда отпочинала в светла спалня'
+    when 'gf-menschen-beratung.jpg'
+      assign alt = 'Консултант на Green Fabric помага на двойка да избере матрак в шоурума'
+    when 'gf-menschen-werkstatt.jpg'
+      assign alt = 'Шивачка шие калъф на матрак в работилницата на Green Fabric в София'
+    when 'gf-menschen-familie.jpg'
+      assign alt = 'Родители и дете четат книжка на леглото вечер'
+    when 'gf-hero-breit.jpg', 'gf-hero-hoch.jpg'
+      assign alt = 'Светла спалня сутрин с бяло легло и матрак'
+    when 'gf-werkstatt.jpg'
+      assign alt = 'Ръце водят калъф на матрак през шевна машина'
+    when 'gf-beratung.jpg'
+      assign alt = 'Ръка проверява твърдостта на матрак в шоурума'
+    when 'gf-showroom.jpg'
+      assign alt = 'Шоурум на Green Fabric на бул. „България“ 49A в София'
+    when 'gf-hotels.jpg'
+      assign alt = 'Хотелска стая с двойно легло'
+    when 'gf-stoff.jpg'
+      assign alt = 'Капитониран калъф на матрак отблизо'
+    when 'gf-schaum.jpg'
+      assign alt = 'Слоеве пяна в матрак, разрез'
+    when 'gf-naht.jpg'
+      assign alt = 'Кант и шев по ръба на матрак отблизо'
+    when 'gf-schlafzimmer-abend.jpg'
+      assign alt = 'Уютна спалня вечер'
+    when 'gf-ueber-uns.jpg'
+      assign alt = 'Работилницата на Green Fabric в София'
+    when 'gf-kategorie-matratzen.jpg'
+      assign alt = 'Двулицеви матраци'
+    when 'gf-kategorie-baby.jpg'
+      assign alt = 'Бебешки матрак в кошара'
+    when 'gf-kategorie-kissen-decken.jpg'
+      assign alt = 'Завивки и възглавници'
+    when 'gf-kategorie-topper.jpg'
+      assign alt = 'Топ матрак'
+  endcase
+  endif
   assign breiten = breiten | default: '600, 900, 1200, 1600'
   assign sizes = sizes | default: '100vw'
   assign laden = laden | default: 'lazy'
@@ -25,10 +69,12 @@
   assign hoehe = groesste | times: verhaeltnis | round
 -%}
 {%- if bild != blank -%}
+  {%- comment -%} Ohne Alt-Text im Admin gilt der mitgegebene Alt-Text {%- endcomment -%}
+  {%- assign bild_alt = bild.alt | default: alt -%}
   {%- if laden == 'eager' -%}
-    {{ bild | image_url: width: groesste | image_tag: widths: breiten, sizes: sizes, loading: 'eager', fetchpriority: 'high', alt: bild.alt }}
+    {{ bild | image_url: width: groesste | image_tag: widths: breiten, sizes: sizes, loading: 'eager', fetchpriority: 'high', alt: bild_alt }}
   {%- else -%}
-    {{ bild | image_url: width: groesste | image_tag: widths: breiten, sizes: sizes, loading: 'lazy', alt: bild.alt }}
+    {{ bild | image_url: width: groesste | image_tag: widths: breiten, sizes: sizes, loading: 'lazy', alt: bild_alt }}
   {%- endif -%}
 {%- elsif datei != blank -%}
   {%- assign url = datei | asset_url -%}

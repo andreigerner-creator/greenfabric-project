@@ -1,0 +1,65 @@
+{%- comment -%}
+  Strukturierte Daten fuer Google: Brotkrumen (BreadcrumbList) auf Produkt-, Kollektions- und Inhaltsseiten.
+  Google zeigt dann in den Suchergebnissen "greenfabric.bg > Серия HIGH > Elite Club" statt der nackten URL.
+  Produkt: bevorzugt eine der Serien HIGH, MID, LOW, BABY, Аксесоари, sonst die erste andere Kollektion
+  (nicht "all" und "frontpage"), sonst ohne Zwischenstufe.
+  Kollektionsname wie die sichtbare Ueberschrift (gf-seo-kollektion, Feld h1).
+{%- endcomment -%}
+{%- liquid
+  assign start = request.origin | append: routes.root_url
+  assign serie = nil
+  if request.page_type == 'product'
+    assign serien = 'high,mid,low,baby,аксесоари-за-спалнята' | split: ','
+    for c in product.collections
+      if serien contains c.handle
+        assign serie = c
+        break
+      endif
+    endfor
+    if serie == nil
+      for c in product.collections
+        if c.handle != 'all' and c.handle != 'frontpage'
+          assign serie = c
+          break
+        endif
+      endfor
+    endif
+  elsif request.page_type == 'collection'
+    assign serie = collection
+  endif
+  if serie != nil
+    capture serie_name
+      render 'gf-seo-kollektion', handle: serie.handle, feld: 'h1'
+    endcapture
+    if serie_name == blank
+      assign serie_name = serie.title
+    endif
+  endif
+-%}
+{%- if request.page_type == 'product' or request.page_type == 'collection' or request.page_type == 'page' or request.page_type == 'article' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Начало", "item": {{ start | json }} }
+        {%- case request.page_type -%}
+          {%- when 'product' -%}
+            {%- if serie != nil -%}
+              , { "@type": "ListItem", "position": 2, "name": {{ serie_name | json }}, "item": {{ request.origin | append: serie.url | json }} }
+              , { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ request.origin | append: product.url | json }} }
+            {%- else -%}
+              , { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ request.origin | append: product.url | json }} }
+            {%- endif -%}
+          {%- when 'collection' -%}
+            , { "@type": "ListItem", "position": 2, "name": {{ serie_name | json }}, "item": {{ request.origin | append: collection.url | json }} }
+          {%- when 'page' -%}
+            , { "@type": "ListItem", "position": 2, "name": {{ page.title | json }}, "item": {{ request.origin | append: page.url | json }} }
+          {%- when 'article' -%}
+            , { "@type": "ListItem", "position": 2, "name": {{ blog.title | json }}, "item": {{ request.origin | append: blog.url | json }} }
+            , { "@type": "ListItem", "position": 3, "name": {{ article.title | json }}, "item": {{ request.origin | append: article.url | json }} }
+        {%- endcase -%}
+      ]
+    }
+  </script>
+{%- endif -%}

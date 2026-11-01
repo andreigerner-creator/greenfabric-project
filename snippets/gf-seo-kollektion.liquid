@@ -1,0 +1,63 @@
+{%- comment -%}
+  Suchmaschinen-Texte fuer die Kollektionen (Serien), falls im Admin nichts eingetragen ist.
+  Die Seriennamen HIGH, MID, LOW, BABY sagen Google nichts, darum hier beschreibende Woerter,
+  nach denen in Bulgarien gesucht wird (матраци, бебешки матрак, завивка).
+  Vorrang hat immer der Admin: eigener SEO-Titel, eigene SEO-Beschreibung, eigene Beschreibung.
+
+  Parameter:
+    handle   Handle der Kollektion
+    feld     'titel' (fuer <title>), 'h1' (sichtbare Ueberschrift), 'beschreibung' (Meta, bis 160 Zeichen),
+             'einleitung' (sichtbarer Text unter der Ueberschrift)
+  Gibt nur Text aus, leer bei unbekanntem Handle.
+  Aufruf: {%- capture x -%}{% render 'gf-seo-kollektion', handle: collection.handle, feld: 'titel' %}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign titel = ''
+  assign h1 = ''
+  assign beschreibung = ''
+  assign einleitung = ''
+
+  case handle
+    when 'high'
+      assign titel = 'Матраци висок клас, серия HIGH'
+      assign h1 = 'Серия HIGH: матраци висок клас'
+      assign beschreibung = 'Двулицеви матраци висок клас от серия HIGH, шити в София. Много размери, 8 години гаранция. Доставка със Speedy до цяла България.'
+      assign einleitung = 'Серия HIGH е нашият висок клас. Всеки матрак шием в работилницата си в София, в размера, който изберете. Сравнете моделите тук или легнете на тях в шоурума на бул. „България“ 49A.'
+    when 'mid'
+      assign titel = 'Двулицеви матраци среден клас, серия MID'
+      assign h1 = 'Серия MID: матраци среден клас'
+      assign beschreibung = 'Двулицеви матраци среден клас от серия MID, шити в София. Много размери, 8 години гаранция. Доставка със Speedy до цяла България.'
+      assign einleitung = 'Серия MID събира матраци за всеки ден на добра цена. Всеки модел шием в София, в размера, който изберете. Ако не сте сигурни, обадете ни се и ще ви помогнем с избора.'
+    when 'low'
+      assign titel = 'Достъпни двулицеви матраци, серия LOW'
+      assign h1 = 'Серия LOW: достъпни матраци'
+      assign beschreibung = 'Достъпни двулицеви матраци от серия LOW, шити в София. Много размери, 8 години гаранция. Доставка със Speedy до цяла България.'
+      assign einleitung = 'Серия LOW е за вас, ако търсите добър матрак на по-ниска цена. Всеки модел шием в София, в размера, който изберете. Сравнете твърдостта и височината на моделите по-долу.'
+    when 'baby'
+      assign titel = 'Бебешки матраци за кошара, серия BABY'
+      assign h1 = 'Серия BABY: бебешки матраци'
+      assign beschreibung = 'Бебешки матраци за кошара от серия BABY, шити в София, в размера на вашата кошара. Доставка със Speedy до цяла България.'
+      assign einleitung = 'Бебешките матраци от серия BABY шием в София, в размера на вашата кошара. Сравнете моделите по-долу или ни се обадете, ако не сте сигурни кой размер ви трябва.'
+    when 'аксесоари-за-спалнята'
+      assign titel = 'Завивки и аксесоари за спалнята'
+      assign h1 = 'Аксесоари за спалнята'
+      assign beschreibung = 'Завивки и аксесоари за спалнята от Green Fabric, производител на матраци от София. Доставка със Speedy до цяла България.'
+      assign einleitung = 'Към матрака: завивки и други аксесоари за спалнята от Green Fabric.'
+    when 'all'
+      assign titel = 'Всички матраци и аксесоари'
+      assign h1 = 'Всички матраци и аксесоари'
+      assign beschreibung = 'Всички матраци на Green Fabric: двулицеви, с пружини и бебешки, шити в София. Сравнете модели, размери и цени. Доставка със Speedy.'
+      assign einleitung = ''
+  endcase
+
+  case feld
+    when 'titel'
+      echo titel
+    when 'h1'
+      echo h1
+    when 'beschreibung'
+      echo beschreibung
+    when 'einleitung'
+      echo einleitung
+  endcase
+-%}
