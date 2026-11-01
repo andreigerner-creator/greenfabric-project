@@ -1,7 +1,7 @@
 {%- comment -%}
   Meta-Beschreibung fuer Suchmaschinen und Vorschauen beim Teilen. Gibt nur Text aus.
   Vorrang hat immer, was im Admin als SEO-Beschreibung eingetragen ist. Sonst:
-  Startseite: fester Satz. Produkt: Einleitung der Geschichte (gf-story-lead), auf ganze Saetze
+  Startseite: fester Satz. Kollektion: Text aus gf-seo-kollektion. Produkt: Einleitung der Geschichte (gf-story-lead), auf ganze Saetze
   bis 160 Zeichen gekuerzt, damit nichts mitten im Satz abbricht. Kollektion ohne Text: kurzer Satz.
   Aufruf: {%- capture x -%}{% render 'gf-meta-beschreibung', page_description: page_description %}{%- endcapture -%}
 {%- endcomment -%}
@@ -62,6 +62,11 @@
       endif
 
     when 'collection'
+      if text == blank
+        capture text
+          render 'gf-seo-kollektion', handle: collection.handle, feld: 'beschreibung'
+        endcapture
+      endif
       if text == blank
         assign text = collection.title | append: ' от Green Fabric, производител от София. Сравнете моделите, размерите и цените. Доставка със Speedy до цяла България.'
       endif

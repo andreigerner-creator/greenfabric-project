@@ -22,10 +22,11 @@
   <div class="gf-hero-schatten" aria-hidden="true"></div>
   <div class="gf-hero-inhalt" data-hero-inhalt>
     <div class="gf-hero-text">
-      {%- if section.settings.kicker != blank -%}
-        <p class="gf-index gf-auftritt" style="--n: 0">{{ section.settings.kicker }}</p>
-      {%- endif -%}
+      {%- comment -%} Die kleine Ueberzeile gehoert zur h1, damit Google den Suchbegriff (z. B. "Матраци от производител") in der Hauptueberschrift findet {%- endcomment -%}
       <h1 class="gf-titel gf-hero-titel">
+        {%- if section.settings.kicker != blank -%}
+          <span class="gf-index gf-auftritt" style="--n: 0">{{ section.settings.kicker }}</span>
+        {%- endif %}
         <span class="gf-zeile"><span style="--n: 1">{{ section.settings.titel1 }}</span></span>
         {%- if section.settings.titel2 != blank %} <span class="gf-zeile"><span style="--n: 2">{{ section.settings.titel2 }}</span></span>{%- endif -%}
       </h1>

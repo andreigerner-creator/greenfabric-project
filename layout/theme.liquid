@@ -14,17 +14,30 @@
       <link rel="apple-touch-icon" href="{{ 'gf-favicon.png' | asset_url }}">
     {%- endif -%}
 
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
+    {%- comment -%} gf: kein preconnect zu fonts.shopifycdn.com, das Theme nutzt nur das selbst gehostete Montserrat (gf-schriften) {%- endcomment -%}
 
-    {%- comment -%} gf: Trenner | statt Gedankenstrich, Startseite mit beschreibendem Titel, Meta-Beschreibung aus gf-meta-beschreibung {%- endcomment -%}
+    {%- comment -%}
+      gf: Trenner | statt Gedankenstrich, Startseite mit beschreibendem Titel, Meta-Beschreibung aus gf-meta-beschreibung.
+      Kollektion ohne eigenen SEO-Titel im Admin (page_title gleich Kollektionsname): Titel aus gf-seo-kollektion.
+    {%- endcomment -%}
+    {%- liquid
+      assign gf_titel = page_title
+      if request.page_type == 'index' and page_title == shop.name
+        assign gf_titel = shop.name | append: ' | Матраци от производител в София'
+      elsif request.page_type == 'collection' and page_title == collection.title
+        capture gf_seo_titel
+          render 'gf-seo-kollektion', handle: collection.handle, feld: 'titel'
+        endcapture
+        if gf_seo_titel != blank
+          assign gf_titel = gf_seo_titel
+        endif
+      endif
+    -%}
     <title>
-      {{ page_title }}
-      {%- if request.page_type == 'index' and page_title == shop.name %} | Матраци от производител в София{% endif -%}
+      {{ gf_titel }}
       {%- if current_tags %} | {{ current_tags | join: ', ' }}{% endif -%}
       {%- if current_page != 1 %} | {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} | {{ shop.name }}{% endunless -%}
+      {%- unless gf_titel contains shop.name %} | {{ shop.name }}{% endunless -%}
     </title>
 
     {%- capture gf_beschreibung -%}{% render 'gf-meta-beschreibung', page_description: page_description %}{%- endcapture -%}
@@ -32,8 +45,9 @@
       <meta name="description" content="{{ gf_beschreibung | escape }}">
     {% endif %}
 
-    {% render 'meta-tags', gf_beschreibung: gf_beschreibung %}
+    {% render 'meta-tags', gf_beschreibung: gf_beschreibung, gf_titel: gf_titel %}
     {%- if request.page_type == 'index' -%}{% render 'gf-geschaeft-daten' %}{%- endif -%}
+    {%- render 'gf-brotkrumen-daten' -%}
 
     <script type="module">
       import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';
@@ -299,16 +313,7 @@
       {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
-    {%- unless settings.type_body_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
-    {%- unless settings.type_header_font.system? -%}
-      {% comment %}theme-check-disable AssetPreload{% endcomment %}
-      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
-      {% comment %}theme-check-enable AssetPreload{% endcomment %}
-    {%- endunless -%}
+    {%- comment -%} gf: Dawn-Preload der Admin-Schriften entfernt, sie werden nie benutzt (Montserrat kommt aus gf-schriften) {%- endcomment -%}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
